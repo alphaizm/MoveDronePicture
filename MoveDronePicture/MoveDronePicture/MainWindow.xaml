@@ -17,7 +17,9 @@
             <Label Content="コピー先ディレクトリ："/>
             <TextBox x:Name="m_txtBox_DirDst" Width="670"/>
         </StackPanel>
-        <Button x:Name="m_btn_ReadSrc" Content="ファイル読み取り"/>
+        <Button x:Name="m_btn_ReadSrc" Content="ファイル読み取り" IsEnabled="False"
+                Click="m_btn_ReadSrc_Click"
+                />
         <ListView x:Name="m_lstVw_FilesSrc">
             
         </ListView>
