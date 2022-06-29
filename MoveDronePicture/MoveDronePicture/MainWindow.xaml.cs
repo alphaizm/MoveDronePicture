@@ -41,6 +41,10 @@ namespace MoveDronePicture
 
                     m_txtBox_DirSrc.Text = _ObjJson.DirSrc;
                     m_txtBox_DirDst.Text = _ObjJson.DirDst;
+
+                    if (Directory.Exists(m_txtBox_DirSrc.Text)) {
+                        m_btn_ReadSrc.IsEnabled = true;
+                    }
                 }
                 catch {
                     //  nop
@@ -101,6 +105,12 @@ namespace MoveDronePicture
                                                 )
                                             }
                                         );
+#else
+            if(null == _ObjJson) {
+                _ObjJson = new cJsonBase();
+            }
+            _ObjJson.DirSrc = m_txtBox_DirSrc.Text;
+            _ObjJson.DirDst = m_txtBox_DirDst.Text;
 #endif
             if (null != _ObjJson) {
                 var opt = new JsonSerializerOptions {
@@ -113,7 +123,9 @@ namespace MoveDronePicture
             }
         }
 
-        
+        private void m_btn_ReadSrc_Click(object sender, RoutedEventArgs e) {
+
+        }
     }
 
     public class cJsonBase
