@@ -8,7 +8,18 @@
         Title="MainWindow" Height="450" Width="800"
         Loaded="Window_Loaded"
         Closing="Window_Closing">
-    <Grid>
-        
-    </Grid>
+    <StackPanel Orientation="Vertical">
+        <StackPanel Orientation="Horizontal" Margin="10,10,0,0">
+            <Label Content="コピー元ディレクトリ："/>
+            <TextBox x:Name="m_txtBox_DirSrc" Width="670"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
+            <Label Content="コピー先ディレクトリ："/>
+            <TextBox x:Name="m_txtBox_DirDst" Width="670"/>
+        </StackPanel>
+        <Button x:Name="m_btn_ReadSrc" Content="ファイル読み取り"/>
+        <ListView x:Name="m_lstVw_FilesSrc">
+            
+        </ListView>
+    </StackPanel>
 </Window>
