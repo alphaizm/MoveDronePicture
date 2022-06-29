@@ -124,7 +124,10 @@ namespace MoveDronePicture
         }
 
         private void m_btn_ReadSrc_Click(object sender, RoutedEventArgs e) {
-
+            var files = Directory.GetFiles(m_txtBox_DirSrc.Text, "*.JPG", SearchOption.AllDirectories);
+            for(int idx = 0; idx < files.Length; idx++) {
+                m_lstVw_FilesSrc.Items.Add(files[idx]);
+            }
         }
     }
 
