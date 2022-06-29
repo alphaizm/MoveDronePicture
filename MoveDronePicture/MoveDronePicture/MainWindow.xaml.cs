@@ -38,6 +38,9 @@ namespace MoveDronePicture
                 try {
                     string str_json = File.ReadAllText(JSON_FILE);
                     _ObjJson = JsonSerializer.Deserialize<cJsonBase>(str_json);
+
+                    m_txtBox_DirSrc.Text = _ObjJson.SrcDir;
+                    m_txtBox_DirDst.Text = _ObjJson.DstDir;
                 }
                 catch {
                     //  nop
