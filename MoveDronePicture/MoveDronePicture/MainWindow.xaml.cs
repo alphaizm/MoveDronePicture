@@ -39,8 +39,8 @@ namespace MoveDronePicture
                     string str_json = File.ReadAllText(JSON_FILE);
                     _ObjJson = JsonSerializer.Deserialize<cJsonBase>(str_json);
 
-                    m_txtBox_DirSrc.Text = _ObjJson.SrcDir;
-                    m_txtBox_DirDst.Text = _ObjJson.DstDir;
+                    m_txtBox_DirSrc.Text = _ObjJson.DirSrc;
+                    m_txtBox_DirDst.Text = _ObjJson.DirDst;
                 }
                 catch {
                     //  nop
@@ -118,19 +118,19 @@ namespace MoveDronePicture
 
     public class cJsonBase
     {
-        public string SrcDir { get; set; }
-        public string DstDir { get; set; }
+        public string DirSrc { get; set; }
+        public string DirDst { get; set; }
         public List<cBlock> LstBlocks { get; set; }
 
         public cJsonBase() {
-            SrcDir = "";
-            DstDir = "";
+            DirSrc = "";
+            DirDst = "";
             LstBlocks = new List<cBlock>();
         }
 
-        public cJsonBase(string str_src_dir_, string str_dst_dir, List<cBlock> lst_blocks_) {
-            SrcDir = str_src_dir_;
-            DstDir = str_dst_dir;
+        public cJsonBase(string str_dir_src_, string str_dir_dst_, List<cBlock> lst_blocks_) {
+            DirSrc = str_dir_src_;
+            DirDst = str_dir_dst_;
             LstBlocks = lst_blocks_;
         }
 
