@@ -33,6 +33,18 @@ namespace MoveDronePicture
             InitializeComponent();
         }
 
+        private void Window_Loaded(object sender, RoutedEventArgs e) {
+            if (File.Exists(JSON_FILE)) {
+                try {
+                    string str_json = File.ReadAllText(JSON_FILE);
+                    _ObjJson = JsonSerializer.Deserialize<cJsonBase>(str_json);
+                }
+                catch {
+                    //  nop
+                }
+            }
+        }
+
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
 
 #if OUBPUT_JSON
@@ -87,15 +99,18 @@ namespace MoveDronePicture
                                             }
                                         );
 #endif
+            if (null != _ObjJson) {
+                var opt = new JsonSerializerOptions {
+                    Encoder = System.Text.Encodings.Web.JavaScriptEncoder.Create(System.Text.Unicode.UnicodeRanges.All),
+                    WriteIndented = true
+                };
 
-            var opt = new JsonSerializerOptions {
-                Encoder = System.Text.Encodings.Web.JavaScriptEncoder.Create(System.Text.Unicode.UnicodeRanges.All),
-                WriteIndented = true
-            };
-
-            string str_json = JsonSerializer.Serialize<cJsonBase>(_ObjJson, opt);
-            File.WriteAllText(JSON_FILE, str_json);
+                string str_json = JsonSerializer.Serialize<cJsonBase>(_ObjJson, opt);
+                File.WriteAllText(JSON_FILE, str_json);
+            }
         }
+
+        
     }
 
     public class cJsonBase
