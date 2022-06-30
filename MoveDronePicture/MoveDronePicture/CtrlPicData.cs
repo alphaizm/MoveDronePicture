@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Text;
 using System.Windows.Data;
+using System.IO;
 
 namespace MoveDronePicture
 {
@@ -47,9 +48,8 @@ namespace MoveDronePicture
             _Lon = 0;
             _Height = 0;
 
-            var start = _Path.LastIndexOf(@"\") + 1;
-            _FileName = _Path.Substring(start, _Path.Length - start);
-
+            _FileName = Path.GetFileName(str_path_);
+            FileSystemInfo.
             //  todo    上記から必要なデータを読みだして各プロパティに入れる
         }
 
