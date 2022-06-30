@@ -20,8 +20,16 @@
         <Button x:Name="m_btn_ReadSrc" Content="ファイル読み取り" IsEnabled="False"
                 Click="m_btn_ReadSrc_Click"
                 />
-        <ListView x:Name="m_lstVw_FilesSrc">
-            
+        <ListView x:Name="m_lstVw_FilesSrc" Width="500" ItemsSource="{Binding}" >
+            <ListView.View>
+                <GridView>
+                    <!--    列情報を定義-->
+                    <GridViewColumn Header="ファイル名" Width="150" DisplayMemberBinding="{Binding Path=FileName}"/>
+                    <GridViewColumn Header="緯度" Width="100" DisplayMemberBinding="{Binding Path=Lat}"/>
+                    <GridViewColumn Header="経度" Width="100" DisplayMemberBinding="{Binding Path=Lon}"/>
+                    <GridViewColumn Header="高さ" Width="100" DisplayMemberBinding="{Binding Path=Height}"/>
+                </GridView>
+            </ListView.View>
         </ListView>
     </StackPanel>
 </Window>
