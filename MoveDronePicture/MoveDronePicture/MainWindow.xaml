@@ -33,6 +33,10 @@
                     </GridView>
                 </ListView.View>
             </ListView>
+            <ProgressBar x:Name="m_progressBar_FilesSrc" Width="150" Height="20"
+                         Canvas.Left="550" Canvas.Top="0"/>
+            <Label x:Name="m_lbl_ProgressBar" Content="xxxxx / xxxxx"
+                   Canvas.Left="705" Canvas.Top="0"/>
         </Canvas>
     </StackPanel>
 </Window>
