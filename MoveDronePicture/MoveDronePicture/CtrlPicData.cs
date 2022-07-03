@@ -39,6 +39,7 @@ namespace MoveDronePicture
     {
         private string _Path;
         private string _FileName;
+        private string _FileDate;
         private double _Lat;
         private double _Lon;
         private double _Height;
@@ -60,7 +61,7 @@ namespace MoveDronePicture
             foreach (var prop in bmp.PropertyItems) {
                 switch (prop.Id) {
                     case ID_DATE:
-                        var str_time = Encoding.UTF8.GetString(prop.Value);
+                        _FileDate = Encoding.UTF8.GetString(prop.Value);
                         break;
                     case ID_LAT:
                         _Lat = GetDecLatLon(prop.Value);
@@ -79,6 +80,10 @@ namespace MoveDronePicture
 
         public string FileName {
             get { return _FileName; }
+        }
+
+        public string FileDate {
+            get { return _FileDate; }
         }
 
         public string Lat {
