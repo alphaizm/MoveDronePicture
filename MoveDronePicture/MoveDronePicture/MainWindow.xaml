@@ -24,10 +24,10 @@
             <ListView.View>
                 <GridView>
                     <!--    列情報を定義-->
-                    <GridViewColumn Header="ファイル名" Width="150" DisplayMemberBinding="{Binding Path=FileName}"/>
-                    <GridViewColumn Header="緯度" Width="100" DisplayMemberBinding="{Binding Path=Lat}"/>
-                    <GridViewColumn Header="経度" Width="100" DisplayMemberBinding="{Binding Path=Lon}"/>
-                    <GridViewColumn Header="高さ" Width="100" DisplayMemberBinding="{Binding Path=Height}"/>
+                    <GridViewColumn Header="ファイル名" Width="150" DisplayMemberBinding="{Binding FileName}"/>
+                    <GridViewColumn Header="緯度" Width="100" DisplayMemberBinding="{Binding Lat}"/>
+                    <GridViewColumn Header="経度" Width="100" DisplayMemberBinding="{Binding Lon}"/>
+                    <GridViewColumn Header="高さ" Width="100" DisplayMemberBinding="{Binding Height}"/>
                 </GridView>
             </ListView.View>
         </ListView>
