@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Data;
 using System.IO;
 using System.Drawing;
+using System.Windows.Controls;
 
 namespace MoveDronePicture
 {
@@ -24,9 +25,10 @@ namespace MoveDronePicture
             BindingOperations.EnableCollectionSynchronization(PicData, new object());
         }
 
-        public void AddPicData(string[] ary_pathes_) {
+        public void AddPicData(string[] ary_pathes_, ProgressBar bar_, Label lbl_) {
             PicData.Clear();
-            foreach ( var path in ary_pathes_ ) {
+            for (int idx = 0; idx < ary_pathes_.Length; idx++) {
+                var path = ary_pathes_[idx];
                 PicData.Add(new cPicData(path));
             }
         }
@@ -56,26 +58,25 @@ namespace MoveDronePicture
             _Height = 0;
 
             _FileName = Path.GetFileName(str_path_);
-            //var file = await Window.Storage.strageFile.GetFileFromPathAsynck(str_path_);
-            Bitmap bmp = new Bitmap(str_path_);
-            foreach (var prop in bmp.PropertyItems) {
-                switch (prop.Id) {
-                    case ID_DATE:
-                        _FileDate = Encoding.UTF8.GetString(prop.Value);
-                        break;
-                    case ID_LAT:
-                        _Lat = GetDecLatLon(prop.Value);
-                        break;
-                    case ID_LON:
-                        _Lon = GetDecLatLon(prop.Value);
-                        break;
-                    case ID_HEIGHT:
-                        break;
-                    default:
-                        break;
+            using (Bitmap bmp = new Bitmap(str_path_)) {
+                foreach (var prop in bmp.PropertyItems) {
+                    switch (prop.Id) {
+                        case ID_DATE:
+                            _FileDate = Encoding.UTF8.GetString(prop.Value);
+                            break;
+                        case ID_LAT:
+                            _Lat = GetDecLatLon(prop.Value);
+                            break;
+                        case ID_LON:
+                            _Lon = GetDecLatLon(prop.Value);
+                            break;
+                        case ID_HEIGHT:
+                            break;
+                        default:
+                            break;
+                    }
                 }
             }
-            //  todo    上記から必要なデータを読みだして各プロパティに入れる
         }
 
         public string FileName {
