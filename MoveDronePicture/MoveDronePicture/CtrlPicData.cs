@@ -90,6 +90,7 @@ namespace MoveDronePicture
                             _Lon = GetDecLatLon(prop.Value);
                             break;
                         case ID_HEIGHT:
+                            _Height = BitConverter.ToUInt32(prop.Value, 0);
                             break;
                         default:
                             break;
