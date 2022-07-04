@@ -9,6 +9,7 @@ using System.Windows.Data;
 using System.IO;
 using System.Drawing;
 using System.Windows.Controls;
+using System.Threading.Tasks;
 
 namespace MoveDronePicture
 {
@@ -25,12 +26,30 @@ namespace MoveDronePicture
             BindingOperations.EnableCollectionSynchronization(PicData, new object());
         }
 
-        public void AddPicData(string[] ary_pathes_, ProgressBar bar_, Label lbl_) {
+        public async void AddPicData(string[] ary_pathes_, ProgressBar bar_, Label lbl_) {
             PicData.Clear();
+
+            bar_.Minimum = 0;
+            bar_.Value = 0;
+            bar_.Maximum = ary_pathes_.Length;
+
+            int digit = Digit(ary_pathes_.Length);
+
+            //  画像読み取り
             for (int idx = 0; idx < ary_pathes_.Length; idx++) {
+                //  プログレスバー、ラベル更新
+                int cnt = idx + 1;
+                bar_.Value = cnt;
+                lbl_.Content = cnt.ToString("D" + digit) + " / " + ary_pathes_.Length.ToString("D");
+                
+                //  非同期処理で読み取り
                 var path = ary_pathes_[idx];
-                PicData.Add(new cPicData(path));
+                await Task.Run(() => PicData.Add(new cPicData(path)));
             }
+        }
+
+        private int Digit(int num_) {
+            return (0 == num_) ? 1 : ((int)Math.Log10(num_) + 1);
         }
     }
 
