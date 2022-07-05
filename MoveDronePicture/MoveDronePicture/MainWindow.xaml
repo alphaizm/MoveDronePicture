@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MoveDronePicture"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800"
+        Title="MainWindow" Height="460" Width="810"
         Loaded="Window_Loaded"
         Closing="Window_Closing">
     <StackPanel Orientation="Vertical">
@@ -17,11 +17,8 @@
             <Label Content="コピー先ディレクトリ："/>
             <TextBox x:Name="m_txtBox_DirDst" Width="670"/>
         </StackPanel>
-        <Button x:Name="m_btn_ReadSrc" Content="ファイル読み取り" IsEnabled="False" Margin="10,10,0,0"
-                Click="m_btn_ReadSrc_Click"
-                />
-        <Canvas Margin="10,0,0,0">
-            <ListView x:Name="m_lstVw_FilesSrc" Width="550" Height="330" ItemsSource="{Binding}" >
+        <Canvas x:Name="m_canvas_down" Margin="10,5,0,0">
+            <ListView x:Name="m_lstVw_FilesSrc" Width="550" Height="360" ItemsSource="{Binding}" >
                 <ListView.View>
                     <GridView>
                         <!--    列情報を定義-->
@@ -33,10 +30,15 @@
                     </GridView>
                 </ListView.View>
             </ListView>
+            <Button x:Name="m_btn_ReadSrc" Content="ファイル読み取り" IsEnabled="False"
+                    Width="230" Height="30"
+                    Canvas.Left="550" Canvas.Top="0"
+                    Click="m_btn_ReadSrc_Click"
+                    />
             <ProgressBar x:Name="m_progressBar_FilesSrc" Width="150" Height="20"
-                         Canvas.Left="550" Canvas.Top="0"/>
+                         Canvas.Left="550" Canvas.Top="30"/>
             <Label x:Name="m_lbl_ProgressBar" Content="xxxxx / xxxxx"
-                   Canvas.Left="705" Canvas.Top="0"/>
+                   Canvas.Left="705" Canvas.Top="30"/>
         </Canvas>
     </StackPanel>
 </Window>
