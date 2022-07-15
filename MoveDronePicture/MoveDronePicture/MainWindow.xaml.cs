@@ -18,6 +18,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Text.Json;
 using System.IO;
+using System.Collections.ObjectModel;
 
 namespace MoveDronePicture
 {
@@ -29,12 +30,16 @@ namespace MoveDronePicture
         const string JSON_FILE = "Setting.json";
         cJsonBase _ObjJson;
         cCtrlPicData _ObjCtrlPicData;
+        ObservableCollection<Item> _ObjItems { get; set; }
 
         public MainWindow() {
             InitializeComponent();
 
             _ObjCtrlPicData = new cCtrlPicData();
             m_lstVw_FilesSrc.DataContext = _ObjCtrlPicData.PicData;
+
+            _ObjItems = new ObservableCollection<Item>();
+            m_itemCtrl.DataContext = _ObjItems;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e) {
@@ -49,6 +54,21 @@ namespace MoveDronePicture
                     if (Directory.Exists(m_txtBox_DirSrc.Text)) {
                         m_btn_ReadSrc.IsEnabled = true;
                     }
+
+                    var exp = new ExpanderItem() {
+                        X=100,Y=100,W=50,H=100,Header="Test",
+                    };
+
+                    var label = new LabelItem() {
+                        X = 0,
+                        Y = 0,
+                        W = 150,
+                        H = 40,
+                        Content = "ABCDEFG"
+                    };
+
+                    _ObjItems.Add(exp);
+                    _ObjItems.Add(label);
                 }
                 catch {
                     //  nop

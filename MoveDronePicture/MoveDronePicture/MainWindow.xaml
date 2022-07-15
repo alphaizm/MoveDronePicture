@@ -18,6 +18,20 @@
             <TextBox x:Name="m_txtBox_DirDst" Width="670"/>
         </StackPanel>
         <Canvas x:Name="m_canvas_down" Margin="10,5,0,0">
+            <Canvas.Resources>
+                <DataTemplate DataType="{x:Type local:ExpanderItem}">
+                    <Expander
+                        Width="{Binding W}"
+                        Height="{Binding H}"
+                        Header="{Binding Header}"/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type local:LabelItem}">
+                    <Label
+                        Width="{Binding W}"
+                        Height="{Binding H}"
+                        Content="{Binding Content}"/>
+                </DataTemplate>
+            </Canvas.Resources>
             <ListView x:Name="m_lstVw_FilesSrc" Width="550" Height="360" ItemsSource="{Binding}" >
                 <ListView.View>
                     <GridView>
@@ -39,6 +53,20 @@
                          Canvas.Left="550" Canvas.Top="30"/>
             <Label x:Name="m_lbl_ProgressBar" Content="xxxxx / xxxxx"
                    Canvas.Left="705" Canvas.Top="30"/>
+            <ItemsControl x:Name="m_itemCtrl" ItemsSource="{Binding}"
+                          Canvas.Left="50" Canvas.Top="50">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <Canvas/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemContainerStyle>
+                    <Style>
+                        <Setter Property="Canvas.Left" Value="{Binding X}"/>
+                        <Setter Property="Canvas.Top" Value="{Binding Y}"/>
+                    </Style>
+                </ItemsControl.ItemContainerStyle>
+            </ItemsControl>
         </Canvas>
     </StackPanel>
 </Window>
