@@ -58,13 +58,12 @@ namespace MoveDronePicture
                     for ( int idx = 0; idx < _ObjJson.LstBlocks.Count; idx++ ) {
                         var block = _ObjJson.LstBlocks[idx];
 
-                        var exp = new ExpanderItem() {
+                        var exp = new GroupBoxItem() {
                             X = 0,
-                            Y = ( 100 * idx ),
+                            Y = (100 * idx),
                             W = 230,
                             H = 100,
                             Header = block.Name,
-                            IsExpanded = false
                         };
 
                         _ObjItems.Add(exp);

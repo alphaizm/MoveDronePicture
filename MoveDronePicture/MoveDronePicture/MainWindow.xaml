@@ -46,6 +46,14 @@
                         </TabControl>
                     </Expander>
                 </DataTemplate>
+                <DataTemplate DataType="{x:Type local:GroupBoxItem}">
+                    <GroupBox
+                        Width="{Binding W}"
+                        Height="{Binding H}"
+                        Header="{Binding Header}">
+                        
+                    </GroupBox>
+                </DataTemplate>
                 <DataTemplate DataType="{x:Type local:LabelItem}">
                     <Label
                         Width="{Binding W}"

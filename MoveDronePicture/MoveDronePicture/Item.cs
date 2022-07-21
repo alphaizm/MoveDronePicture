@@ -20,6 +20,11 @@ namespace MoveDronePicture
         public bool IsExpanded { get; set; }
     }
 
+    public class GroupBoxItem : Item
+    {
+        public string Header { get; set; }
+    }
+
     public class LabelItem : Item
     {
         public string Content { get; set; }
