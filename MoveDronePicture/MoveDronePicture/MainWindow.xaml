@@ -30,6 +30,20 @@
                                 <TextBox Text="{Binding Header}" BorderBrush="DeepPink" />
                             </Grid>
                         </Expander.Header>
+                        <TabControl>
+                            <TabItem Header="DicFolders">
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="1"/>
+                                    <TextBlock Text="2"/>
+                                </StackPanel>
+                            </TabItem>
+                            <TabItem Header="Points">
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="36.xxxxx / 136.xxxx"/>
+                                    <TextBlock Text="36.xxxxx / 136.xxxx"/>
+                                </StackPanel>
+                            </TabItem>
+                        </TabControl>
                     </Expander>
                 </DataTemplate>
                 <DataTemplate DataType="{x:Type local:LabelItem}">
