@@ -55,20 +55,22 @@ namespace MoveDronePicture
                         m_btn_ReadSrc.IsEnabled = true;
                     }
 
-                    var exp = new ExpanderItem() {
-                        X=100,Y=100,W=50,H=100,Header="Test",
-                    };
+                    for ( int idx = 0; idx < _ObjJson.LstBlocks.Count; idx++ ) {
+                        var block = _ObjJson.LstBlocks[idx];
 
-                    var label = new LabelItem() {
-                        X = 0,
-                        Y = 0,
-                        W = 150,
-                        H = 40,
-                        Content = "ABCDEFG"
-                    };
+                        var exp = new ExpanderItem() {
+                            X = 0,
+                            Y = ( 30 * idx ),
+                            W = 50,
+                            H = 100,
+                            Header = block.Name,
+                            IsExpanded = false
+                        };
 
-                    _ObjItems.Add(exp);
-                    _ObjItems.Add(label);
+                        _ObjItems.Add(exp);
+                    }
+
+                    
                 }
                 catch {
                     //  nop

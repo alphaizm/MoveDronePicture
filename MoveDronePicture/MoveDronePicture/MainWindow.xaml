@@ -23,7 +23,14 @@
                     <Expander
                         Width="{Binding W}"
                         Height="{Binding H}"
-                        Header="{Binding Header}"/>
+                        IsExpanded="{Binding IsExpanded}">
+                        <Expander.Header>
+                            <!--<TextBlock Text="{Binding Header}"/>-->
+                            <Grid HorizontalAlignment="{Binding HorizontalAlignment, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContentPresenter}}, Mode=OneWayToSource}">
+                                <TextBox Text="{Binding Header}" BorderBrush="DeepPink" />
+                            </Grid>
+                        </Expander.Header>
+                    </Expander>
                 </DataTemplate>
                 <DataTemplate DataType="{x:Type local:LabelItem}">
                     <Label
@@ -54,7 +61,7 @@
             <Label x:Name="m_lbl_ProgressBar" Content="xxxxx / xxxxx"
                    Canvas.Left="705" Canvas.Top="30"/>
             <ItemsControl x:Name="m_itemCtrl" ItemsSource="{Binding}"
-                          Canvas.Left="50" Canvas.Top="50">
+                          Canvas.Left="550" Canvas.Top="50">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <Canvas/>

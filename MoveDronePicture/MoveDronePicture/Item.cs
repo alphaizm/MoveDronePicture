@@ -17,6 +17,7 @@ namespace MoveDronePicture
     public class ExpanderItem : Item
     {
         public string Header { get; set; }
+        public bool IsExpanded { get; set; }
     }
 
     public class LabelItem : Item
