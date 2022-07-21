@@ -61,7 +61,7 @@ namespace MoveDronePicture
                         var exp = new ExpanderItem() {
                             X = 0,
                             Y = ( 30 * idx ),
-                            W = 50,
+                            W = 230,
                             H = 100,
                             Header = block.Name,
                             IsExpanded = false
