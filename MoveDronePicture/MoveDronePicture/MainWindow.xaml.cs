@@ -55,25 +55,40 @@ namespace MoveDronePicture
                         m_btn_ReadSrc.IsEnabled = true;
                     }
 
-                    for ( int idx = 0; idx < _ObjJson.LstBlocks.Count; idx++ ) {
-                        var block = _ObjJson.LstBlocks[idx];
+                    for ( int blk_idx = 0; blk_idx < _ObjJson.LstBlocks.Count; blk_idx++ ) {
+                        var block = _ObjJson.LstBlocks[blk_idx];
 
                         var gbi = new GroupBoxItem() {
                             X = 0,
-                            Y = (100 * idx),
+                            Y = (100 * blk_idx),
                             W = 230,
                             H = 100,
                             Header = block.Name,
                         };
 
-                        var tab_contents = new ObservableCollection<TabContentsData>() {
-                            new TabContentsData(){TabContent = "1"},
-                            new TabContentsData(){TabContent = "2"},
-                        };
+                        gbi.TabItems = new ObservableCollection<TabItemData>();
 
-                        gbi.TabItems = new ObservableCollection<TabItemData>() {
-                            new TabItemData() { TabHeader = "Tab1", TabContents = tab_contents  },
-                        };
+                        //-----------------------------------------------------
+                        //  フォルダー
+                        var tab_folders = new ObservableCollection<TabContentsData>();
+                        var folders = block.DicFolders;
+                        foreach(KeyValuePair<string, double> folder in folders) {
+                            string content = folder.Key + " ： " + folder.Value.ToString();
+                            tab_folders.Add(new TabContentsData() { TabContent = content });
+                        }
+
+                        gbi.TabItems.Add(new TabItemData() { TabHeader = "フォルダー", TabContents = tab_folders });
+
+                        //-----------------------------------------------------
+                        //  ポイント
+                        var tab_points = new ObservableCollection<TabContentsData>();
+                        var points = block.LstPoints;
+                        foreach (var point in points) {
+                            string content = point.Lat.ToString() + "／" + point.Lon.ToString();
+                            tab_points.Add(new TabContentsData() { TabContent = content });
+                        }
+
+                        gbi.TabItems.Add(new TabItemData() { TabHeader = "登録座標", TabContents = tab_points });
 
                         _ObjItems.Add(gbi);
                     }
