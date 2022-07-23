@@ -66,9 +66,13 @@ namespace MoveDronePicture
                             Header = block.Name,
                         };
 
+                        var tab_contents = new ObservableCollection<TabContentsData>() {
+                            new TabContentsData(){TabContent = "1"},
+                            new TabContentsData(){TabContent = "2"},
+                        };
+
                         gbi.TabItems = new ObservableCollection<TabItemData>() {
-                            new TabItemData() { TabHeader = "Tab1", TabContent = "Cont1" },
-                            new TabItemData() { TabHeader = "Tab2", TabContent = "Cont2" },
+                            new TabItemData() { TabHeader = "Tab1", TabContents = tab_contents  },
                         };
 
                         _ObjItems.Add(gbi);

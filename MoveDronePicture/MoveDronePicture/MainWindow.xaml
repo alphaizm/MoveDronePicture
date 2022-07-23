@@ -63,7 +63,15 @@
                             <TabControl.ContentTemplate>
                                  <!--TabItemのコンテンツ-->
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding TabContent}" />
+                                    <ListView ItemsSource="{Binding TabContents}">
+                                        <ListView.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding TabContent}"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ListView.ItemTemplate>
+                                    </ListView>
                                 </DataTemplate>
                             </TabControl.ContentTemplate>
                         </TabControl>

@@ -31,6 +31,12 @@ namespace MoveDronePicture
     public class TabItemData
     {
         public string TabHeader { get; set; }
+
+        public ObservableCollection<TabContentsData> TabContents { get; set; }
+    }
+
+    public class TabContentsData
+    {
         public string TabContent { get; set; }
     }
 
