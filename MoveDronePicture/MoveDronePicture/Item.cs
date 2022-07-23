@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +24,14 @@ namespace MoveDronePicture
     public class GroupBoxItem : Item
     {
         public string Header { get; set; }
+
+        public ObservableCollection<TabItemData> TabItems { get; set; }
+    }
+
+    public class TabItemData
+    {
+        public string TabHeader { get; set; }
+        public string TabContent { get; set; }
     }
 
     public class LabelItem : Item

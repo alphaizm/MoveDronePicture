@@ -58,7 +58,7 @@ namespace MoveDronePicture
                     for ( int idx = 0; idx < _ObjJson.LstBlocks.Count; idx++ ) {
                         var block = _ObjJson.LstBlocks[idx];
 
-                        var exp = new GroupBoxItem() {
+                        var gbi = new GroupBoxItem() {
                             X = 0,
                             Y = (100 * idx),
                             W = 230,
@@ -66,7 +66,12 @@ namespace MoveDronePicture
                             Header = block.Name,
                         };
 
-                        _ObjItems.Add(exp);
+                        gbi.TabItems = new ObservableCollection<TabItemData>() {
+                            new TabItemData() { TabHeader = "Tab1", TabContent = "Cont1" },
+                            new TabItemData() { TabHeader = "Tab2", TabContent = "Cont2" },
+                        };
+
+                        _ObjItems.Add(gbi);
                     }
 
                     

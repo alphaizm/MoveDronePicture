@@ -51,7 +51,22 @@
                         Width="{Binding W}"
                         Height="{Binding H}"
                         Header="{Binding Header}">
-                        
+
+                        <TabControl ItemsSource="{Binding TabItems}">
+                            <TabControl.ItemTemplate>
+                                 <!--ヘッダのテンプレート--> 
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding TabHeader}" />
+                                </DataTemplate>
+                            </TabControl.ItemTemplate>
+
+                            <TabControl.ContentTemplate>
+                                 <!--TabItemのコンテンツ-->
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding TabContent}" />
+                                </DataTemplate>
+                            </TabControl.ContentTemplate>
+                        </TabControl>
                     </GroupBox>
                 </DataTemplate>
                 <DataTemplate DataType="{x:Type local:LabelItem}">
