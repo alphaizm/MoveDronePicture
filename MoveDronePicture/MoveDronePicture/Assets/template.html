@@ -1,0 +1,44 @@
+map.html
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>_TITLE_</title>
+
+    <style>
+        html {
+            height: 100%
+        }
+
+        body {
+            height: 100%
+        }
+
+        #map {
+            height: 100%;
+            width: 100%
+        }
+    </style>
+</head>
+
+<body>
+    <div id="map"></div>
+
+    <script type="text/javascript">
+        function initMap() {
+            var MyLatLng = new google.maps.LatLng(_LAT_, _LNG_);
+            var opts = {
+                zoom: 15,               // 地図の縮尺地
+                center: MyLatLng,       //地図の中心座標
+                mapTypeId: 'roadmap'    //地図の種類
+            };
+            var map = new google.maps.Map(document.getElementById("map"), opts);
+        }
+    </script>
+
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=_API_KEY_&language=ja&callback=initMap">
+    </script>
+</body>
+
+</html>
