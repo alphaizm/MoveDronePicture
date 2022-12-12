@@ -60,10 +60,10 @@ namespace MoveDronePicture
 
                         var gbi = new GroupBoxItem() {
                             X = 0,
-                            Y = (100 * blk_idx),
+                            Y = (105 * blk_idx) + 5,
                             W = 230,
                             H = 100,
-                            Header = block.Name,
+							BtnContent = block.Name,
                         };
 
                         gbi.TabItems = new ObservableCollection<TabItemData>();

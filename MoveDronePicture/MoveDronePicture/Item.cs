@@ -23,7 +23,7 @@ namespace MoveDronePicture
 
     public class GroupBoxItem : Item
     {
-        public string Header { get; set; }
+        public string BtnContent { get; set; }
 
         public ObservableCollection<TabItemData> TabItems { get; set; }
     }
