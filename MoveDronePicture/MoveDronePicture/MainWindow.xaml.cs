@@ -43,7 +43,10 @@ namespace MoveDronePicture
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e) {
-            if (File.Exists(JSON_FILE)) {
+			//+++++++++++++++++++++++++++++++++++++++++++++
+			// ファイルなし
+			if (!File.Exists(JSON_FILE)) { return; }
+
                 try {
                     string str_json = File.ReadAllText(JSON_FILE);
                     _ObjJson = JsonSerializer.Deserialize<cJsonBase>(str_json);
@@ -55,7 +58,7 @@ namespace MoveDronePicture
                         m_btn_ReadSrc.IsEnabled = true;
                     }
 
-                    for ( int blk_idx = 0; blk_idx < _ObjJson.LstBlocks.Count; blk_idx++ ) {
+				for (int blk_idx = 0; blk_idx < _ObjJson.LstBlocks.Count; blk_idx++) {
                         var block = _ObjJson.LstBlocks[blk_idx];
 
                         var gbi = new GroupBoxItem() {
@@ -72,7 +75,7 @@ namespace MoveDronePicture
                         //  フォルダー
                         var tab_folders = new ObservableCollection<TabContentsData>();
                         var folders = block.DicFolders;
-                        foreach(KeyValuePair<string, double> folder in folders) {
+					foreach (KeyValuePair<string, double> folder in folders) {
                             string content = folder.Key + " ： " + folder.Value.ToString();
                             tab_folders.Add(new TabContentsData() { TabContent = content });
                         }
@@ -92,14 +95,11 @@ namespace MoveDronePicture
 
                         _ObjItems.Add(gbi);
                     }
-
-                    
                 }
                 catch {
                     //  nop
                 }
             }
-        }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
 
@@ -155,7 +155,7 @@ namespace MoveDronePicture
                                             }
                                         );
 #else
-            if(null == _ObjJson) {
+			if (null == _ObjJson) {
                 _ObjJson = new cJsonBase();
             }
             _ObjJson.DirSrc = m_txtBox_DirSrc.Text;
