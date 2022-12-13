@@ -180,7 +180,17 @@ namespace MoveDronePicture
 		private void GrpBxHdBtn_Click(object sender, RoutedEventArgs e) {
 			var btn = (Button)sender;
 
-			MessageBox.Show(btn.Content.ToString());
+			// 押下グループボックスの登録ブロック取得
+			cBlock blk_target = null;
+			for (int blk_idx = 0; blk_idx < _ObjJson.LstBlocks.Count; blk_idx++) {
+				cBlock blk_search = _ObjJson.LstBlocks[blk_idx];
+				if (btn.Content.ToString() == blk_search.Name) {
+					blk_target = blk_search;
+					break;
+				}
+			}
+
+
 		}
 	}
 }
