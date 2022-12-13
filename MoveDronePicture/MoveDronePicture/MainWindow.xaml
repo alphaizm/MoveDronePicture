@@ -52,7 +52,9 @@
                         Height="{Binding H}">
                         <GroupBox.Header>
                             <StackPanel Orientation="Horizontal">
-                                <Button Content="{Binding BtnContent}" Width="80"/>
+                                <Button Content="{Binding BtnContent}" Width="80"
+                                        Click="GrpBxHdBtn_Click"
+                                        />
                             </StackPanel>
                         </GroupBox.Header>
 
