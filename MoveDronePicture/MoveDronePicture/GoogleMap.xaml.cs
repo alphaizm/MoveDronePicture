@@ -27,7 +27,7 @@ namespace MoveDronePicture
 		const string WEB_TEMPLATE = ".\\Assets\\template.html";
 		const string TAG_TITLE = "_TITLE_";
 		const string TAG_LAT_ = "_LAT_";
-		const string TAG_LNG_ = "_LNG_";
+		const string TAG_LON_ = "_LON_";
 		const string TAG_API_KEY_ = "_API_KEY_";
 		private readonly DockPanel _dockpanel = new DockPanel();
 		private readonly WebView2Controller _webController = new WebView2Controller();
@@ -48,7 +48,7 @@ namespace MoveDronePicture
 					str_html = str_html.Replace(TAG_API_KEY_, str_key);
 					str_html = str_html.Replace(TAG_TITLE, blk_target_.Name);
 					str_html = str_html.Replace(TAG_LAT_, blk_target_.LstPoints[0].Lat.ToString());
-					str_html = str_html.Replace(TAG_LNG_, blk_target_.LstPoints[0].Lon.ToString());
+					str_html = str_html.Replace(TAG_LON_, blk_target_.LstPoints[0].Lon.ToString());
 
 					_webController.NavigateToString(str_html);
 				}

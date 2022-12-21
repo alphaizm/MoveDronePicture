@@ -26,10 +26,10 @@
 
     <script type="text/javascript">
         function initMap() {
-            var MyLatLng = new google.maps.LatLng(_LAT_, _LNG_);
+            var MyLatLon = new google.maps.LatLng(_LAT_, _LON_);
             var opts = {
                 zoom: 20,               // 地図の縮尺地
-                center: MyLatLng,       // 地図の中心座標
+                center: MyLatLon,       // 地図の中心座標
                 mapTypeId: 'satellite'  // 地図の種類
             };
             var map = new google.maps.Map(document.getElementById("map"), opts);
