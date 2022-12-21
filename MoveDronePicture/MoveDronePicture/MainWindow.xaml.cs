@@ -31,6 +31,7 @@ namespace MoveDronePicture
 		cJsonBase _ObjJson;
 		cCtrlPicData _ObjCtrlPicData;
 		ObservableCollection<Item> _ObjItems { get; set; }
+		Dictionary<string, GoogleMap> _DicGoogleMap= new Dictionary<string, GoogleMap>();
 
 		public MainWindow() {
 			InitializeComponent();
@@ -188,6 +189,14 @@ namespace MoveDronePicture
 					blk_target = blk_search;
 					break;
 				}
+			}
+
+			// 表示なしの場合 -> 表示
+			if (!_DicGoogleMap.ContainsKey(blk_target.Name)){
+				var page = new GoogleMap(blk_target);
+				page.Show();
+
+				_DicGoogleMap.Add(blk_target.Name, page);
 			}
 
 
