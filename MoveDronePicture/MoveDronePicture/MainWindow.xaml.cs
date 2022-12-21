@@ -31,7 +31,7 @@ namespace MoveDronePicture
 		cJsonBase _ObjJson;
 		cCtrlPicData _ObjCtrlPicData;
 		ObservableCollection<Item> _ObjItems { get; set; }
-		Dictionary<string, GoogleMap> _DicGoogleMap= new Dictionary<string, GoogleMap>();
+		Dictionary<string, GoogleMap> _DicGoogleMap = new Dictionary<string, GoogleMap>();
 
 		public MainWindow() {
 			InitializeComponent();
@@ -94,6 +94,15 @@ namespace MoveDronePicture
 
 					gbi.TabItems.Add(new TabItemData() { TabHeader = "登録座標", TabContents = tab_points });
 
+					//-----------------------------------------------------
+					//  中央
+					var tab_center = new ObservableCollection<TabContentsData>();
+					var center = block.Center;
+					string str_content = center.Lat.ToString() + "／" + center.Lon.ToString();
+					tab_center.Add(new TabContentsData() { TabContent = str_content });
+
+					gbi.TabItems.Add(new TabItemData() { TabHeader = "中心点", TabContents = tab_center });
+
 					_ObjItems.Add(gbi);
 				}
 			}
@@ -118,7 +127,8 @@ namespace MoveDronePicture
                                                     new List<cPoint> {
                                                         new cPoint(36.374585508, 136.546502806),
                                                         new cPoint(36.374818851, 136.546537629),
-                                                    }
+                                                    },
+													new cPoint(36.37466547010662, 136.54670838845954),
                                                 ),
                                                 new cBlock(
                                                     "麦口(中村)",
@@ -129,7 +139,8 @@ namespace MoveDronePicture
                                                     new List<cPoint> {
                                                         new cPoint(36.374585508, 136.546502806),
                                                         new cPoint(36.374818851, 136.546537629),
-                                                    }
+                                                    },
+													new cPoint(36.37466547010662, 136.54670838845954),
                                                 ),
                                                 new cBlock(
                                                     "麦口(中田)",
@@ -140,7 +151,8 @@ namespace MoveDronePicture
                                                     new List<cPoint> {
                                                         new cPoint(36.374585508, 136.546502806),
                                                         new cPoint(36.374818851, 136.546537629),
-                                                    }
+                                                    },
+													new cPoint(36.37466547010662, 136.54670838845954),
                                                 ),
                                                 new cBlock(
                                                     "原",
@@ -151,7 +163,8 @@ namespace MoveDronePicture
                                                     new List<cPoint> {
                                                         new cPoint(36.374585508, 136.546502806),
                                                         new cPoint(36.374818851, 136.546537629),
-                                                    }
+                                                    },
+													new cPoint(36.37466547010662, 136.54670838845954),
                                                 )
                                             }
                                         );
@@ -192,7 +205,7 @@ namespace MoveDronePicture
 			}
 
 			// 表示なしの場合 -> 表示
-			if (!_DicGoogleMap.ContainsKey(blk_target.Name)){
+			if (!_DicGoogleMap.ContainsKey(blk_target.Name)) {
 				var page = new GoogleMap(blk_target);
 				page.Show();
 

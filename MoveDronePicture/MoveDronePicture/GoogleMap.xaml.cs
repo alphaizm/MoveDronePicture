@@ -47,8 +47,8 @@ namespace MoveDronePicture
 					string str_html = web_template.ReadToEnd();
 					str_html = str_html.Replace(TAG_API_KEY_, str_key);
 					str_html = str_html.Replace(TAG_TITLE, blk_target_.Name);
-					str_html = str_html.Replace(TAG_LAT_, blk_target_.LstPoints[0].Lat.ToString());
-					str_html = str_html.Replace(TAG_LON_, blk_target_.LstPoints[0].Lon.ToString());
+					str_html = str_html.Replace(TAG_LAT_, blk_target_.Center.Lat.ToString());
+					str_html = str_html.Replace(TAG_LON_, blk_target_.Center.Lon.ToString());
 
 					_webController.NavigateToString(str_html);
 				}
