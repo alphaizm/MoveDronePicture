@@ -184,6 +184,11 @@ namespace MoveDronePicture
 				string str_json = JsonSerializer.Serialize<cJsonBase>(_ObjJson, opt);
 				File.WriteAllText(JSON_FILE, str_json);
 			}
+
+			// GoogleMap消去
+			foreach (var page in _DicGoogleMap.Values) {
+				page.Close();
+			}
 		}
 
 		private void m_btn_ReadSrc_Click(object sender, RoutedEventArgs e) {
