@@ -32,12 +32,16 @@ namespace MoveDronePicture
 		private readonly DockPanel _dockpanel = new DockPanel();
 		private readonly WebView2Controller _webController = new WebView2Controller();
 
+		public delegate void Callback(string str_target_key_);
+		private Callback _callback;
+
 		public GoogleMap() {
 			InitializeComponent();
 		}
 
-		public GoogleMap(cBlock blk_target_) {
+		public GoogleMap(cBlock blk_target_ , Callback callback_) {
 
+			_callback = callback_;
 			this._dockpanel.Children.Add(this._webController.GetWebView2());
 			this.AddChild(this._dockpanel);
 
@@ -57,6 +61,10 @@ namespace MoveDronePicture
 			InitializeComponent();
 
 			this.Title = blk_target_.Name;
+		}
+
+		private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
+			_callback(this.Title);
 		}
 	}
 

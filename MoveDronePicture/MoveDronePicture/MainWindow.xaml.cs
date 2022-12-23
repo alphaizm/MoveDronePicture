@@ -211,13 +211,17 @@ namespace MoveDronePicture
 
 			// 表示なしの場合 -> 表示
 			if (!_DicGoogleMap.ContainsKey(blk_target.Name)) {
-				var page = new GoogleMap(blk_target);
+				var page = new GoogleMap(blk_target, DelegateGoogleMapClosing);
 				page.Show();
 
 				_DicGoogleMap.Add(blk_target.Name, page);
 			}
+		}
 
-
+		private void DelegateGoogleMapClosing(string str_target_key_) {
+			if (_DicGoogleMap.ContainsKey(str_target_key_)) {
+				_DicGoogleMap.Remove(str_target_key_);
+			}
 		}
 	}
 }
