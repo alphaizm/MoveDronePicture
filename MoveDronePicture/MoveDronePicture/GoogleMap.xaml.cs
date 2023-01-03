@@ -39,7 +39,7 @@ namespace MoveDronePicture
 			InitializeComponent();
 		}
 
-		public GoogleMap(cBlock blk_target_ , Callback callback_) {
+		public GoogleMap(cBlock blk_target_, Callback callback_) {
 
 			_callback = callback_;
 			this._dockpanel.Children.Add(this._webController.GetWebView2());
@@ -54,13 +54,26 @@ namespace MoveDronePicture
 					str_html = str_html.Replace(TAG_LAT_, blk_target_.Center.Lat.ToString());
 					str_html = str_html.Replace(TAG_LON_, blk_target_.Center.Lon.ToString());
 
-					_webController.NavigateToString(str_html);
+					_webController.NavigateToString(str_html, blk_target_);
 				}
 			}
 
 			InitializeComponent();
 
 			this.Title = blk_target_.Name;
+
+			//AddMarker(blk_target_);
+		}
+
+		private void AddMarker(cBlock blk_target_) {
+		//private async void AddMarker(cBlock blk_target_) {
+			string str_arg = "addMarker(";
+			str_arg += blk_target_.LstPoints[0].Lat.ToString();
+			str_arg += ",";
+			str_arg += blk_target_.LstPoints[0].Lon.ToString();
+			str_arg += ")";
+			//await Task.Run(() => _webController.ExecuteScriptAsync(str_arg));
+			_webController.ExecuteScriptAsync(str_arg);
 		}
 
 		private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
@@ -72,40 +85,54 @@ namespace MoveDronePicture
 	{
 		private readonly WebView2 _webView2 = new WebView2();
 		private string _strSelectedTxtScriptId;
+		private cBlock _block;
 
 		public WebView2Controller() {
-			this._webView2.CoreWebView2InitializationCompleted += CoreWebView2Initialization;
+			_webView2.CoreWebView2InitializationCompleted += CoreWebView2Initialization;
 		}
 
 		private void CoreWebView2Initialization(object sender, CoreWebView2InitializationCompletedEventArgs e) {
 			if (e.IsSuccess) {
-				//this._webView2.CoreWebView2.WebMessageReceived += this.WebMessageProcessor;
-				this.SelectedTextInitialize();
+				this._webView2.CoreWebView2.WebMessageReceived += this.WebMessageProcessor;
+				//this.SelectedTextInitialize();
 			}
 
 			//this._webView2.CoreWebView2.OpenDevToolsWindow();
 		}
 
-		public async void NavigateToString(string htrml) {
-			if (null == this._webView2.CoreWebView2) {
+		public async void NavigateToString(string htrml, cBlock blk_target_) {
+		//public async void NavigateToString(string htrml) {
+				if (null == this._webView2.CoreWebView2) {
 				await this._webView2.EnsureCoreWebView2Async(null);
 			}
 
 			this._webView2.CoreWebView2.NavigateToString(htrml);
+			_block = blk_target_;
 		}
 
 		public WebView2 GetWebView2() {
 			return this._webView2;
 		}
 
-		//private void WebMessageProcessor(object sender, CoreWebView2WebMessageReceivedEventArgs e) {
-		//	Debug.WriteLine(e.WebMessageAsJson);
-		//}
+		private void WebMessageProcessor(object sender, CoreWebView2WebMessageReceivedEventArgs e) {
+			MessageBox.Show(e.WebMessageAsJson);
+			string str_arg = "addMarker(";
+			str_arg += _block.LstPoints[0].Lat.ToString();
+			str_arg += ",";
+			str_arg += _block.LstPoints[0].Lon.ToString();
+			str_arg += ")";
+
+			ExecuteScriptAsync(str_arg);
+		}
 
 		private async void SelectedTextInitialize() {
 			if (null == this._strSelectedTxtScriptId) {
 				this._strSelectedTxtScriptId = await this._webView2.CoreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(@"document.addEventListener('DOMContentLoaded',new class{constructor(){document.addEventListener('mouseup',this.selectEvent)}selectEvent(event){if(event.isTrusted&&event.button===0){const selection=getSelection();if(!selection.isCollapsed&&selection.type==='Range'){console.log(`SelectedText: '${selection.toString()}'`);try{chrome.webview.postMessage({Type:'SelectedText',Text:selection.toString()})}catch(error){console.error(`'chrome.webview' is undefined.(${error.message})`)}}}}})");
 			}
+		}
+
+		public void ExecuteScriptAsync(string str_arg) {
+			Task<string> task = _webView2.ExecuteScriptAsync(str_arg);
 		}
 	}
 }

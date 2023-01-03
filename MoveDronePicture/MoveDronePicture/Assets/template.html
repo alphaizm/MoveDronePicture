@@ -24,15 +24,39 @@
 <body>
     <div id="map"></div>
 
-    <script type="text/javascript">
+    <script language="javascript" type="text/javascript">
+        var _Map;
         function initMap() {
-            var MyLatLon = new google.maps.LatLng(_LAT_, _LON_);
+            var cenLatLon = new google.maps.LatLng(_LAT_, _LON_);
             var opts = {
                 zoom: 20,               // 地図の縮尺地
-                center: MyLatLon,       // 地図の中心座標
+                center: cenLatLon,      // 地図の中心座標
                 mapTypeId: 'satellite'  // 地図の種類
             };
-            var map = new google.maps.Map(document.getElementById("map"), opts);
+            _Map = new google.maps.Map(document.getElementById("map"), opts);
+
+            try {
+                chrome.webview.postMessage('test');
+            }
+            catch (error){
+                console.error(`'chrome.webview' is undefined.(${error.message})`)
+            }
+        }
+
+        function addMarker(lat_, lon_) {
+            var posLatLon = new google.maps.LatLng(lat_, lon_);
+            var opts = {
+                position: posLatLon,
+                map: map,
+                //clickable: false,
+                //draggable: false,
+                //flat:false,
+            };
+
+            alert("addMarket");
+            var marker = new google.maps.Marker(opts);
+            marker.setMap(_Map);
+            return "OK";
         }
     </script>
 
