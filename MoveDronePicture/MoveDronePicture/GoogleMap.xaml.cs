@@ -116,13 +116,21 @@ namespace MoveDronePicture
 
 		private void WebMessageProcessor(object sender, CoreWebView2WebMessageReceivedEventArgs e) {
 			//MessageBox.Show(e.WebMessageAsJson);
-			string str_arg = "addMarker(";
-			str_arg += _block.LstPoints[0].Lat.ToString();
-			str_arg += ",";
-			str_arg += _block.LstPoints[0].Lon.ToString();
-			str_arg += ")";
+			// ポイントの登録
+			for(int idx= 0; idx < _block.LstPoints.Count; idx++) {
+				StringBuilder str_set_arg = new StringBuilder();
+				str_set_arg.Append("setPoint(");
+				str_set_arg.Append(_block.LstPoints[idx].Lat.ToString());
+				str_set_arg.Append(",");
+				str_set_arg.Append(_block.LstPoints[idx].Lon.ToString());
+				str_set_arg.Append(")");
+				ExecuteScriptAsync(str_set_arg.ToString());
+			}
 
-			ExecuteScriptAsync(str_arg);
+			// 線を引く
+			StringBuilder str_add_arg = new StringBuilder();
+			str_add_arg.Append("addLine()");
+			ExecuteScriptAsync(str_add_arg.ToString());
 		}
 
 		private async void SelectedTextInitialize() {

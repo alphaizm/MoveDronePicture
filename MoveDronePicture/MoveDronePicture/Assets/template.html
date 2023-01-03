@@ -26,6 +26,7 @@
 
     <script language="javascript" type="text/javascript">
         var _Map;
+        var _aryPoint = [];
         function initMap() {
             var cenLatLon = new google.maps.LatLng(_LAT_, _LON_);
             var opts = {
@@ -36,9 +37,9 @@
             _Map = new google.maps.Map(document.getElementById("map"), opts);
 
             try {
-                chrome.webview.postMessage('test');
+                chrome.webview.postMessage('Completed :initMap');
             }
-            catch (error){
+            catch (error) {
                 console.error(`'chrome.webview' is undefined.(${error.message})`)
             }
         }
@@ -57,6 +58,29 @@
             var marker = new google.maps.Marker(opts);
             marker.setMap(_Map);
             return "OK";
+        }
+
+        // ポイント登録
+        function setPoint(lat_, lon_) {
+            var point = {};
+            point["lat"] = lat_;
+            point["lng"] = lon_;
+            _aryPoint.push(point);
+
+            //addMarker(lat_, lon_);
+        }
+
+        // 線を引く
+        function addLine() {
+            //alert("_aryPoint.length：" + _aryPoint.length.toString());
+            lines = new google.maps.Polyline({
+                path: _aryPoint,
+                strokeColor: "#FFD700", // Gold
+                strokeOpacity: 1.0,
+                strokeWeight: 2
+            });
+
+            lines.setMap(_Map);
         }
     </script>
 
