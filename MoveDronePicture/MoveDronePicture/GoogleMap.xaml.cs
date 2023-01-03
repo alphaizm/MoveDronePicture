@@ -115,7 +115,7 @@ namespace MoveDronePicture
 		}
 
 		private void WebMessageProcessor(object sender, CoreWebView2WebMessageReceivedEventArgs e) {
-			MessageBox.Show(e.WebMessageAsJson);
+			//MessageBox.Show(e.WebMessageAsJson);
 			string str_arg = "addMarker(";
 			str_arg += _block.LstPoints[0].Lat.ToString();
 			str_arg += ",";
