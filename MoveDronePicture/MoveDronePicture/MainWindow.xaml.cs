@@ -194,7 +194,11 @@ namespace MoveDronePicture
 
 		private void m_btn_ReadSrc_Click(object sender, RoutedEventArgs e) {
 			var ary_file = Directory.GetFiles(m_txtBox_DirSrc.Text, "*.JPG", SearchOption.AllDirectories);
-			_ObjCtrlPicData.AddPicData(ary_file, m_progressBar_FilesSrc, m_lbl_ProgressBar);
+			_ObjCtrlPicData.AddPicData(ary_file, m_progressBar_FilesSrc, m_lbl_ProgressBar, _DicGoogleMap);
+		}
+
+		private void m_btn_OutputCsv_Click(object sender, RoutedEventArgs e) {
+
 		}
 
 		private void GrpBxHdBtn_Click(object sender, RoutedEventArgs e) {

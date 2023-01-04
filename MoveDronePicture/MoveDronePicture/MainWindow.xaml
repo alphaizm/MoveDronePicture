@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MoveDronePicture"
         mc:Ignorable="d"
-        Title="MainWindow" Height="580" Width="810"
+        Title="MainWindow" Height="610" Width="810"
         Loaded="Window_Loaded"
         Closing="Window_Closing">
     <StackPanel Orientation="Vertical">
@@ -111,8 +111,14 @@
                          Canvas.Left="550" Canvas.Top="30"/>
             <Label x:Name="m_lbl_ProgressBar" Content="xxxxx / xxxxx"
                    Canvas.Left="705" Canvas.Top="30"/>
+            <Button x:Name="m_btn_OutputCsv" Content="CSV出力" IsEnabled="False"
+                    Width="230" Height="30"
+                    Canvas.Left="550" Canvas.Top="50"
+                    Click="m_btn_OutputCsv_Click"
+                    />
+
             <ItemsControl x:Name="m_itemCtrl" ItemsSource="{Binding}"
-                          Canvas.Left="550" Canvas.Top="50">
+                          Canvas.Left="550" Canvas.Top="80">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <Canvas/>
