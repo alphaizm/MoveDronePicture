@@ -186,8 +186,9 @@ namespace MoveDronePicture
 			}
 
 			// GoogleMap消去
-			foreach (var page in _DicGoogleMap.Values) {
-				page.Close();
+			var maps = _DicGoogleMap.Values.ToArray();
+			for (int idx = 0; idx < maps.Length; idx++) {
+				maps[idx].Close();
 			}
 		}
 
