@@ -131,10 +131,20 @@ namespace MoveDronePicture
 
         private double GetDecLatLon(byte[] ary_value_) {
             uint deg_numerator = BitConverter.ToUInt32(ary_value_, 0);
-            //uint deg_denominator = BitConverter.ToUInt32(ary_value_, 4);
+			uint deg_denominator = BitConverter.ToUInt32(ary_value_, 4);
+
+			double deg = 0;
+			if(0 != deg_denominator) {
+				deg = (double)deg_numerator / (double)deg_denominator;
+			}
 
             uint min_numerator = BitConverter.ToUInt32(ary_value_, 8);
-            //uint min_denominator = BitConverter.ToUInt32(ary_value_, 12);
+			uint min_denominator = BitConverter.ToUInt32(ary_value_, 12);
+
+			double min = 0;
+			if (0 != min_denominator) {
+				min = (double)min_numerator / (double)min_denominator;
+			}
 
             uint sec_numerator = BitConverter.ToUInt32(ary_value_, 16);
             uint sec_denominator = BitConverter.ToUInt32(ary_value_, 20);
@@ -144,7 +154,13 @@ namespace MoveDronePicture
                 sec = (double)sec_numerator / (double)sec_denominator;
             }
 
-            double ret = deg_numerator + min_numerator / 60 + sec / 3600;
+			double ret = 0;
+			ret += sec;
+			ret /= 60;
+			ret += min;
+			ret /= 60;
+			ret += deg;
+
             return ret;
         }
 
