@@ -4,12 +4,12 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Text;
-using System.Windows.Data;
-using System.IO;
 using System.Drawing;
-using System.Windows.Controls;
+using System.IO;
+using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace MoveDronePicture
 {
@@ -55,7 +55,7 @@ namespace MoveDronePicture
             }
             
             // 出力ボタン有効
-			btn_.IsEnabled= true;
+			btn_.IsEnabled = true;
         }
 
         private int Digit(int num_) {
