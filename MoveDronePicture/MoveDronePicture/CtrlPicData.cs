@@ -26,7 +26,14 @@ namespace MoveDronePicture
             BindingOperations.EnableCollectionSynchronization(PicData, new object());
         }
 
-        public async void AddPicData(string[] ary_pathes_, ProgressBar bar_, Label lbl_) {
+		public async void AddPicData(
+										string[] ary_pathes_,
+										ProgressBar bar_,
+										Label lbl_,
+										Button btn_,
+										Dictionary<string, GoogleMap> dic_maps
+									) {
+
             PicData.Clear();
 
             bar_.Minimum = 0;
@@ -46,6 +53,9 @@ namespace MoveDronePicture
                 var path = ary_pathes_[idx];
                 await Task.Run(() => PicData.Add(new cPicData(path)));
             }
+            
+            // 出力ボタン有効
+			btn_.IsEnabled= true;
         }
 
         private int Digit(int num_) {

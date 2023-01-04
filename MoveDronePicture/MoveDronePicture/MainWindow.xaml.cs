@@ -194,11 +194,36 @@ namespace MoveDronePicture
 
 		private void m_btn_ReadSrc_Click(object sender, RoutedEventArgs e) {
 			var ary_file = Directory.GetFiles(m_txtBox_DirSrc.Text, "*.JPG", SearchOption.AllDirectories);
-			_ObjCtrlPicData.AddPicData(ary_file, m_progressBar_FilesSrc, m_lbl_ProgressBar, _DicGoogleMap);
+			_ObjCtrlPicData.AddPicData(
+											ary_file,
+											m_progressBar_FilesSrc,
+											m_lbl_ProgressBar,
+											m_btn_OutputCsv,
+											_DicGoogleMap
+									);
 		}
 
 		private void m_btn_OutputCsv_Click(object sender, RoutedEventArgs e) {
+			StringBuilder str_output = new StringBuilder();
+			str_output.Append("latitude");
+			str_output.Append(",");
+			str_output.Append("longitude");
+			str_output.Append(",");
+			str_output.Append("altitude");
+			str_output.AppendLine();
 
+			for (int idx = 0; idx < _ObjCtrlPicData.PicData.Count; idx++) {
+				var data = _ObjCtrlPicData.PicData[idx];
+				str_output.Append(data.Lat);
+				str_output.Append(",");
+				str_output.Append(data.Lon);
+				str_output.Append(",");
+				str_output.Append(data.Height);
+				str_output.AppendLine();
+			}
+
+			string str_file = System.IO.Path.Combine(m_txtBox_DirDst.Text, "_drone_latlon.csv");
+			File.WriteAllText(str_file, str_output.ToString());
 		}
 
 		private void GrpBxHdBtn_Click(object sender, RoutedEventArgs e) {
