@@ -96,8 +96,8 @@
                         <!--    列情報を定義-->
                         <GridViewColumn Header="ファイル名" Width="90" DisplayMemberBinding="{Binding FileName}"/>
                         <GridViewColumn Header="ファイル日時" Width="100" DisplayMemberBinding="{Binding FileDate}"/>
-                        <GridViewColumn Header="緯度" Width="100" DisplayMemberBinding="{Binding Lat}"/>
-                        <GridViewColumn Header="経度" Width="100" DisplayMemberBinding="{Binding Lon}"/>
+                        <GridViewColumn Header="緯度(lat)" Width="100" DisplayMemberBinding="{Binding Lat}"/>
+                        <GridViewColumn Header="経度(lon/lng)" Width="100" DisplayMemberBinding="{Binding Lon}"/>
                         <GridViewColumn Header="高さ" Width="100" DisplayMemberBinding="{Binding Height}"/>
                     </GridView>
                 </ListView.View>
