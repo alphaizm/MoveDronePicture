@@ -15,6 +15,8 @@ using Microsoft.Web.WebView2.Wpf;
 using Microsoft.Web.WebView2.Core;
 using System.IO;
 using System.IO.IsolatedStorage;
+using System.Windows.Navigation;
+using System.Windows.Media.Animation;
 
 namespace MoveDronePicture
 {
@@ -61,19 +63,33 @@ namespace MoveDronePicture
 			InitializeComponent();
 
 			this.Title = blk_target_.Name;
-
-			//AddMarker(blk_target_);
 		}
 
-		private void AddMarker(cBlock blk_target_) {
-		//private async void AddMarker(cBlock blk_target_) {
-			string str_arg = "addMarker(";
-			str_arg += blk_target_.LstPoints[0].Lat.ToString();
-			str_arg += ",";
-			str_arg += blk_target_.LstPoints[0].Lon.ToString();
-			str_arg += ")";
-			//await Task.Run(() => _webController.ExecuteScriptAsync(str_arg));
-			_webController.ExecuteScriptAsync(str_arg);
+		public async Task<bool> chkInsideArea(string lat_, string lon_) {
+			bool ret = false;
+
+			StringBuilder str_chk_arg = new StringBuilder();
+			str_chk_arg.Append("chkInsideArea(");
+			str_chk_arg.Append(lat_);
+			str_chk_arg.Append(",");
+			str_chk_arg.Append(lon_);
+			str_chk_arg.Append(")");
+			var res = await _webController.ExecuteScriptAsync(str_chk_arg.ToString());
+			if("true" == res) {
+				ret = true;
+			}
+
+			return ret;
+		}
+
+		public async void addMarker(string lat_, string lon_) {
+			StringBuilder str_chk_arg = new StringBuilder();
+			str_chk_arg.Append("addMarker(");
+			str_chk_arg.Append(lat_);
+			str_chk_arg.Append(",");
+			str_chk_arg.Append(lon_);
+			str_chk_arg.Append(")");
+			await _webController.ExecuteScriptAsync(str_chk_arg.ToString());
 		}
 
 		private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
@@ -114,7 +130,7 @@ namespace MoveDronePicture
 			return this._webView2;
 		}
 
-		private void WebMessageProcessor(object sender, CoreWebView2WebMessageReceivedEventArgs e) {
+		private async void WebMessageProcessor(object sender, CoreWebView2WebMessageReceivedEventArgs e) {
 			//MessageBox.Show(e.WebMessageAsJson);
 			// ポイントの登録
 			for(int idx= 0; idx < _block.LstPoints.Count; idx++) {
@@ -124,13 +140,13 @@ namespace MoveDronePicture
 				str_set_arg.Append(",");
 				str_set_arg.Append(_block.LstPoints[idx].Lon.ToString());
 				str_set_arg.Append(")");
-				ExecuteScriptAsync(str_set_arg.ToString());
+				await ExecuteScriptAsync(str_set_arg.ToString());
 			}
 
-			// 線を引く
+			// ポリゴン設定
 			StringBuilder str_add_arg = new StringBuilder();
-			str_add_arg.Append("addLine()");
-			ExecuteScriptAsync(str_add_arg.ToString());
+			str_add_arg.Append("addPolygon()");
+			await ExecuteScriptAsync(str_add_arg.ToString());
 		}
 
 		private async void SelectedTextInitialize() {
@@ -139,8 +155,8 @@ namespace MoveDronePicture
 			}
 		}
 
-		public void ExecuteScriptAsync(string str_arg) {
-			Task<string> task = _webView2.ExecuteScriptAsync(str_arg);
+		public Task<string> ExecuteScriptAsync(string str_arg) {
+			return _webView2.ExecuteScriptAsync(str_arg);
 		}
 	}
 }

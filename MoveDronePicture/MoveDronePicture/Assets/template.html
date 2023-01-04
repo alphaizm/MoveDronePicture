@@ -27,6 +27,7 @@
     <script language="javascript" type="text/javascript">
         var _Map;
         var _aryPoint = [];
+        var _Polygon
         function initMap() {
             var cenLatLon = new google.maps.LatLng(_LAT_, _LON_);
             var opts = {
@@ -68,12 +69,13 @@
             _aryPoint.push(point);
 
             //addMarker(lat_, lon_);
+            return "OK";
         }
 
-        // 線を引く
-        function addLine() {
+        // ポリゴン設定
+        function addPolygon() {
             //alert("_aryPoint.length：" + _aryPoint.length.toString());
-            polygon = new google.maps.Polygon({
+            _Polygon = new google.maps.Polygon({
                 paths: _aryPoint,
                 strokeColor: '#FFD700',
                 strokeOpacity: 1.0,
@@ -82,7 +84,16 @@
                 fillOpacity: 0.10
             });
 
-            polygon.setMap(_Map);
+            _Polygon.setMap(_Map);
+            return "OK";
+        }
+
+        // ポイント登録
+        function chkInsideArea(lat_, lon_) {
+            var posLatLon = new google.maps.LatLng(lat_, lon_);
+            var res = google.maps.geometry.poly.containsLocation(posLatLon, _Polygon);
+
+            return res;
         }
     </script>
 
