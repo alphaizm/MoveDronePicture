@@ -30,11 +30,16 @@ namespace MoveDronePicture
 										string[] ary_pathes_,
 										ProgressBar bar_,
 										Label lbl_,
-										Button btn_,
+										Button btn_read_,
+										Button btn_csv_,
 										Dictionary<string, GoogleMap> dic_maps
 									) {
 
 			PicData.Clear();
+
+			// ボタン無効
+			btn_read_.IsEnabled = false;
+			btn_csv_.IsEnabled = false;
 
 			bar_.Minimum = 0;
 			bar_.Value = 0;
@@ -61,8 +66,9 @@ namespace MoveDronePicture
 				}
 			}
 
-			// 出力ボタン有効
-			btn_.IsEnabled = true;
+			// ボタン有効
+			btn_read_.IsEnabled = true;
+			btn_csv_.IsEnabled = true;
 		}
 
 		private int Digit(int num_) {
