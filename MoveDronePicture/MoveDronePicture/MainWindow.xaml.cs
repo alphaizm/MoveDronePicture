@@ -37,7 +37,7 @@ namespace MoveDronePicture
 			InitializeComponent();
 
 			_ObjCtrlPicData = new cCtrlPicData();
-			m_lstVw_FilesSrc.DataContext = _ObjCtrlPicData.PicData;
+			m_lstVw_FilesSrc.DataContext = _ObjCtrlPicData._PicData;
 
 			_ObjItems = new ObservableCollection<Item>();
 			m_itemCtrl.DataContext = _ObjItems;
@@ -195,12 +195,12 @@ namespace MoveDronePicture
 		private void m_btn_ReadSrc_Click(object sender, RoutedEventArgs e) {
 			var ary_file = Directory.GetFiles(m_txtBox_DirSrc.Text, "*.JPG", SearchOption.AllDirectories);
 
+			_ObjCtrlPicData.SetProgressBar(m_progressBar_FilesSrc);
+			_ObjCtrlPicData.SetLabel(m_lbl_ProgressBar);
+			_ObjCtrlPicData.SetButton(m_btn_ReadSrc, m_btn_OutputCsv);
 			_ObjCtrlPicData.AddPicData(
 											ary_file,
-											m_progressBar_FilesSrc,
-											m_lbl_ProgressBar,
-											m_btn_ReadSrc,
-											m_btn_OutputCsv,
+											m_txtBox_DirDst.Text,
 											_DicGoogleMap
 									);
 		}
@@ -214,8 +214,8 @@ namespace MoveDronePicture
 			str_output.Append("altitude");
 			str_output.AppendLine();
 
-			for (int idx = 0; idx < _ObjCtrlPicData.PicData.Count; idx++) {
-				var data = _ObjCtrlPicData.PicData[idx];
+			for (int idx = 0; idx < _ObjCtrlPicData._PicData.Count; idx++) {
+				var data = _ObjCtrlPicData._PicData[idx];
 				str_output.Append(data.Lat);
 				str_output.Append(",");
 				str_output.Append(data.Lon);
