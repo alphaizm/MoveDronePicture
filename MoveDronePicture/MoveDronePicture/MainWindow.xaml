@@ -104,8 +104,13 @@
                 </ListView.View>
             </ListView>
             <Button x:Name="m_btn_ReadSrc" Content="ファイル読み取り" IsEnabled="False"
-                    Width="230" Height="25"
+                    Width="115" Height="25"
                     Canvas.Left="550" Canvas.Top="0"
+                    Click="m_btn_ReadSrc_Click"
+                    />
+            <Button x:Name="m_btn_MoveFile" Content="ファイル移動" IsEnabled="False"
+                    Width="115" Height="25"
+                    Canvas.Left="665" Canvas.Top="0"
                     Click="m_btn_ReadSrc_Click"
                     />
             <ProgressBar x:Name="m_progressBar_FilesSrc" Width="150" Height="20"
