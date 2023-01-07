@@ -205,6 +205,9 @@ namespace MoveDronePicture
 									);
 		}
 
+		private void m_btn_MoveFile_Click(object sender, RoutedEventArgs e) {
+		}
+
 		private void m_btn_OutputCsv_Click(object sender, RoutedEventArgs e) {
 			StringBuilder str_output = new StringBuilder();
 			str_output.Append("latitude");
