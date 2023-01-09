@@ -216,8 +216,18 @@ namespace MoveDronePicture
 		}
 
 		private void m_btn_OutputCsv_Click(object sender, RoutedEventArgs e) {
+			// ドローン撮影画像の緯度経度データ出力
+			outoutCsv_DroneData();
+
+			// 中央点、各範囲点の緯度経度データ出力
+			ouputCsv_JsonData();
+
+			MessageBox.Show("CSVファイル出力");
+		}
+
+		private void outoutCsv_DroneData() {
 			StringBuilder str_output = new StringBuilder();
-			str_output.Append("latitude");
+			str_output.Append(getCsv_Header());
 			str_output.Append(",");
 			str_output.Append("longitude");
 			str_output.Append(",");
@@ -226,6 +236,8 @@ namespace MoveDronePicture
 
 			for (int idx = 0; idx < _ObjCtrlPicData._PicData.Count; idx++) {
 				var data = _ObjCtrlPicData._PicData[idx];
+				str_output.Append(data.ImgName);
+				str_output.Append(",");
 				str_output.Append(data.Lat);
 				str_output.Append(",");
 				str_output.Append(data.Lon);
@@ -236,6 +248,56 @@ namespace MoveDronePicture
 
 			string str_file = System.IO.Path.Combine(m_txtBox_DirDst.Text, "_drone_latlon.csv");
 			File.WriteAllText(str_file, str_output.ToString());
+		}
+
+		private void ouputCsv_JsonData() {
+			StringBuilder str_output_points = new StringBuilder();
+			StringBuilder str_output_center = new StringBuilder();
+
+			str_output_points.Append(getCsv_Header());
+			str_output_center.Append(getCsv_Header());
+
+			for(int blk_idx = 0; blk_idx < _ObjJson.LstBlocks.Count; blk_idx++) {
+				var block = _ObjJson.LstBlocks[blk_idx];
+				string str_title = block.Name;
+
+				// 中央点
+				str_output_center.Append(str_title);
+				str_output_center.Append(",");
+				str_output_center.Append(block.Center.Lat.ToString());
+				str_output_center.Append(",");
+				str_output_center.Append(block.Center.Lon.ToString());
+				str_output_center.AppendLine();
+
+				// 枠点
+				for(int pnt_idx = 0; pnt_idx < block.LstPoints.Count; pnt_idx++) {
+					var point = block.LstPoints[pnt_idx];
+					str_output_points.Append(str_title + "_" + pnt_idx.ToString());
+					str_output_points.Append(",");
+					str_output_points.Append(point.Lat.ToString());
+					str_output_points.Append(",");
+					str_output_points.Append(point.Lon.ToString());
+					str_output_points.AppendLine();
+				}
+			}
+
+			string str_center_file = System.IO.Path.Combine(m_txtBox_DirDst.Text, "_centers_latlon.csv");
+			File.WriteAllText(str_center_file, str_output_center.ToString());
+
+			string str_point_file = System.IO.Path.Combine(m_txtBox_DirDst.Text, "_points_latlon.csv");
+			File.WriteAllText(str_point_file, str_output_points.ToString());
+		}
+
+		private string getCsv_Header() {
+			StringBuilder str_output = new StringBuilder();
+			str_output.Append("file name");
+			str_output.Append(",");
+			str_output.Append("latitude");
+			str_output.Append(",");
+			str_output.Append("longitude");
+			str_output.AppendLine();
+
+			return str_output.ToString();
 		}
 
 		private void GrpBxHdBtn_Click(object sender, RoutedEventArgs e) {

@@ -53,8 +53,8 @@ namespace MoveDronePicture
 	public class cFolder
 	{
 		public string Name { get; set; }
-		public int	Height { get; set; }
-		public int Offset { get; set; }
+		public double	Height { get; set; }
+		public double Offset { get; set; }
 
 		public cFolder() {
 			Name = "";
@@ -62,7 +62,7 @@ namespace MoveDronePicture
 			Offset = 0;
 		}
 
-		public cFolder(string str_name_, int height_, int offset_) {
+		public cFolder(string str_name_, double height_, double offset_) {
 			Name = str_name_;
 			Height = height_;
 			Offset = offset_;
