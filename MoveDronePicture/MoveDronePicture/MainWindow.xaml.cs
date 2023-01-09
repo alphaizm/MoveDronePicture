@@ -197,7 +197,7 @@ namespace MoveDronePicture
 
 			_ObjCtrlPicData.SetProgressBar(m_progressBar_FilesSrc);
 			_ObjCtrlPicData.SetLabel(m_lbl_ProgressBar);
-			_ObjCtrlPicData.SetButton(m_btn_ReadSrc, m_btn_OutputCsv);
+			_ObjCtrlPicData.SetButton(m_btn_ReadSrc, m_btn_MoveFile, m_btn_OutputCsv);
 			_ObjCtrlPicData.AddPicData(
 											ary_file,
 											m_txtBox_DirDst.Text,
@@ -206,6 +206,7 @@ namespace MoveDronePicture
 		}
 
 		private void m_btn_MoveFile_Click(object sender, RoutedEventArgs e) {
+
 		}
 
 		private void m_btn_OutputCsv_Click(object sender, RoutedEventArgs e) {

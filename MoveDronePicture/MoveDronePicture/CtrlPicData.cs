@@ -24,6 +24,7 @@ namespace MoveDronePicture
 		private ProgressBar _bar;
 		private Label _label;
 		private Button _btnRead;
+		private Button _btnMove;
 		private Button _btnCsv;
 
 		public cCtrlPicData() {
@@ -38,8 +39,9 @@ namespace MoveDronePicture
 		public void SetLabel(Label label_) {
 			_label = label_;
 		}
-		public void SetButton(Button btnRead_, Button btnCsv_) {
+		public void SetButton(Button btnRead_, Button btnRMove_, Button btnCsv_) {
 			_btnRead = btnRead_;
+			_btnMove = btnRMove_;
 			_btnCsv = btnCsv_;
 		}
 
@@ -53,6 +55,7 @@ namespace MoveDronePicture
 
 			// ボタン無効
 			_btnRead.IsEnabled = false;
+			_btnMove.IsEnabled = false;
 			_btnCsv.IsEnabled = false;
 
 			_bar.Minimum = 0;
@@ -83,6 +86,7 @@ namespace MoveDronePicture
 
 			// ボタン有効
 			_btnRead.IsEnabled = true;
+			_btnMove.IsEnabled = true;
 			_btnCsv.IsEnabled = true;
 		}
 
