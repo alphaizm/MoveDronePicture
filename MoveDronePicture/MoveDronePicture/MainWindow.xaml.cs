@@ -75,10 +75,16 @@ namespace MoveDronePicture
 					//-----------------------------------------------------
 					//  フォルダー
 					var tab_folders = new ObservableCollection<TabContentsData>();
-					var folders = block.DicFolders;
-					foreach (KeyValuePair<string, double> folder in folders) {
-						string content = folder.Key + " ： " + folder.Value.ToString();
-						tab_folders.Add(new TabContentsData() { TabContent = content });
+					var folders = block.LstFolders;
+					for(int fld_idx = 0; fld_idx < folders.Count; fld_idx++) {
+						var folder = folders[fld_idx];
+						StringBuilder content = new StringBuilder();
+						content.Append(folder.Name);
+						content.Append(" ： ");
+						content.Append(folder.Height.ToString());
+						content.Append(" ± ");
+						content.Append(folder.Offset.ToString());
+						tab_folders.Add(new TabContentsData() { TabContent = content.ToString() });
 					}
 
 					gbi.TabItems.Add(new TabItemData() { TabHeader = "フォルダー", TabContents = tab_folders });

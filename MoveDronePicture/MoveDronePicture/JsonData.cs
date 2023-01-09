@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace MoveDronePicture
 {
@@ -29,27 +30,46 @@ namespace MoveDronePicture
 	public class cBlock
 	{
 		public string Name { get; set; }
-		public Dictionary<string, double> DicFolders { get; set; }
+		public List<cFolder> LstFolders { get; set; }
 		public List<cPoint> LstPoints { get; set; }
 		public cPoint Center { get; set; }
 
 		public cBlock() {
 			Name = "";
-			DicFolders = new Dictionary<string, double>();
+			LstFolders = new List<cFolder>();
 			LstPoints = new List<cPoint>();
 			Center = new cPoint();
 		}
 
-		public cBlock(string str_name_, Dictionary<string, double> dic_folders_, List<cPoint> lst_points_, cPoint center_) {
+		public cBlock(string str_name_, List<cFolder> lst_folders_,  List<cPoint> lst_points_, cPoint center_) {
 			Name = str_name_;
-			DicFolders = dic_folders_;
+			LstFolders = lst_folders_;
 			LstPoints = lst_points_;
 			Center = center_;
 		}
 
 	}
 
-	public class cPoint
+	public class cFolder
+	{
+		public string Name { get; set; }
+		public int	Height { get; set; }
+		public int Offset { get; set; }
+
+		public cFolder() {
+			Name = "";
+			Height = 0;
+			Offset = 0;
+		}
+
+		public cFolder(string str_name_, int height_, int offset_) {
+			Name = str_name_;
+			Height = height_;
+			Offset = offset_;
+		}
+	}
+
+		public class cPoint
 	{
 		public double Lat { get; set; }
 		public double Lon { get; set; }
