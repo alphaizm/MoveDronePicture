@@ -229,8 +229,6 @@ namespace MoveDronePicture
 			StringBuilder str_output = new StringBuilder();
 			str_output.Append(getCsv_Header());
 			str_output.Append(",");
-			str_output.Append("longitude");
-			str_output.Append(",");
 			str_output.Append("altitude");
 			str_output.AppendLine();
 
@@ -255,9 +253,11 @@ namespace MoveDronePicture
 			StringBuilder str_output_center = new StringBuilder();
 
 			str_output_points.Append(getCsv_Header());
+			str_output_points.AppendLine();
 			str_output_center.Append(getCsv_Header());
+			str_output_center.AppendLine();
 
-			for(int blk_idx = 0; blk_idx < _ObjJson.LstBlocks.Count; blk_idx++) {
+			for (int blk_idx = 0; blk_idx < _ObjJson.LstBlocks.Count; blk_idx++) {
 				var block = _ObjJson.LstBlocks[blk_idx];
 				string str_title = block.Name;
 
@@ -295,7 +295,6 @@ namespace MoveDronePicture
 			str_output.Append("latitude");
 			str_output.Append(",");
 			str_output.Append("longitude");
-			str_output.AppendLine();
 
 			return str_output.ToString();
 		}
