@@ -222,7 +222,7 @@ namespace MoveDronePicture
 			// 中央点、各範囲点の緯度経度データ出力
 			ouputCsv_JsonData();
 
-			MessageBox.Show("CSVファイル出力");
+			MessageBox.Show("CSVファイル出力完了");
 		}
 
 		private void outoutCsv_DroneData() {
