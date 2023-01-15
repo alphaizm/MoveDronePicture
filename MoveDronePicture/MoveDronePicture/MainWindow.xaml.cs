@@ -198,6 +198,16 @@ namespace MoveDronePicture
 			}
 		}
 
+		private void m_btn_DirUpdate_Click(object sender, RoutedEventArgs e) {
+			if (Directory.Exists(m_txtBox_DirSrc.Text)) {
+				m_btn_ReadSrc.IsEnabled = true;
+			}
+			else {
+				m_btn_ReadSrc.IsEnabled = false;
+				MessageBox.Show("コピー元ディレクトリは存在していません。");
+			}
+		}
+
 		private void m_btn_ReadSrc_Click(object sender, RoutedEventArgs e) {
 			var ary_file = Directory.GetFiles(m_txtBox_DirSrc.Text, "*.JPG", SearchOption.AllDirectories);
 

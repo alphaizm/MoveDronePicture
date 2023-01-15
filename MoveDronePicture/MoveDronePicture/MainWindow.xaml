@@ -11,7 +11,9 @@
     <StackPanel Orientation="Vertical">
         <StackPanel Orientation="Horizontal" Margin="10,10,0,0">
             <Label Content="コピー元ディレクトリ："/>
-            <TextBox x:Name="m_txtBox_DirSrc" Width="670"/>
+            <TextBox x:Name="m_txtBox_DirSrc" Width="600"/>
+            <Button x:Name="m_btn_DirUpdate" Width="70" Content="元Dir更新"
+                    Click="m_btn_DirUpdate_Click"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
             <Label Content="コピー先ディレクトリ："/>
