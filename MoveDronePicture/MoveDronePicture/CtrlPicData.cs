@@ -89,7 +89,32 @@ namespace MoveDronePicture
 			_btnRead.IsEnabled = true;
 			_btnMove.IsEnabled = true;
 			_btnCsv.IsEnabled = true;
-					}
+		}
+
+
+		public async void MovePicData() {
+			// ボタン無効
+			_btnRead.IsEnabled = false;
+			_btnMove.IsEnabled = false;
+			_btnCsv.IsEnabled = false;
+
+			_bar.Minimum = 0;
+			_bar.Value = 0;
+			_bar.Maximum = _PicData.Count;
+
+			int digit = Digit(_PicData.Count);
+
+
+			for (int img_idx = 0; img_idx < _PicData.Count; img_idx++) {
+				//  プログレスバー、ラベル更新
+				int cnt = img_idx + 1;
+				_bar.Value = cnt;
+				_label.Content = cnt.ToString("D" + digit) + " / " + _PicData.Count.ToString("D");
+
+				var pic_data = _PicData[img_idx];
+				if ("" != pic_data.CopyPath) {
+					Directory.CreateDirectory(pic_data.CopyPath);
+					await Task.Run(() => File.Copy(pic_data.ImgPath, Path.Combine(pic_data.CopyPath, pic_data.ImgName)));
 				}
 			}
 
@@ -152,12 +177,16 @@ namespace MoveDronePicture
 			}
 		}
 
-		public void SetCopyPath(string str_dir_path_, string str_copy_folder_) {
+		public void SetCopyPath(string str_dir_path_, string str_copy_folder_, string str_height_folder_) {
 			string str_year = ImgDate.Substring(0, 4);
 			string str_month = ImgDate.Substring(5, 2);
 			string str_day = ImgDate.Substring(8, 2);
 
-			_CopyPath = Path.Combine(str_dir_path_, str_copy_folder_, str_year + str_month + str_day);
+			_CopyPath = Path.Combine(str_dir_path_, str_year + str_month + str_day, str_copy_folder_, str_height_folder_);
+		}
+
+		public string ImgPath {
+			get { return _ImgPath; }
 		}
 
 		public string ImgName {
@@ -178,6 +207,10 @@ namespace MoveDronePicture
 
 		public string Height {
 			get { return _Height.ToString(); }
+		}
+
+		public double ChkHeight {
+			get { return _Height; }
 		}
 
 		public string CopyPath {
