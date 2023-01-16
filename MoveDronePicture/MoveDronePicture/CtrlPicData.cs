@@ -65,21 +65,30 @@ namespace MoveDronePicture
 			int digit = Digit(ary_pathes_.Length);
 
 			//  画像読み取り
-			for (int idx = 0; idx < ary_pathes_.Length; idx++) {
+			for (int img_idx = 0; img_idx < ary_pathes_.Length; img_idx++) {
 				//  プログレスバー、ラベル更新
-				int cnt = idx + 1;
+				int cnt = img_idx + 1;
 				_bar.Value = cnt;
 				_label.Content = cnt.ToString("D" + digit) + " / " + ary_pathes_.Length.ToString("D");
 
 				//  非同期処理で読み取り
-				var path = ary_pathes_[idx];
+				var path = ary_pathes_[img_idx];
 				await Task.Run(() => _PicData.Add(new cPicData(path)));
 
 				foreach (KeyValuePair<string, GoogleMap> map in dic_maps) {
-					bool chk = await map.Value.chkInsideArea(_PicData[idx].Lat, _PicData[idx].Lon);
+					bool chk = await map.Value.chkInsideArea(_PicData[img_idx].Lat, _PicData[img_idx].Lon);
 					if (chk) {
-						map.Value.addMarker(_PicData[idx].Lat, _PicData[idx].Lon);
-						_PicData[idx].SetCopyPath(str_dst_dir_, map.Key);
+						map.Value.addMarker(_PicData[img_idx].Lat, _PicData[img_idx].Lon);
+						string str_height = map.Value.getHeightFolder(_PicData[img_idx].ChkHeight);
+						_PicData[img_idx].SetCopyPath(str_dst_dir_, map.Key, str_height);
+					}
+				}
+			}
+
+			// ボタン有効
+			_btnRead.IsEnabled = true;
+			_btnMove.IsEnabled = true;
+			_btnCsv.IsEnabled = true;
 					}
 				}
 			}
