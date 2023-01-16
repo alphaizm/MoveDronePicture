@@ -36,6 +36,7 @@ namespace MoveDronePicture
 
 		public delegate void Callback(string str_target_key_);
 		private Callback _callback;
+		private cFolder[] _aryFolders;
 
 		public GoogleMap() {
 			InitializeComponent();
@@ -44,6 +45,7 @@ namespace MoveDronePicture
 		public GoogleMap(cBlock blk_target_, Callback callback_) {
 
 			_callback = callback_;
+			_aryFolders = blk_target_.LstFolders.ToArray();
 			this._dockpanel.Children.Add(this._webController.GetWebView2());
 			this.AddChild(this._dockpanel);
 
@@ -75,11 +77,27 @@ namespace MoveDronePicture
 			str_chk_arg.Append(lon_);
 			str_chk_arg.Append(")");
 			var res = await _webController.ExecuteScriptAsync(str_chk_arg.ToString());
-			if("true" == res) {
+			if ("true" == res) {
 				ret = true;
 			}
 
 			return ret;
+		}
+
+		public string getHeightFolder(double height_) {
+			string str_ret = "";
+
+			for (int idx = 0; idx < _aryFolders.Length; idx++) {
+				cFolder folder = _aryFolders[idx];
+				double min = folder.Height - folder.Offset;
+				double max = folder.Height + folder.Offset;
+				if((min <= height_) && (height_ <= max)) {
+					str_ret = folder.Name;
+					break;
+				}
+			}
+
+			return str_ret;
 		}
 
 		public async void addMarker(string lat_, string lon_) {
@@ -133,7 +151,7 @@ namespace MoveDronePicture
 		private async void WebMessageProcessor(object sender, CoreWebView2WebMessageReceivedEventArgs e) {
 			//MessageBox.Show(e.WebMessageAsJson);
 			// ポイントの登録
-			for(int idx= 0; idx < _block.LstPoints.Count; idx++) {
+			for (int idx = 0; idx < _block.LstPoints.Count; idx++) {
 				StringBuilder str_set_arg = new StringBuilder();
 				str_set_arg.Append("setPoint(");
 				str_set_arg.Append(_block.LstPoints[idx].Lat.ToString());
