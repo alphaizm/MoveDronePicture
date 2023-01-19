@@ -10,18 +10,21 @@ namespace MoveDronePicture
 	public class cJsonBase
 	{
 		public string DirSrc { get; set; }
-		public string DirDst { get; set; }
+		public string DirDstServer { get; set; }
+		public string DirDstLocal { get; set; }
 		public List<cBlock> LstBlocks { get; set; }
 
 		public cJsonBase() {
 			DirSrc = "";
-			DirDst = "";
+			DirDstServer = "";
+			DirDstLocal = "";
 			LstBlocks = new List<cBlock>();
 		}
 
 		public cJsonBase(string str_dir_src_, string str_dir_dst_, List<cBlock> lst_blocks_) {
 			DirSrc = str_dir_src_;
-			DirDst = str_dir_dst_;
+			DirDstServer = str_dir_dst_;
+			DirDstLocal = str_dir_dst_;
 			LstBlocks = lst_blocks_;
 		}
 

@@ -9,16 +9,71 @@
         Loaded="Window_Loaded"
         Closing="Window_Closing">
     <StackPanel Orientation="Vertical">
-        <StackPanel Orientation="Horizontal" Margin="10,10,0,0">
-            <Label Content="コピー元ディレクトリ："/>
-            <TextBox x:Name="m_txtBox_DirSrc" Width="600"/>
-            <Button x:Name="m_btn_DirUpdate" Width="70" Content="元Dir更新"
-                    Click="m_btn_DirUpdate_Click"/>
-        </StackPanel>
-        <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
-            <Label Content="コピー先ディレクトリ："/>
-            <TextBox x:Name="m_txtBox_DirDst" Width="670"/>
-        </StackPanel>
+        <Grid Margin="10,10,10,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <!--コピー元-->
+            <Label      Grid.Row="0"                Grid.Column="0"                         Content="コピー元ディレクトリ"/>
+            <Label      Grid.Row="0"                Grid.Column="1"                         Content="："/>
+            <TextBox    Grid.Row="0"                Grid.Column="2"
+                                        x:Name="m_txtBox_DirSrc"/>
+            <Button     Grid.Row="0"                Grid.Column="3"                         Content="元Dir更新"
+                                        x:Name="m_btn_DirUpdate"
+                                        Click="m_btn_DirUpdate_Click"
+                    />
+            <Button     Grid.Row="0"                Grid.Column="4"                         Content="ファイル読み取り"
+                                        x:Name="m_btn_ReadSrc"          IsEnabled="False"
+                                        Click="m_btn_ReadSrc_Click"
+                    />
+
+            <!--コピー先(NAS)-->
+            <Label      Grid.Row="1"                Grid.Column="0"                         Content="コピー先ディレクトリ(Server)"/>
+            <Label      Grid.Row="1"                Grid.Column="1"                         Content="："/>
+            <TextBox    Grid.Row="1"                Grid.Column="2"     Grid.ColumnSpan="2"
+                                        x:Name="m_txtBox_DirDstServer"
+                    />
+            <Button     Grid.Row="1"                Grid.Column="4"                         Content="ファイルコピー" IsEnabled="False"
+                                        x:Name="m_btn_CopyFile"
+                                        Click="m_btn_MoveFile_Click"
+                    />
+
+            <!--移動先(Local)-->
+            <Label      Grid.Row="2"                Grid.Column="0"                         Content="移動先ディレクトリ(Local) "/>
+            <Label      Grid.Row="2"                Grid.Column="1"                         Content="：" />
+            <TextBox    Grid.Row="2"                Grid.Column="2"     Grid.ColumnSpan="2"
+                                        x:Name="m_txtBox_DirDstLocal"
+                     />
+            <Button     Grid.Row="2"                Grid.Column="4"                         Content="ファイル移動"
+                                        x:Name="m_btn_MoveFile"         IsEnabled="False"
+                                        Click="m_btn_MoveFile_Click"
+                    />
+            
+            <!--プログレスバー、ボタン-->
+            <ProgressBar Grid.Row="3"               Grid.Column="2"
+                                        x:Name="m_progressBar_FilesSrc"
+                    />
+            <Label      Grid.Row="3"                Grid.Column="3"                         Content="xxxxx / xxxxx"
+                                        x:Name="m_lbl_ProgressBar"
+                    />
+            <Button     Grid.Row="3"                Grid.Column="4"                         Content="CSV出力" 
+                                        x:Name="m_btn_OutputCsv"        IsEnabled="False"
+                                        Click="m_btn_OutputCsv_Click"
+                    />
+
+        </Grid>
+        
         <Canvas x:Name="m_canvas_down" Margin="10,5,0,0">
             <Canvas.Resources>
                 <DataTemplate DataType="{x:Type local:ExpanderItem}">
@@ -27,7 +82,6 @@
                         Height="{Binding H}"
                         IsExpanded="{Binding IsExpanded}">
                         <Expander.Header>
-                            <!--<TextBlock Text="{Binding Header}"/>-->
                             <Grid HorizontalAlignment="{Binding HorizontalAlignment, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContentPresenter}}, Mode=OneWayToSource}">
                                 <TextBox Text="{Binding Header}" BorderBrush="DeepPink" />
                             </Grid>
@@ -62,14 +116,14 @@
 
                         <TabControl ItemsSource="{Binding TabItems}">
                             <TabControl.ItemTemplate>
-                                 <!--ヘッダのテンプレート--> 
+                                <!--ヘッダのテンプレート-->
                                 <DataTemplate>
                                     <TextBlock Text="{Binding TabHeader}" />
                                 </DataTemplate>
                             </TabControl.ItemTemplate>
 
                             <TabControl.ContentTemplate>
-                                 <!--TabItemのコンテンツ-->
+                                <!--TabItemのコンテンツ-->
                                 <DataTemplate>
                                     <ListView ItemsSource="{Binding TabContents}">
                                         <ListView.ItemTemplate>
@@ -105,28 +159,9 @@
                     </GridView>
                 </ListView.View>
             </ListView>
-            <Button x:Name="m_btn_ReadSrc" Content="ファイル読み取り" IsEnabled="False"
-                    Width="115" Height="25"
-                    Canvas.Left="550" Canvas.Top="0"
-                    Click="m_btn_ReadSrc_Click"
-                    />
-            <Button x:Name="m_btn_MoveFile" Content="ファイル移動" IsEnabled="False"
-                    Width="115" Height="25"
-                    Canvas.Left="665" Canvas.Top="0"
-                    Click="m_btn_MoveFile_Click"
-                    />
-            <ProgressBar x:Name="m_progressBar_FilesSrc" Width="150" Height="20"
-                         Canvas.Left="550" Canvas.Top="25"/>
-            <Label x:Name="m_lbl_ProgressBar" Content="xxxxx / xxxxx"
-                   Canvas.Left="705" Canvas.Top="25"/>
-            <Button x:Name="m_btn_OutputCsv" Content="CSV出力" IsEnabled="False"
-                    Width="230" Height="25"
-                    Canvas.Left="550" Canvas.Top="45"
-                    Click="m_btn_OutputCsv_Click"
-                    />
 
             <ItemsControl x:Name="m_itemCtrl" ItemsSource="{Binding}"
-                          Canvas.Left="550" Canvas.Top="75">
+                          Canvas.Left="550" Canvas.Top="0">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <Canvas/>

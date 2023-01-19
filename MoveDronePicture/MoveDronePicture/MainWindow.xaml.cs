@@ -53,7 +53,8 @@ namespace MoveDronePicture
 				_ObjJson = JsonSerializer.Deserialize<cJsonBase>(str_json);
 
 				m_txtBox_DirSrc.Text = _ObjJson.DirSrc;
-				m_txtBox_DirDst.Text = _ObjJson.DirDst;
+				m_txtBox_DirDstServer.Text = _ObjJson.DirDstServer;
+				m_txtBox_DirDstLocal.Text = _ObjJson.DirDstLocal;
 
 				if (Directory.Exists(m_txtBox_DirSrc.Text)) {
 					m_btn_ReadSrc.IsEnabled = true;
@@ -64,7 +65,7 @@ namespace MoveDronePicture
 
 					var gbi = new GroupBoxItem() {
 						X = 0,
-						Y = (105 * blk_idx) + 5,
+						Y = (105 * blk_idx),
 						W = 230,
 						H = 100,
 						BtnContent = block.Name,
@@ -179,7 +180,8 @@ namespace MoveDronePicture
 				_ObjJson = new cJsonBase();
 			}
 			_ObjJson.DirSrc = m_txtBox_DirSrc.Text;
-			_ObjJson.DirDst = m_txtBox_DirDst.Text;
+			_ObjJson.DirDstServer = m_txtBox_DirDstServer.Text;
+			_ObjJson.DirDstLocal = m_txtBox_DirDstLocal.Text;
 #endif
 			if (null != _ObjJson) {
 				var opt = new JsonSerializerOptions {
@@ -216,7 +218,7 @@ namespace MoveDronePicture
 			_ObjCtrlPicData.SetButton(m_btn_ReadSrc, m_btn_MoveFile, m_btn_OutputCsv);
 			_ObjCtrlPicData.AddPicData(
 											ary_file,
-											m_txtBox_DirDst.Text,
+											m_txtBox_DirDstServer.Text,
 											_DicGoogleMap
 									);
 		}
@@ -254,7 +256,7 @@ namespace MoveDronePicture
 				str_output.AppendLine();
 			}
 
-			string str_file = System.IO.Path.Combine(m_txtBox_DirDst.Text, "_drone_latlon.csv");
+			string str_file = System.IO.Path.Combine(m_txtBox_DirDstLocal.Text, "_drone_latlon.csv");
 			File.WriteAllText(str_file, str_output.ToString());
 		}
 
@@ -291,10 +293,10 @@ namespace MoveDronePicture
 				}
 			}
 
-			string str_center_file = System.IO.Path.Combine(m_txtBox_DirDst.Text, "_centers_latlon.csv");
+			string str_center_file = System.IO.Path.Combine(m_txtBox_DirDstLocal.Text, "_centers_latlon.csv");
 			File.WriteAllText(str_center_file, str_output_center.ToString());
 
-			string str_point_file = System.IO.Path.Combine(m_txtBox_DirDst.Text, "_points_latlon.csv");
+			string str_point_file = System.IO.Path.Combine(m_txtBox_DirDstLocal.Text, "_points_latlon.csv");
 			File.WriteAllText(str_point_file, str_output_points.ToString());
 		}
 
