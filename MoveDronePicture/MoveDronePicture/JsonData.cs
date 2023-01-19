@@ -27,36 +27,37 @@ namespace MoveDronePicture
 			DirDstLocal = str_dir_dst_;
 			LstBlocks = lst_blocks_;
 		}
-
 	}
 
 	public class cBlock
 	{
 		public string Name { get; set; }
+		public string NasFolder { get; set; }
 		public List<cFolder> LstFolders { get; set; }
 		public List<cPoint> LstPoints { get; set; }
 		public cPoint Center { get; set; }
 
 		public cBlock() {
 			Name = "";
+			NasFolder = "";
 			LstFolders = new List<cFolder>();
 			LstPoints = new List<cPoint>();
 			Center = new cPoint();
 		}
 
-		public cBlock(string str_name_, List<cFolder> lst_folders_,  List<cPoint> lst_points_, cPoint center_) {
+		public cBlock(string str_name_, List<cFolder> lst_folders_, List<cPoint> lst_points_, cPoint center_) {
 			Name = str_name_;
+			NasFolder = str_name_;
 			LstFolders = lst_folders_;
 			LstPoints = lst_points_;
 			Center = center_;
 		}
-
 	}
 
 	public class cFolder
 	{
 		public string Name { get; set; }
-		public double	Height { get; set; }
+		public double Height { get; set; }
 		public double Offset { get; set; }
 
 		public cFolder() {
@@ -72,7 +73,7 @@ namespace MoveDronePicture
 		}
 	}
 
-		public class cPoint
+	public class cPoint
 	{
 		public double Lat { get; set; }
 		public double Lon { get; set; }
