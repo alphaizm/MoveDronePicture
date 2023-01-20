@@ -112,9 +112,9 @@ namespace MoveDronePicture
 				_label.Content = cnt.ToString("D" + digit) + " / " + _PicData.Count.ToString("D");
 
 				var pic_data = _PicData[img_idx];
-				if ("" != pic_data.CopyPath) {
-					Directory.CreateDirectory(pic_data.CopyPath);
-					await Task.Run(() => File.Copy(pic_data.ImgPath, Path.Combine(pic_data.CopyPath, pic_data.ImgName)));
+				if ("" != pic_data.MovePath) {
+					Directory.CreateDirectory(pic_data.MovePath);
+					await Task.Run(() => File.Copy(pic_data.ImgPath, Path.Combine(pic_data.MovePath, pic_data.ImgName)));
 				}
 			}
 
@@ -135,7 +135,7 @@ namespace MoveDronePicture
 	public sealed class cPicData : INotifyPropertyChanged
 	{
 		private string _ImgPath;
-		private string _CopyPath;
+		private string _MovePath;
 		private string _ImgName;
 		private string _ImgDate;
 		private double _Lat;
@@ -152,7 +152,7 @@ namespace MoveDronePicture
 			_Lat = 0;
 			_Lon = 0;
 			_Height = 0;
-			_CopyPath = "";
+			_MovePath = "";
 
 			_ImgName = Path.GetFileName(str_path_);
 			using (Bitmap bmp = new Bitmap(str_path_)) {
@@ -182,7 +182,7 @@ namespace MoveDronePicture
 			string str_month = ImgDate.Substring(5, 2);
 			string str_day = ImgDate.Substring(8, 2);
 
-			_CopyPath = Path.Combine(str_dir_path_, str_year + str_month + str_day, str_copy_folder_, str_height_folder_);
+			_MovePath = Path.Combine(str_dir_path_, str_year + str_month + str_day, str_copy_folder_, str_height_folder_);
 		}
 
 		public string ImgPath {
@@ -213,8 +213,8 @@ namespace MoveDronePicture
 			get { return _Height; }
 		}
 
-		public string CopyPath {
-			get { return _CopyPath; }
+		public string MovePath {
+			get { return _MovePath; }
 		}
 
 		private double GetDecLatLon(byte[] ary_value_) {
