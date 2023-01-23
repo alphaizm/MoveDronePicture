@@ -155,7 +155,8 @@
                         <GridViewColumn Header="緯度(lat)" Width="100" DisplayMemberBinding="{Binding Lat}"/>
                         <GridViewColumn Header="経度(lon/lng)" Width="100" DisplayMemberBinding="{Binding Lon}"/>
                         <GridViewColumn Header="高さ" Width="50" DisplayMemberBinding="{Binding Height}"/>
-                        <GridViewColumn Header="移動先" Width="100" DisplayMemberBinding="{Binding MovePath}"/>
+                        <GridViewColumn Header="コピー先" Width="150" DisplayMemberBinding="{Binding CopyServerPath}"/>
+                        <GridViewColumn Header="移動先" Width="150" DisplayMemberBinding="{Binding MoveLocalPath}"/>
                     </GridView>
                 </ListView.View>
             </ListView>

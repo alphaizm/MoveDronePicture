@@ -37,6 +37,7 @@ namespace MoveDronePicture
 		public delegate void Callback(string str_target_key_);
 		private Callback _callback;
 		private cFolder[] _aryFolders;
+		private string _nasFolder;
 
 		public GoogleMap() {
 			InitializeComponent();
@@ -46,6 +47,7 @@ namespace MoveDronePicture
 
 			_callback = callback_;
 			_aryFolders = blk_target_.LstFolders.ToArray();
+			_nasFolder = blk_target_.NasFolder;
 			this._dockpanel.Children.Add(this._webController.GetWebView2());
 			this.AddChild(this._dockpanel);
 
@@ -82,6 +84,10 @@ namespace MoveDronePicture
 			}
 
 			return ret;
+		}
+
+		public string getNasFolder() {
+			return _nasFolder;
 		}
 
 		public string getHeightFolder(double height_) {

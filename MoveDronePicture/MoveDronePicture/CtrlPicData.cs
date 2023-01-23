@@ -24,6 +24,7 @@ namespace MoveDronePicture
 		private ProgressBar _bar;
 		private Label _label;
 		private Button _btnRead;
+		private Button _btnCopy;
 		private Button _btnMove;
 		private Button _btnCsv;
 
@@ -39,15 +40,17 @@ namespace MoveDronePicture
 		public void SetLabel(Label label_) {
 			_label = label_;
 		}
-		public void SetButton(Button btnRead_, Button btnRMove_, Button btnCsv_) {
+		public void SetButton(Button btnRead_,Button btnCopy_, Button btnRMove_, Button btnCsv_) {
 			_btnRead = btnRead_;
+			_btnCopy = btnCopy_;
 			_btnMove = btnRMove_;
 			_btnCsv = btnCsv_;
 		}
 
 		public async void AddPicData(
 										string[] ary_pathes_,
-										string str_dst_dir_,
+										string str_dst_copy_server_dir_,
+										string str_dst_move_local_dir_,
 										Dictionary<string, GoogleMap> dic_maps
 									) {
 
@@ -55,6 +58,7 @@ namespace MoveDronePicture
 
 			// ボタン無効
 			_btnRead.IsEnabled = false;
+			_btnCopy.IsEnabled = false;
 			_btnMove.IsEnabled = false;
 			_btnCsv.IsEnabled = false;
 
@@ -80,13 +84,15 @@ namespace MoveDronePicture
 					if (chk) {
 						map.Value.addMarker(_PicData[img_idx].Lat, _PicData[img_idx].Lon);
 						string str_height = map.Value.getHeightFolder(_PicData[img_idx].ChkHeight);
-						_PicData[img_idx].SetCopyPath(str_dst_dir_, map.Key, str_height);
+						_PicData[img_idx].SetCopyServerPath(str_dst_copy_server_dir_, map.Value.getNasFolder(), str_height);
+						_PicData[img_idx].SetMoveLocalPath(str_dst_move_local_dir_, map.Key, str_height);
 					}
 				}
 			}
 
 			// ボタン有効
 			_btnRead.IsEnabled = true;
+			_btnCopy.IsEnabled = true;
 			_btnMove.IsEnabled = true;
 			_btnCsv.IsEnabled = true;
 		}
@@ -95,6 +101,7 @@ namespace MoveDronePicture
 		public async void MovePicData() {
 			// ボタン無効
 			_btnRead.IsEnabled = false;
+			_btnCopy.IsEnabled = false;
 			_btnMove.IsEnabled = false;
 			_btnCsv.IsEnabled = false;
 
@@ -112,14 +119,15 @@ namespace MoveDronePicture
 				_label.Content = cnt.ToString("D" + digit) + " / " + _PicData.Count.ToString("D");
 
 				var pic_data = _PicData[img_idx];
-				if ("" != pic_data.MovePath) {
-					Directory.CreateDirectory(pic_data.MovePath);
-					await Task.Run(() => File.Copy(pic_data.ImgPath, Path.Combine(pic_data.MovePath, pic_data.ImgName)));
+				if ("" != pic_data.MoveLocalPath) {
+					Directory.CreateDirectory(pic_data.MoveLocalPath);
+					await Task.Run(() => File.Copy(pic_data.ImgPath, Path.Combine(pic_data.MoveLocalPath, pic_data.ImgName)));
 				}
 			}
 
 			// ボタン有効
 			_btnRead.IsEnabled = true;
+			_btnCopy.IsEnabled = true;
 			_btnMove.IsEnabled = true;
 			_btnCsv.IsEnabled = true;
 		}
@@ -135,7 +143,8 @@ namespace MoveDronePicture
 	public sealed class cPicData : INotifyPropertyChanged
 	{
 		private string _ImgPath;
-		private string _MovePath;
+		private string _CopyServerPath;
+		private string _MoveLocalPath;
 		private string _ImgName;
 		private string _ImgDate;
 		private double _Lat;
@@ -152,7 +161,8 @@ namespace MoveDronePicture
 			_Lat = 0;
 			_Lon = 0;
 			_Height = 0;
-			_MovePath = "";
+			_CopyServerPath = "";
+			_MoveLocalPath = "";
 
 			_ImgName = Path.GetFileName(str_path_);
 			using (Bitmap bmp = new Bitmap(str_path_)) {
@@ -177,12 +187,34 @@ namespace MoveDronePicture
 			}
 		}
 
-		public void SetCopyPath(string str_dir_path_, string str_copy_folder_, string str_height_folder_) {
+		/// <summary>
+		/// 指定DIR\圃場\YYYYMMDD\高さ
+		///		例）指定DIR\原\20230131\オルソ_20m
+		/// </summary>
+		/// <param name="str_dir_path_"></param>
+		/// <param name="str_copy_folder_"></param>
+		/// <param name="str_height_folder_"></param>
+		public void SetCopyServerPath(string str_dir_path_, string str_copy_folder_, string str_height_folder_) {
 			string str_year = ImgDate.Substring(0, 4);
 			string str_month = ImgDate.Substring(5, 2);
 			string str_day = ImgDate.Substring(8, 2);
 
-			_MovePath = Path.Combine(str_dir_path_, str_year + str_month + str_day, str_copy_folder_, str_height_folder_);
+			_CopyServerPath = Path.Combine(str_dir_path_, str_copy_folder_, str_year + str_month + str_day, str_height_folder_);
+		}
+
+		/// <summary>
+		/// 指定DIR\YYYYMMDD\圃場\高さ
+		///		例）指定DIR\20230131\原\オルソ_20m
+		/// </summary>
+		/// <param name="str_dir_path_"></param>
+		/// <param name="str_move_folder_"></param>
+		/// <param name="str_height_folder_"></param>
+		public void SetMoveLocalPath(string str_dir_path_, string str_move_folder_, string str_height_folder_) {
+			string str_year = ImgDate.Substring(0, 4);
+			string str_month = ImgDate.Substring(5, 2);
+			string str_day = ImgDate.Substring(8, 2);
+
+			_MoveLocalPath = Path.Combine(str_dir_path_, str_year + str_month + str_day, str_move_folder_, str_height_folder_);
 		}
 
 		public string ImgPath {
@@ -213,8 +245,12 @@ namespace MoveDronePicture
 			get { return _Height; }
 		}
 
-		public string MovePath {
-			get { return _MovePath; }
+		public string CopyServerPath {
+			get { return _CopyServerPath; }
+		}
+
+		public string MoveLocalPath {
+			get { return _MoveLocalPath; }
 		}
 
 		private double GetDecLatLon(byte[] ary_value_) {
