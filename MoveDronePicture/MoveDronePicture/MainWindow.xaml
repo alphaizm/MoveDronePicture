@@ -146,7 +146,7 @@
                         Content="{Binding Content}"/>
                 </DataTemplate>
             </Canvas.Resources>
-            <ListView x:Name="m_lstVw_FilesSrc" Width="550" Height="470" ItemsSource="{Binding}" >
+            <ListView x:Name="m_lstVw_FilesSrc" Width="550" Height="450" ItemsSource="{Binding}" >
                 <ListView.View>
                     <GridView>
                         <!--    列情報を定義-->
@@ -155,8 +155,8 @@
                         <GridViewColumn Header="緯度(lat)" Width="100" DisplayMemberBinding="{Binding Lat}"/>
                         <GridViewColumn Header="経度(lon/lng)" Width="100" DisplayMemberBinding="{Binding Lon}"/>
                         <GridViewColumn Header="高さ" Width="50" DisplayMemberBinding="{Binding Height}"/>
-                        <GridViewColumn Header="コピー先" Width="150" DisplayMemberBinding="{Binding CopyServerPath}"/>
-                        <GridViewColumn Header="移動先" Width="150" DisplayMemberBinding="{Binding MoveLocalPath}"/>
+                        <GridViewColumn Header="コピー先" Width="250" DisplayMemberBinding="{Binding CopyServerPath}"/>
+                        <GridViewColumn Header="移動先" Width="250" DisplayMemberBinding="{Binding MoveLocalPath}"/>
                     </GridView>
                 </ListView.View>
             </ListView>
