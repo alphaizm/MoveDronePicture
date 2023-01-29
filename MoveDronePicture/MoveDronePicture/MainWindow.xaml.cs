@@ -224,6 +224,9 @@ namespace MoveDronePicture
 									);
 		}
 
+		private void m_btn_CopyFile_Click(object sender, RoutedEventArgs e) {
+		}
+
 		private void m_btn_MoveFile_Click(object sender, RoutedEventArgs e) {
 			_ObjCtrlPicData.MovePicData();
 		}

@@ -46,7 +46,7 @@
                     />
             <Button     Grid.Row="1"                Grid.Column="4"                         Content="ファイルコピー" IsEnabled="False"
                                         x:Name="m_btn_CopyFile"
-                                        Click="m_btn_MoveFile_Click"
+                                        Click="m_btn_CopyFile_Click"
                     />
 
             <!--移動先(Local)-->
