@@ -57,10 +57,7 @@ namespace MoveDronePicture
 			_PicData.Clear();
 
 			// ボタン無効
-			_btnRead.IsEnabled = false;
-			_btnCopy.IsEnabled = false;
-			_btnMove.IsEnabled = false;
-			_btnCsv.IsEnabled = false;
+			UpdateBtnState(false);
 
 			_bar.Minimum = 0;
 			_bar.Value = 0;
@@ -91,19 +88,13 @@ namespace MoveDronePicture
 			}
 
 			// ボタン有効
-			_btnRead.IsEnabled = true;
-			_btnCopy.IsEnabled = true;
-			_btnMove.IsEnabled = true;
-			_btnCsv.IsEnabled = true;
+			UpdateBtnState(true);
 		}
 
 
 		public async void MovePicData() {
 			// ボタン無効
-			_btnRead.IsEnabled = false;
-			_btnCopy.IsEnabled = false;
-			_btnMove.IsEnabled = false;
-			_btnCsv.IsEnabled = false;
+			UpdateBtnState(false);
 
 			_bar.Minimum = 0;
 			_bar.Value = 0;
@@ -126,14 +117,18 @@ namespace MoveDronePicture
 			}
 
 			// ボタン有効
-			_btnRead.IsEnabled = true;
-			_btnCopy.IsEnabled = true;
-			_btnMove.IsEnabled = true;
-			_btnCsv.IsEnabled = true;
+			UpdateBtnState(true);
 		}
 
 		private int Digit(int num_) {
 			return (0 == num_) ? 1 : ((int)Math.Log10(num_) + 1);
+		}
+
+		private void UpdateBtnState(bool state_) {
+			_btnRead.IsEnabled = state_;
+			_btnCopy.IsEnabled = state_;
+			_btnMove.IsEnabled = state_;
+			_btnCsv.IsEnabled = state_;
 		}
 	}
 
