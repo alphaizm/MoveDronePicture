@@ -59,11 +59,7 @@ namespace MoveDronePicture
 			// ボタン無効
 			UpdateBtnState(false);
 
-			_bar.Minimum = 0;
-			_bar.Value = 0;
-			_bar.Maximum = ary_pathes_.Length;
-
-			int digit = Digit(ary_pathes_.Length);
+			int digit = InitBar(ary_pathes_.Length);
 
 			//  画像読み取り
 			for (int img_idx = 0; img_idx < ary_pathes_.Length; img_idx++) {
@@ -96,12 +92,7 @@ namespace MoveDronePicture
 			// ボタン無効
 			UpdateBtnState(false);
 
-			_bar.Minimum = 0;
-			_bar.Value = 0;
-			_bar.Maximum = _PicData.Count;
-
-			int digit = Digit(_PicData.Count);
-
+			int digit = InitBar(_PicData.Count);
 
 			for (int img_idx = 0; img_idx < _PicData.Count; img_idx++) {
 				//  プログレスバー、ラベル更新
@@ -129,6 +120,14 @@ namespace MoveDronePicture
 			_btnCopy.IsEnabled = state_;
 			_btnMove.IsEnabled = state_;
 			_btnCsv.IsEnabled = state_;
+		}
+
+		private int InitBar(int maximum_) {
+			_bar.Minimum = 0;
+			_bar.Value = 0;
+			_bar.Maximum = maximum_;
+
+			return Digit(maximum_);
 		}
 	}
 
