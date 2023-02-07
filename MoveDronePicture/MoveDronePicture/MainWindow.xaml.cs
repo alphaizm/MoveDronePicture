@@ -68,7 +68,7 @@ namespace MoveDronePicture
 						Y = (105 * blk_idx),
 						W = 230,
 						H = 100,
-						BtnContent = block.Name,
+						BtnContent = block.HeaderName,
 					};
 
 					gbi.TabItems = new ObservableCollection<TabItemData>();
@@ -216,6 +216,7 @@ namespace MoveDronePicture
 			_ObjCtrlPicData.SetProgressBar(m_progressBar_FilesSrc);
 			_ObjCtrlPicData.SetLabel(m_lbl_ProgressBar);
 			_ObjCtrlPicData.SetButton(m_btn_ReadSrc, m_btn_CopyFile, m_btn_MoveFile, m_btn_OutputCsv);
+			_ObjCtrlPicData.SetFileNameRep(_ObjJson.FileNameRep);
 			_ObjCtrlPicData.AddPicData(
 											ary_file,
 											m_txtBox_DirDstServer.Text,
@@ -275,7 +276,7 @@ namespace MoveDronePicture
 
 			for (int blk_idx = 0; blk_idx < _ObjJson.LstBlocks.Count; blk_idx++) {
 				var block = _ObjJson.LstBlocks[blk_idx];
-				string str_title = block.Name;
+				string str_title = block.HeaderName;
 
 				// 中央点
 				str_output_center.Append(str_title);
@@ -322,18 +323,18 @@ namespace MoveDronePicture
 			cBlock blk_target = null;
 			for (int blk_idx = 0; blk_idx < _ObjJson.LstBlocks.Count; blk_idx++) {
 				cBlock blk_search = _ObjJson.LstBlocks[blk_idx];
-				if (btn.Content.ToString() == blk_search.Name) {
+				if (btn.Content.ToString() == blk_search.HeaderName) {
 					blk_target = blk_search;
 					break;
 				}
 			}
 
 			// 表示なしの場合 -> 表示
-			if (!_DicGoogleMap.ContainsKey(blk_target.Name)) {
+			if (!_DicGoogleMap.ContainsKey(blk_target.HeaderName)) {
 				var page = new GoogleMap(blk_target, DelegateGoogleMapClosing);
 				page.Show();
 
-				_DicGoogleMap.Add(blk_target.Name, page);
+				_DicGoogleMap.Add(blk_target.HeaderName, page);
 			}
 		}
 

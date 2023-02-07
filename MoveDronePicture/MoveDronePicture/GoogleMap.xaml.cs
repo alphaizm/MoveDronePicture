@@ -38,6 +38,7 @@ namespace MoveDronePicture
 		private Callback _callback;
 		private cFolder[] _aryFolders;
 		private string _nasFolder;
+		private string _targetFileName;
 
 		public GoogleMap() {
 			InitializeComponent();
@@ -48,6 +49,7 @@ namespace MoveDronePicture
 			_callback = callback_;
 			_aryFolders = blk_target_.LstFolders.ToArray();
 			_nasFolder = blk_target_.NasFolder;
+			_targetFileName = blk_target_.TargetFileName;
 			this._dockpanel.Children.Add(this._webController.GetWebView2());
 			this.AddChild(this._dockpanel);
 
@@ -56,7 +58,7 @@ namespace MoveDronePicture
 				using (StreamReader web_template = new StreamReader(WEB_TEMPLATE)) {
 					string str_html = web_template.ReadToEnd();
 					str_html = str_html.Replace(TAG_API_KEY_, str_key);
-					str_html = str_html.Replace(TAG_TITLE, blk_target_.Name);
+					str_html = str_html.Replace(TAG_TITLE, blk_target_.HeaderName);
 					str_html = str_html.Replace(TAG_LAT_, blk_target_.Center.Lat.ToString());
 					str_html = str_html.Replace(TAG_LON_, blk_target_.Center.Lon.ToString());
 
@@ -66,7 +68,7 @@ namespace MoveDronePicture
 
 			InitializeComponent();
 
-			this.Title = blk_target_.Name;
+			this.Title = blk_target_.HeaderName;
 		}
 
 		public async Task<bool> chkInsideArea(string lat_, string lon_) {
@@ -88,6 +90,10 @@ namespace MoveDronePicture
 
 		public string getNasFolder() {
 			return _nasFolder;
+		}
+
+		public string getTargetFileName() {
+			return _targetFileName;
 		}
 
 		public string getHeightFolder(double height_) {

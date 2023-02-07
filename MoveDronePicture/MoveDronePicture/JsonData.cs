@@ -12,42 +12,48 @@ namespace MoveDronePicture
 		public string DirSrc { get; set; }
 		public string DirDstServer { get; set; }
 		public string DirDstLocal { get; set; }
+		public string FileNameRep { get; set; }
 		public List<cBlock> LstBlocks { get; set; }
 
 		public cJsonBase() {
 			DirSrc = "";
 			DirDstServer = "";
 			DirDstLocal = "";
+			FileNameRep = "";
 			LstBlocks = new List<cBlock>();
 		}
 
-		public cJsonBase(string str_dir_src_, string str_dir_dst_, List<cBlock> lst_blocks_) {
+		public cJsonBase(string str_dir_src_, string str_dir_dst_, string str_file_rep_, List<cBlock> lst_blocks_) {
 			DirSrc = str_dir_src_;
 			DirDstServer = str_dir_dst_;
 			DirDstLocal = str_dir_dst_;
+			FileNameRep = str_file_rep_;
 			LstBlocks = lst_blocks_;
 		}
 	}
 
 	public class cBlock
 	{
-		public string Name { get; set; }
+		public string HeaderName { get; set; }
 		public string NasFolder { get; set; }
+		public string TargetFileName { get; set; }
 		public List<cFolder> LstFolders { get; set; }
 		public List<cPoint> LstPoints { get; set; }
 		public cPoint Center { get; set; }
 
 		public cBlock() {
-			Name = "";
+			HeaderName = "";
 			NasFolder = "";
+			TargetFileName = "";
 			LstFolders = new List<cFolder>();
 			LstPoints = new List<cPoint>();
 			Center = new cPoint();
 		}
 
 		public cBlock(string str_name_, List<cFolder> lst_folders_, List<cPoint> lst_points_, cPoint center_) {
-			Name = str_name_;
+			HeaderName = str_name_;
 			NasFolder = str_name_;
+			TargetFileName = str_name_; ;
 			LstFolders = lst_folders_;
 			LstPoints = lst_points_;
 			Center = center_;
