@@ -175,7 +175,7 @@ namespace MoveDronePicture
 		private double _Lon;
 		private double _Height;
 
-		private string _StrDate;
+		private string _StrYYYYMMDD;
 
 		private string _fileNameRep;
 
@@ -204,7 +204,7 @@ namespace MoveDronePicture
 							string str_year = _ImgDate.Substring(0, 4);
 							string str_month = _ImgDate.Substring(5, 2);
 							string str_day = _ImgDate.Substring(8, 2);
-							_StrDate = str_year + str_month + str_day;
+							_StrYYYYMMDD = str_year + str_month + str_day;
 
 							break;
 						case ID_LAT:
@@ -234,9 +234,9 @@ namespace MoveDronePicture
 			List<string> lst_str = new List<string>() {
 				str_dir_path_,
 				str_copy_folder_,
-				_StrDate,
+				_StrYYYYMMDD,
 				str_height_folder_,
-				_ImgName.Replace(_fileNameRep, _StrDate + "_" + str_target_name_)
+				_ImgName.Replace(_fileNameRep, _StrYYYYMMDD + "_" + str_target_name_)
 			};
 
 			_CopyServerPath = Path.Combine(lst_str.ToArray());
@@ -252,10 +252,10 @@ namespace MoveDronePicture
 		public void SetMoveLocalPath(string str_dir_path_, string str_move_folder_, string str_height_folder_, string str_target_name_) {
 			List<string> lst_str = new List<string>() {
 				str_dir_path_,
-				_StrDate,
+				_StrYYYYMMDD,
 				str_move_folder_,
 				str_height_folder_,
-				_ImgName.Replace(_fileNameRep, _StrDate + "_" + str_target_name_)
+				_ImgName.Replace(_fileNameRep, _StrYYYYMMDD + "_" + str_target_name_)
 			};
 
 
@@ -272,6 +272,10 @@ namespace MoveDronePicture
 
 		public string ImgDate {
 			get { return _ImgDate; }
+		}
+
+		public string YYYYMMDD {
+			get { return _StrYYYYMMDD; }
 		}
 
 		public string Lat {
