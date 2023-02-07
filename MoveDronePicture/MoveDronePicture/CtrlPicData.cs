@@ -246,6 +246,10 @@ namespace MoveDronePicture
 			get { return _ImgName; }
 		}
 
+		public string ImgDate {
+			get { return _ImgDate; }
+		}
+
 		public string Lat {
 			get { return _Lat.ToString(); }
 		}
