@@ -244,26 +244,35 @@ namespace MoveDronePicture
 		}
 
 		private void outoutCsv_DroneData() {
-			StringBuilder str_output = new StringBuilder();
-			str_output.Append(getCsv_Header());
-			str_output.Append(",");
-			str_output.Append("altitude");
-			str_output.AppendLine();
+
+			Dictionary<string, StringBuilder> dicCsv = new Dictionary<string, StringBuilder>();
 
 			for (int idx = 0; idx < _ObjCtrlPicData._PicData.Count; idx++) {
 				var data = _ObjCtrlPicData._PicData[idx];
-				str_output.Append(data.ImgName);
-				str_output.Append(",");
-				str_output.Append(data.Lat);
-				str_output.Append(",");
-				str_output.Append(data.Lon);
-				str_output.Append(",");
-				str_output.Append(data.Height);
-				str_output.AppendLine();
+				string date = data.YYYYMMDD;
+				if (!dicCsv.ContainsKey(date)){
+					dicCsv.Add(date, new StringBuilder());
+					dicCsv[date].Append(getCsv_Header());
+					dicCsv[date].Append(",");
+					dicCsv[date].Append("altitude");
+					dicCsv[date].AppendLine();
+				}
+
+				dicCsv[date].Append(data.ImgName);
+				dicCsv[date].Append(",");
+				dicCsv[date].Append(data.Lat);
+				dicCsv[date].Append(",");
+				dicCsv[date].Append(data.Lon);
+				dicCsv[date].Append(",");
+				dicCsv[date].Append(data.Height);
+				dicCsv[date].AppendLine();
 			}
 
-			string str_file = System.IO.Path.Combine(m_txtBox_DirDstLocal.Text, "_drone_latlon.csv");
-			File.WriteAllText(str_file, str_output.ToString());
+			// 日付分でループ
+			foreach (KeyValuePair<string, StringBuilder> pair in dicCsv) {
+				string str_file = System.IO.Path.Combine(m_txtBox_DirDstLocal.Text, "_" + pair.Key + "_drone_latlon.csv");
+				File.WriteAllText(str_file, pair.Value.ToString());
+			}
 		}
 
 		private void ouputCsv_JsonData() {
