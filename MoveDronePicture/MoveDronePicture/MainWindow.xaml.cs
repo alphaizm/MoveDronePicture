@@ -230,7 +230,7 @@ namespace MoveDronePicture
 		}
 
 		private void m_btn_MoveFile_Click(object sender, RoutedEventArgs e) {
-			_ObjCtrlPicData.MovePicData();
+			_ObjCtrlPicData.CopyPicData2Local();
 		}
 
 		private void m_btn_OutputCsv_Click(object sender, RoutedEventArgs e) {

@@ -118,7 +118,7 @@ namespace MoveDronePicture
 		}
 
 
-		public async void MovePicData() {
+		public async void CopyPicData2Local() {
 			// ボタン無効
 			UpdateBtnState(false);
 
