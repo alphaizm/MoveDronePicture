@@ -93,6 +93,30 @@ namespace MoveDronePicture
 			UpdateBtnState(true);
 		}
 
+		public async void CopyPicData2Server() {
+			// ボタン無効
+			UpdateBtnState(false);
+
+			int digit = InitBar(_PicData.Count);
+
+			for (int img_idx = 0; img_idx < _PicData.Count; img_idx++) {
+				//  プログレスバー、ラベル更新
+				int cnt = img_idx + 1;
+				_bar.Value = cnt;
+				_label.Content = cnt.ToString("D" + digit) + " / " + _PicData.Count.ToString("D");
+
+				var pic_data = _PicData[img_idx];
+				string path = pic_data.CopyServerPath;
+				if ("" != path) {
+					Directory.GetParent(path).Create();
+					await Task.Run(() => File.Copy(pic_data.ImgPath, path));
+				}
+			}
+
+			// ボタン有効
+			UpdateBtnState(true);
+		}
+
 
 		public async void MovePicData() {
 			// ボタン無効
