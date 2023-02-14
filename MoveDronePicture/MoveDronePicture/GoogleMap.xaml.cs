@@ -112,12 +112,16 @@ namespace MoveDronePicture
 			return str_ret;
 		}
 
-		public async void addMarker(string lat_, string lon_) {
+		public async void addMarker(string lat_, string lon_, string imgName_) {
 			StringBuilder str_chk_arg = new StringBuilder();
 			str_chk_arg.Append("addMarker(");
 			str_chk_arg.Append(lat_);
 			str_chk_arg.Append(",");
 			str_chk_arg.Append(lon_);
+			str_chk_arg.Append(",");
+			str_chk_arg.Append("'");
+			str_chk_arg.Append(imgName_);
+			str_chk_arg.Append("'");
 			str_chk_arg.Append(")");
 			await _webController.ExecuteScriptAsync(str_chk_arg.ToString());
 		}

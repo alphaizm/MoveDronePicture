@@ -81,7 +81,7 @@ namespace MoveDronePicture
 				foreach (KeyValuePair<string, GoogleMap> map in dic_maps) {
 					bool chk = await map.Value.chkInsideArea(_PicData[img_idx].Lat, _PicData[img_idx].Lon);
 					if (chk) {
-						map.Value.addMarker(_PicData[img_idx].Lat, _PicData[img_idx].Lon);
+						map.Value.addMarker(_PicData[img_idx].Lat, _PicData[img_idx].Lon, _PicData[img_idx].ImgName);
 						string str_height = map.Value.getHeightFolder(_PicData[img_idx].ChkHeight);
 						_PicData[img_idx].SetCopyServerPath(str_dst_copy_server_dir_, map.Value.getNasFolder(), str_height, map.Value.getTargetFileName());
 						_PicData[img_idx].SetMoveLocalPath(str_dst_move_local_dir_, map.Key, str_height, map.Value.getTargetFileName());

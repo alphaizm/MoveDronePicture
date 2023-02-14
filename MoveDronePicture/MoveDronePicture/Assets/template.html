@@ -27,7 +27,8 @@
     <script language="javascript" type="text/javascript">
         var _Map;
         var _aryPoint = [];
-        var _Polygon
+        var _Polygon;
+
         function initMap() {
             var cenLatLon = new google.maps.LatLng(_LAT_, _LON_);
             var opts = {
@@ -45,7 +46,9 @@
             }
         }
 
-        function addMarker(lat_, lon_) {
+        function addMarker(lat_, lon_, imgName_) {
+            //alert("addMarker");
+            var title_img = imgName_.toString()      // 変換なしで使うと、型：undefined判定される;
             var posLatLon = new google.maps.LatLng(lat_, lon_);
             var opts = {
                 position: posLatLon,
@@ -53,9 +56,9 @@
                 //clickable: false,
                 //draggable: false,
                 //flat:false,
+                title: title_img
             };
 
-            //alert("addMarket");
             var marker = new google.maps.Marker(opts);
             marker.setMap(_Map);
             return "OK";
