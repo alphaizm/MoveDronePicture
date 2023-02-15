@@ -26,6 +26,7 @@
 
     <script language="javascript" type="text/javascript">
         var _Map;
+        var _InfoWindow;
         var _aryPoint = [];
         var _Polygon;
 
@@ -37,6 +38,7 @@
                 mapTypeId: 'satellite'  // 地図の種類
             };
             _Map = new google.maps.Map(document.getElementById("map"), opts);
+            _InfoWindow = new google.maps.InfoWindow();
 
             try {
                 chrome.webview.postMessage('Completed :initMap');
@@ -57,10 +59,19 @@
                 //draggable: false,
                 //flat:false,
                 title: title_img,
-                label: title_img
+                label: title_img,
+                optimized: false 
             };
 
             var marker = new google.maps.Marker(opts);
+
+            // Add a click listener for each marker, and set up the info window.
+            marker.addListener("click", () => {
+                _InfoWindow.close();
+                _InfoWindow.setContent(marker.getTitle());
+                _InfoWindow.open(marker.getMap(), marker);
+            });
+
             marker.setMap(_Map);
             return "OK";
         }
