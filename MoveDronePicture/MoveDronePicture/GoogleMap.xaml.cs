@@ -167,12 +167,12 @@ namespace MoveDronePicture
 		private async void WebMessageProcessor(object sender, CoreWebView2WebMessageReceivedEventArgs e) {
 			//MessageBox.Show(e.WebMessageAsJson);
 			// ポイントの登録
-			for (int idx = 0; idx < _block.LstPoints.Count; idx++) {
+			for (int idx = 0; idx < _block.LstPolyPoints.Count; idx++) {
 				StringBuilder str_set_arg = new StringBuilder();
 				str_set_arg.Append("setPoint(");
-				str_set_arg.Append(_block.LstPoints[idx].Lat.ToString());
+				str_set_arg.Append(_block.LstPolyPoints[idx].Lat.ToString());
 				str_set_arg.Append(",");
-				str_set_arg.Append(_block.LstPoints[idx].Lon.ToString());
+				str_set_arg.Append(_block.LstPolyPoints[idx].Lon.ToString());
 				str_set_arg.Append(")");
 				await ExecuteScriptAsync(str_set_arg.ToString());
 			}

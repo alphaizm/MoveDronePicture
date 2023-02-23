@@ -93,13 +93,13 @@ namespace MoveDronePicture
 					//-----------------------------------------------------
 					//  ポイント
 					var tab_points = new ObservableCollection<TabContentsData>();
-					var points = block.LstPoints;
+					var points = block.LstPolyPoints;
 					foreach (var point in points) {
 						string content = point.Lat.ToString() + "／" + point.Lon.ToString();
 						tab_points.Add(new TabContentsData() { TabContent = content });
 					}
 
-					gbi.TabItems.Add(new TabItemData() { TabHeader = "登録座標", TabContents = tab_points });
+					gbi.TabItems.Add(new TabItemData() { TabHeader = "領域座標", TabContents = tab_points });
 
 					//-----------------------------------------------------
 					//  中央
@@ -297,8 +297,8 @@ namespace MoveDronePicture
 				str_output_center.AppendLine();
 
 				// 枠点
-				for(int pnt_idx = 0; pnt_idx < block.LstPoints.Count; pnt_idx++) {
-					var point = block.LstPoints[pnt_idx];
+				for(int pnt_idx = 0; pnt_idx < block.LstPolyPoints.Count; pnt_idx++) {
+					var point = block.LstPolyPoints[pnt_idx];
 					str_output_points.Append(str_title + "_" + pnt_idx.ToString());
 					str_output_points.Append(",");
 					str_output_points.Append(point.Lat.ToString());

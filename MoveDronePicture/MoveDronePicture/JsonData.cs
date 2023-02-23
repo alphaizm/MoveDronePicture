@@ -38,7 +38,8 @@ namespace MoveDronePicture
 		public string NasFolder { get; set; }
 		public string TargetFileName { get; set; }
 		public List<cFolder> LstFolders { get; set; }
-		public List<cPoint> LstPoints { get; set; }
+		public List<cPoint> LstPolyPoints { get; set; }
+		public List<cPoint> LstGcpPoints { get; set; }
 		public cPoint Center { get; set; }
 
 		public cBlock() {
@@ -46,7 +47,8 @@ namespace MoveDronePicture
 			NasFolder = "";
 			TargetFileName = "";
 			LstFolders = new List<cFolder>();
-			LstPoints = new List<cPoint>();
+			LstPolyPoints = new List<cPoint>();
+			LstGcpPoints = new List<cPoint>();
 			Center = new cPoint();
 		}
 
@@ -55,7 +57,8 @@ namespace MoveDronePicture
 			NasFolder = str_name_;
 			TargetFileName = str_name_; ;
 			LstFolders = lst_folders_;
-			LstPoints = lst_points_;
+			LstPolyPoints = lst_points_;
+			LstGcpPoints = lst_points_;
 			Center = center_;
 		}
 	}
