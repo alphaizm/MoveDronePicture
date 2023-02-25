@@ -287,11 +287,14 @@ namespace MoveDronePicture
 		}
 
 		private void ouputCsv_JsonData() {
-			StringBuilder str_output_points = new StringBuilder();
+			StringBuilder str_output_poly_points = new StringBuilder();
+			StringBuilder str_output_gcp_points = new StringBuilder();
 			StringBuilder str_output_center = new StringBuilder();
 
-			str_output_points.Append(getCsv_Header());
-			str_output_points.AppendLine();
+			str_output_poly_points.Append(getCsv_Header());
+			str_output_poly_points.AppendLine();
+			str_output_gcp_points.Append(getCsv_Header());
+			str_output_gcp_points.AppendLine();
 			str_output_center.Append(getCsv_Header());
 			str_output_center.AppendLine();
 
@@ -307,23 +310,37 @@ namespace MoveDronePicture
 				str_output_center.Append(block.Center.Lon.ToString());
 				str_output_center.AppendLine();
 
-				// 枠点
+				// 領域エリア点
 				for(int pnt_idx = 0; pnt_idx < block.LstPolyPoints.Count; pnt_idx++) {
 					var point = block.LstPolyPoints[pnt_idx];
-					str_output_points.Append(str_title + "_" + pnt_idx.ToString());
-					str_output_points.Append(",");
-					str_output_points.Append(point.Lat.ToString());
-					str_output_points.Append(",");
-					str_output_points.Append(point.Lon.ToString());
-					str_output_points.AppendLine();
+					str_output_poly_points.Append(str_title + "_" + pnt_idx.ToString());
+					str_output_poly_points.Append(",");
+					str_output_poly_points.Append(point.Lat.ToString());
+					str_output_poly_points.Append(",");
+					str_output_poly_points.Append(point.Lon.ToString());
+					str_output_poly_points.AppendLine();
+				}
+
+				// GCP点
+				for (int pnt_idx = 0; pnt_idx < block.LstGcpPoints.Count; pnt_idx++) {
+					var point = block.LstGcpPoints[pnt_idx];
+					str_output_gcp_points.Append(str_title + "_" + pnt_idx.ToString());
+					str_output_gcp_points.Append(",");
+					str_output_gcp_points.Append(point.Lat.ToString());
+					str_output_gcp_points.Append(",");
+					str_output_gcp_points.Append(point.Lon.ToString());
+					str_output_gcp_points.AppendLine();
 				}
 			}
 
 			string str_center_file = System.IO.Path.Combine(m_txtBox_DirDstLocal.Text, "_centers_latlon.csv");
 			File.WriteAllText(str_center_file, str_output_center.ToString());
 
-			string str_point_file = System.IO.Path.Combine(m_txtBox_DirDstLocal.Text, "_points_latlon.csv");
-			File.WriteAllText(str_point_file, str_output_points.ToString());
+			string str_poly_point_file = System.IO.Path.Combine(m_txtBox_DirDstLocal.Text, "_poly_points_latlon.csv");
+			File.WriteAllText(str_poly_point_file, str_output_poly_points.ToString());
+
+			string str_gcp_point_file = System.IO.Path.Combine(m_txtBox_DirDstLocal.Text, "_gcp_points_latlon.csv");
+			File.WriteAllText(str_gcp_point_file, str_output_gcp_points.ToString());
 		}
 
 		private string getCsv_Header() {
