@@ -64,10 +64,10 @@ namespace MoveDronePicture
 					var block = _ObjJson.LstBlocks[blk_idx];
 
 					var gbi = new GroupBoxItem() {
-						X = 0,
-						Y = (105 * blk_idx),
-						W = 230,
-						H = 100,
+						X = 5,
+						Y = (125 * blk_idx),
+						W = 250,
+						H = 120,
 						BtnContent = block.HeaderName,
 					};
 
@@ -91,15 +91,26 @@ namespace MoveDronePicture
 					gbi.TabItems.Add(new TabItemData() { TabHeader = "フォルダー", TabContents = tab_folders });
 
 					//-----------------------------------------------------
-					//  ポイント
-					var tab_points = new ObservableCollection<TabContentsData>();
-					var points = block.LstPolyPoints;
-					foreach (var point in points) {
+					//  領域ポリゴン用ポイント
+					var tab_poly_points = new ObservableCollection<TabContentsData>();
+					var poly_points = block.LstPolyPoints;
+					foreach (var point in poly_points) {
 						string content = point.Lat.ToString() + "／" + point.Lon.ToString();
-						tab_points.Add(new TabContentsData() { TabContent = content });
+						tab_poly_points.Add(new TabContentsData() { TabContent = content });
 					}
 
-					gbi.TabItems.Add(new TabItemData() { TabHeader = "領域座標", TabContents = tab_points });
+					gbi.TabItems.Add(new TabItemData() { TabHeader = "領域座標", TabContents = tab_poly_points });
+
+					//-----------------------------------------------------
+					//  GCP用ポイント
+					var tab_gcp_points = new ObservableCollection<TabContentsData>();
+					var gcp_points = block.LstGcpPoints;
+					foreach (var point in gcp_points) {
+						string content = point.Lat.ToString() + "／" + point.Lon.ToString();
+						tab_gcp_points.Add(new TabContentsData() { TabContent = content });
+					}
+
+					gbi.TabItems.Add(new TabItemData() { TabHeader = "GCP座標", TabContents = tab_gcp_points });
 
 					//-----------------------------------------------------
 					//  中央
