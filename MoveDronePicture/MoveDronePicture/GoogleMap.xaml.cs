@@ -181,6 +181,17 @@ namespace MoveDronePicture
 			StringBuilder str_add_arg = new StringBuilder();
 			str_add_arg.Append("addPolygon()");
 			await ExecuteScriptAsync(str_add_arg.ToString());
+
+			// GCP表示
+			for (int idx = 0; idx < _block.LstGcpPoints.Count; idx++) {
+				StringBuilder str_set_arg = new StringBuilder();
+				str_set_arg.Append("addGcp(");
+				str_set_arg.Append(_block.LstGcpPoints[idx].Lat.ToString());
+				str_set_arg.Append(",");
+				str_set_arg.Append(_block.LstGcpPoints[idx].Lon.ToString());
+				str_set_arg.Append(")");
+				await ExecuteScriptAsync(str_set_arg.ToString());
+			}
 		}
 
 		private async void SelectedTextInitialize() {

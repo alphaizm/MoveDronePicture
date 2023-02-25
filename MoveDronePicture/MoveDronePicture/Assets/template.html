@@ -77,6 +77,29 @@
             return "OK";
         }
 
+        function addGcp(lat_, lon_) {
+            //alert("addGcp");
+            var posLatLon = new google.maps.LatLng(lat_, lon_);
+            var opts = {
+                position: posLatLon,
+                map: map,
+                //clickable: false,
+                //draggable: false,
+                //flat:false,
+                optimized: false,
+                icon: new google.maps.MarkerImage(
+                    'https://maps.google.com/mapfiles/kml/pal2/icon13.png' //表示させるアイコンを指定する
+                    //new google.maps.Size(50, 40),
+                    //new google.maps.Point(0, 0)
+                )
+            };
+
+            var marker = new google.maps.Marker(opts);
+
+            marker.setMap(_Map);
+            return "OK";
+        }
+
         // ポイント登録
         function setPoint(lat_, lon_) {
             var point = {};
