@@ -375,11 +375,16 @@ namespace MoveDronePicture
 				_DicGoogleMap.Add(blk_target.HeaderName, page);
 			}
 		}
+		
 
 		private void DelegateGoogleMapClosing(string str_target_key_) {
 			if (_DicGoogleMap.ContainsKey(str_target_key_)) {
 				_DicGoogleMap.Remove(str_target_key_);
 			}
+		}
+
+		private void ListViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
+			int test = 0;
 		}
 	}
 }

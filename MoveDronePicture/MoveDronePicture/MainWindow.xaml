@@ -147,6 +147,11 @@
                 </DataTemplate>
             </Canvas.Resources>
             <ListView x:Name="m_lstVw_FilesSrc" Width="550" Height="490" ItemsSource="{Binding}" >
+                <ListView.Resources>
+                    <Style TargetType="ListViewItem">
+                        <EventSetter Event="MouseDoubleClick" Handler="ListViewItem_MouseDoubleClick"/>
+                    </Style>
+                </ListView.Resources>
                 <ListView.View>
                     <GridView>
                         <!--    列情報を定義-->
