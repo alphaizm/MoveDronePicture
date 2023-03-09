@@ -384,7 +384,8 @@ namespace MoveDronePicture
 		}
 
 		private void ListViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
-			int test = 0;
+			var lstvwiitem = sender as ListViewItem;
+			var pic_data = lstvwiitem.Content as cPicData;
 		}
 	}
 }
