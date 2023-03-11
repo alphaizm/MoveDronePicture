@@ -386,6 +386,9 @@ namespace MoveDronePicture
 		private void ListViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
 			var lstvwiitem = sender as ListViewItem;
 			var pic_data = lstvwiitem.Content as cPicData;
+
+			var page = new GcpEditor(pic_data.ImgPath);
+			page.Show();
 		}
 	}
 }
