@@ -26,12 +26,14 @@ namespace MoveDronePicture
 			InitializeComponent();
 		}
 
-		public GcpEditor(string file_name_) {
+		public GcpEditor(string file_path_) {
 			InitializeComponent();
 
-			using (Mat png = new Mat(file_name_)) {
+			using (Mat png = new Mat(file_path_)) {
 				img_png.Source = WriteableBitmapConverter.ToWriteableBitmap(png);
 			}
+
+			this.Title = "GcpEditor：" + System.IO.Path.GetFileName(file_path_);
 		}
 	}
 }
