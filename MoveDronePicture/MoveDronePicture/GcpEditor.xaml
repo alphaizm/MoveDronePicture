@@ -9,7 +9,23 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
+            <ColumnDefinition Width="250"/>
         </Grid.ColumnDefinitions>
-        <Image x:Name="img_png" Grid.Column="0" />
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Image x:Name="m_img_png"               Grid.Column="0"                     Grid.RowSpan="2"/>
+
+        <ListView x:Name="m_lstVw_GcpPoint"     Grid.Column="1" Grid.Row="1"
+                  ItemsSource="{Binding}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="緯度" DisplayMemberBinding="{Binding Lat}" />
+                    <GridViewColumn Header="経度" DisplayMemberBinding="{Binding Lon}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
     </Grid>
 </Window>

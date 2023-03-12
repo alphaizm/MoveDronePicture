@@ -22,15 +22,19 @@ namespace MoveDronePicture
 	/// </summary>
 	public partial class GcpEditor : System.Windows.Window
 	{
+		public delegate void Callback(string str_target_key_);
+		private Callback _callback;
 		public GcpEditor() {
 			InitializeComponent();
 		}
 
-		public GcpEditor(string file_path_) {
+		public GcpEditor(string file_path_, cBlock blk_target_, Callback callback_) {
 			InitializeComponent();
+			_callback = callback_;
+			m_lstVw_GcpPoint.ItemsSource = blk_target_.LstGcpPoints;
 
 			using (Mat png = new Mat(file_path_)) {
-				img_png.Source = WriteableBitmapConverter.ToWriteableBitmap(png);
+				m_img_png.Source = WriteableBitmapConverter.ToWriteableBitmap(png);
 			}
 
 			this.Title = "GcpEditor：" + System.IO.Path.GetFileName(file_path_);

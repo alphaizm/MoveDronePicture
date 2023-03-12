@@ -387,7 +387,8 @@ namespace MoveDronePicture
 			var lstvwiitem = sender as ListViewItem;
 			var pic_data = lstvwiitem.Content as cPicData;
 
-			var page = new GcpEditor(pic_data.ImgPath);
+			//	ToDo：暫定でブロック３を指定、後でブロックを指定
+			var page = new GcpEditor(pic_data.ImgPath, _ObjJson.LstBlocks[3], null);
 			page.Show();
 		}
 	}
