@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using OpenCvSharp;
+using OpenCvSharp.Dnn;
 using OpenCvSharp.WpfExtensions;
 
 
@@ -26,6 +27,9 @@ namespace MoveDronePicture
 		private Callback _callback;
 		private double _min_height = 0;
 		private double _max_height = 0;
+		private bool _is_mouse_down = false;
+		private System.Windows.Point _start_point;
+		private System.Windows.Point _crrnt_point;
 		public GcpEditor() {
 			InitializeComponent();
 		}
@@ -80,6 +84,55 @@ namespace MoveDronePicture
 		private void m_img_png_SizeChanged(object sender, SizeChangedEventArgs e) {
 			m_cnvs.Height = e.NewSize.Height;
 			m_cnvs.Width = e.NewSize.Width;
+		}
+
+		private void m_img_png_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
+			_is_mouse_down = true;  // 押下中
+
+			// GetPositionメソッドで現在のマウス座標を取得し、マウス移動開始点を更新
+			// （マウス座標は、キャンバスからの相対的な位置とする）
+			_start_point = e.GetPosition(m_cnvs);
+
+			e.Handled = true;   // イベントを処理済みとする（当イベントがこの先伝搬されるのを止めるため）
+		}
+
+		private void m_img_png_MouseLeftButtonUp(object sender, MouseButtonEventArgs e) {
+			_is_mouse_down = false;  // 離す
+			e.Handled = true;
+
+		}
+
+		private void m_img_png_MouseLeave(object sender, MouseEventArgs e) {
+			_is_mouse_down = false;  // 離す
+			e.Handled = true;
+		}
+
+		private void m_img_png_MouseMove(object sender, MouseEventArgs e) {
+			// 非押下中は処理なし
+			if (!_is_mouse_down) { return; }
+
+			// マウスの現在位置座標を取得（OperationAreaからの相対位置）
+			_crrnt_point = e.GetPosition(m_cnvs);
+
+			//移動開始点と現在位置の差から、MouseMoveイベント1回分の移動量を算出
+			double offsetX = _crrnt_point.X - _start_point.X;
+			double offsetY = _crrnt_point.Y - _start_point.Y;
+
+			// 動かす対象の図形からMatrixオブジェクトを取得
+			// このMatrixオブジェクトを用いて図形を描画上移動させる
+			Matrix matrix = ((MatrixTransform)m_img_png.RenderTransform).Matrix;
+
+			// TranslateメソッドにX方向とY方向の移動量を渡し、移動後の状態を計算
+			matrix.Translate(offsetX, offsetY);
+
+			// 移動後の状態を計算したMatrixオブジェクトを描画に反映する
+			m_img_png.RenderTransform = new MatrixTransform(matrix);
+
+			// 移動開始点を現在位置で更新する
+			// （今回の現在位置が次回のMouseMoveイベントハンドラで使われる移動開始点となる）
+			_start_point = _crrnt_point;
+
+			e.Handled = true;
 		}
 	}
 }

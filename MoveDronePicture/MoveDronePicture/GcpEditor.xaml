@@ -30,6 +30,10 @@
                        Width="{Binding Width, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
                        Stretch="UniformToFill"
                        SizeChanged="m_img_png_SizeChanged"
+                       MouseLeftButtonDown="m_img_png_MouseLeftButtonDown"
+                       MouseLeftButtonUp="m_img_png_MouseLeftButtonUp"
+                       MouseLeave="m_img_png_MouseLeave"
+                       MouseMove="m_img_png_MouseMove"
                        />
             </Canvas>
         </ScrollViewer>
