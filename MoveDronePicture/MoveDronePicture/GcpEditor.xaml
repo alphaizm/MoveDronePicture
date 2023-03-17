@@ -43,6 +43,7 @@
                   ItemsSource="{Binding}">
             <ListView.View>
                 <GridView>
+                    <GridViewColumn Header="GCP名" DisplayMemberBinding="{Binding Name}" />
                     <GridViewColumn Header="緯度" DisplayMemberBinding="{Binding Lat}" />
                     <GridViewColumn Header="経度" DisplayMemberBinding="{Binding Lon}"/>
                 </GridView>

@@ -187,9 +187,9 @@ namespace MoveDronePicture
 				StringBuilder str_set_arg = new StringBuilder();
 				var gcp = _block.LstGcpPoints[idx];
 				str_set_arg.Append("addGcp(");
-				str_set_arg.Append(gcp.Point.Lat.ToString());
+				str_set_arg.Append(gcp.Lat.ToString());
 				str_set_arg.Append(",");
-				str_set_arg.Append(gcp.Point.Lon.ToString());
+				str_set_arg.Append(gcp.Lon.ToString());
 				str_set_arg.Append(",");
 				str_set_arg.Append("'");
 				str_set_arg.Append(gcp.Name);

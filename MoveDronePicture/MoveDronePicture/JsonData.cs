@@ -84,11 +84,13 @@ namespace MoveDronePicture
 
 	public class cGcp {
 		public string Name { get; set; }
-		public cPoint Point { get; set; }
+		public double Lat { get; set; }
+		public double Lon { get; set; }
 
 		public cGcp() {
 			Name = "";
-			Point = new cPoint();
+			Lat = 0;
+			Lon = 0;
 		}
 	}
 
