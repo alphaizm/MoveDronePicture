@@ -16,9 +16,10 @@
 
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
+            <RowDefinition Height="24"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <ScrollViewer   x:Name="m_scrlVw"       Grid.Column="0"                     Grid.RowSpan="2"
+        <ScrollViewer   x:Name="m_scrlVw"       Grid.Column="0"                     Grid.RowSpan="3"
                         Background="Cornsilk"
                         HorizontalScrollBarVisibility="Visible"
                         VerticalScrollBarVisibility="Visible"
@@ -37,9 +38,12 @@
                        />
             </Canvas>
         </ScrollViewer>
-        
 
-        <ListView x:Name="m_lstVw_GcpPoint"     Grid.Column="1" Grid.Row="1"
+        <Label                                  Grid.Column="1" Grid.Row="1"
+               Content="■GCP選択肢" Margin="0"  HorizontalContentAlignment="Left" VerticalContentAlignment="Top"
+                                                HorizontalAlignment="Left" VerticalAlignment="Top"
+                />
+        <ListView x:Name="m_lstVw_GcpPoint"     Grid.Column="1" Grid.Row="2"
                   ItemsSource="{Binding}">
             <ListView.View>
                 <GridView>
