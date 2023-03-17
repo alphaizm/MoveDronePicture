@@ -77,8 +77,9 @@
             return "OK";
         }
 
-        function addGcp(lat_, lon_) {
+        function addGcp(lat_, lon_, imgName_) {
             //alert("addGcp");
+            var title_img = imgName_.toString()      // 変換なしで使うと、型：undefined判定される;
             var posLatLon = new google.maps.LatLng(lat_, lon_);
             var opts = {
                 position: posLatLon,
@@ -86,6 +87,8 @@
                 //clickable: false,
                 //draggable: false,
                 //flat:false,
+                title: title_img,
+                label: title_img,
                 optimized: false,
                 icon: new google.maps.MarkerImage(
                     'https://maps.google.com/mapfiles/kml/pal2/icon13.png' //表示させるアイコンを指定する

@@ -185,10 +185,15 @@ namespace MoveDronePicture
 			// GCP表示
 			for (int idx = 0; idx < _block.LstGcpPoints.Count; idx++) {
 				StringBuilder str_set_arg = new StringBuilder();
+				var gcp = _block.LstGcpPoints[idx];
 				str_set_arg.Append("addGcp(");
-				str_set_arg.Append(_block.LstGcpPoints[idx].Lat.ToString());
+				str_set_arg.Append(gcp.Point.Lat.ToString());
 				str_set_arg.Append(",");
-				str_set_arg.Append(_block.LstGcpPoints[idx].Lon.ToString());
+				str_set_arg.Append(gcp.Point.Lon.ToString());
+				str_set_arg.Append(",");
+				str_set_arg.Append("'");
+				str_set_arg.Append(gcp.Name);
+				str_set_arg.Append("'");
 				str_set_arg.Append(")");
 				await ExecuteScriptAsync(str_set_arg.ToString());
 			}

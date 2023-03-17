@@ -105,8 +105,8 @@ namespace MoveDronePicture
 					//  GCP用ポイント
 					var tab_gcp_points = new ObservableCollection<TabContentsData>();
 					var gcp_points = block.LstGcpPoints;
-					foreach (var point in gcp_points) {
-						string content = point.Lat.ToString() + "／" + point.Lon.ToString();
+					foreach (cGcp gcp in gcp_points) {
+						string content = gcp.Name + "：" +gcp.Point.Lat.ToString() + "／" + gcp.Point.Lon.ToString();
 						tab_gcp_points.Add(new TabContentsData() { TabContent = content });
 					}
 
@@ -323,12 +323,12 @@ namespace MoveDronePicture
 
 				// GCP点
 				for (int pnt_idx = 0; pnt_idx < block.LstGcpPoints.Count; pnt_idx++) {
-					var point = block.LstGcpPoints[pnt_idx];
-					str_output_gcp_points.Append(str_title + "_" + pnt_idx.ToString());
+					var gcp = block.LstGcpPoints[pnt_idx];
+					str_output_gcp_points.Append(gcp.Name);
 					str_output_gcp_points.Append(",");
-					str_output_gcp_points.Append(point.Lat.ToString());
+					str_output_gcp_points.Append(gcp.Point.Lat.ToString());
 					str_output_gcp_points.Append(",");
-					str_output_gcp_points.Append(point.Lon.ToString());
+					str_output_gcp_points.Append(gcp.Point.Lon.ToString());
 					str_output_gcp_points.AppendLine();
 				}
 			}

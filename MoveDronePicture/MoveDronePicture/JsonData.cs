@@ -39,7 +39,7 @@ namespace MoveDronePicture
 		public string TargetFileName { get; set; }
 		public List<cFolder> LstFolders { get; set; }
 		public List<cPoint> LstPolyPoints { get; set; }
-		public List<cPoint> LstGcpPoints { get; set; }
+		public List<cGcp> LstGcpPoints { get; set; }
 		public cPoint Center { get; set; }
 
 		public cBlock() {
@@ -48,7 +48,7 @@ namespace MoveDronePicture
 			TargetFileName = "";
 			LstFolders = new List<cFolder>();
 			LstPolyPoints = new List<cPoint>();
-			LstGcpPoints = new List<cPoint>();
+			LstGcpPoints = new List<cGcp>();
 			Center = new cPoint();
 		}
 
@@ -58,7 +58,7 @@ namespace MoveDronePicture
 			TargetFileName = str_name_; ;
 			LstFolders = lst_folders_;
 			LstPolyPoints = lst_points_;
-			LstGcpPoints = lst_points_;
+			LstGcpPoints = new List<cGcp>();
 			Center = center_;
 		}
 	}
@@ -79,6 +79,16 @@ namespace MoveDronePicture
 			Name = str_name_;
 			Height = height_;
 			Offset = offset_;
+		}
+	}
+
+	public class cGcp {
+		public string Name { get; set; }
+		public cPoint Point { get; set; }
+
+		public cGcp() {
+			Name = "";
+			Point = new cPoint();
 		}
 	}
 
