@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MoveDronePicture
 {
-    public class Item
+    public class GuiItem
     {
         public double X { get; set; }
         public double Y { get; set; }
@@ -15,13 +15,13 @@ namespace MoveDronePicture
         public double H { get; set; }
     }
 
-    public class ExpanderItem : Item
+    public class ExpanderItem : GuiItem
     {
         public string Header { get; set; }
         public bool IsExpanded { get; set; }
     }
 
-    public class GroupBoxItem : Item
+    public class GroupBoxItem : GuiItem
     {
         public string BtnContent { get; set; }
 
@@ -40,7 +40,7 @@ namespace MoveDronePicture
         public string TabContent { get; set; }
     }
 
-    public class LabelItem : Item
+    public class LabelItem : GuiItem
     {
         public string Content { get; set; }
     }

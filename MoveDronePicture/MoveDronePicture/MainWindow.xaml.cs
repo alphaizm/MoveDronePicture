@@ -30,7 +30,7 @@ namespace MoveDronePicture
 		const string JSON_FILE = "Setting.json";
 		cJsonBase _ObjJson;
 		cCtrlPicData _ObjCtrlPicData;
-		ObservableCollection<Item> _ObjItems { get; set; }
+		ObservableCollection<GuiItem> _ObjItems { get; set; }
 		Dictionary<string, GoogleMap> _DicGoogleMap = new Dictionary<string, GoogleMap>();
 
 		public MainWindow() {
@@ -39,7 +39,7 @@ namespace MoveDronePicture
 			_ObjCtrlPicData = new cCtrlPicData();
 			m_lstVw_FilesSrc.DataContext = _ObjCtrlPicData._PicData;
 
-			_ObjItems = new ObservableCollection<Item>();
+			_ObjItems = new ObservableCollection<GuiItem>();
 			m_itemCtrl.DataContext = _ObjItems;
 		}
 
