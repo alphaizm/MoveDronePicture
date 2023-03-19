@@ -15,11 +15,13 @@
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="30"/>
-            <RowDefinition Height="24"/>
-            <RowDefinition/>
+            <RowDefinition Height="30"/>        <!--    ボタン-->
+            <RowDefinition Height="24"/>        <!--    ラベル-->
+            <RowDefinition/>                    <!--    リストビュー-->
+            <RowDefinition Height="24"/>        <!--    ラベル-->
+            <RowDefinition/>                    <!--    リストビュー-->
         </Grid.RowDefinitions>
-        <ScrollViewer   x:Name="m_scrlVw"       Grid.Column="0"                     Grid.RowSpan="3"
+        <ScrollViewer   x:Name="m_scrlVw"       Grid.Column="0"                     Grid.RowSpan="5"
                         Background="Cornsilk"
                         HorizontalScrollBarVisibility="Visible"
                         VerticalScrollBarVisibility="Visible"
@@ -39,6 +41,10 @@
             </Canvas>
         </ScrollViewer>
 
+        <Button x:Name="m_btn_output"           Grid.Column="1" Grid.Row="0"
+                Content="出力：'GcpList'"
+                />
+        
         <Label                                  Grid.Column="1" Grid.Row="1"
                Content="■GCP選択肢" Margin="0"  HorizontalContentAlignment="Left" VerticalContentAlignment="Top"
                                                 HorizontalAlignment="Left" VerticalAlignment="Top"
@@ -53,5 +59,10 @@
                 </GridView>
             </ListView.View>
         </ListView>
+
+        <Label                                  Grid.Column="1" Grid.Row="3"
+               Content="■GcpList出力" Margin="0"  HorizontalContentAlignment="Left" VerticalContentAlignment="Top"
+                                                HorizontalAlignment="Left" VerticalAlignment="Top"
+                />
     </Grid>
 </Window>
