@@ -28,17 +28,26 @@ namespace MoveDronePicture
 		private double _Lat;
 		private double _Lon;
 		private double _Height;
-		private double _ImgX;
-		private double _ImgY;
+		private short _ImgX;
+		private short _ImgY;
 
 		public cGcpItem() {
+			// 入力値はデバッグ値
 			_Name = "Test";
 			_Lat = 1.0;
 			_Lon = 2.0;
 			_Height = 3.0;
-			_ImgX = 5.0;
-			_ImgY = 6.0;
+			_ImgX = 5;
+			_ImgY = 6;
+		}
 
+		public cGcpItem(string name_, double lat_, double lon_, double x_, double y_) {
+			_Name = name_;
+			_Lat = lat_;
+			_Lon = lon_;
+			_Height = 0;
+			_ImgX = (short)Math.Round(x_, 1);
+			_ImgY = (short)Math.Round(y_, 1);
 		}
 
 		public string Name { get { return _Name; } }

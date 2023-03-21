@@ -142,7 +142,16 @@ namespace MoveDronePicture
 		}
 
 		private void m_img_png_MouseRightButtonUp(object sender, MouseButtonEventArgs e) {
-			_ObjCtrlGcpData._GcpItem.Add(new cGcpItem());
+			cGcp obj_point = (cGcp)m_lstVw_GcpPoint.SelectedItem;
+
+			//+++++++++++++++++++++++++++++++++++++++++++++
+			// ポイント選択なし
+			if (null == obj_point) { return; }
+
+			// 右クリック位置取得
+			var pos = e.GetPosition(m_img_png);
+			_ObjCtrlGcpData._GcpItem.Add(new cGcpItem(obj_point.Name, obj_point.Lat, obj_point.Lon, pos.X, pos.Y));
+			//_ObjCtrlGcpData._GcpItem.Add(new cGcpItem());
 		}
 	}
 }
