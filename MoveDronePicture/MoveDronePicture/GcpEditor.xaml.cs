@@ -1,19 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using OpenCvSharp;
+using OpenCvSharp.WpfExtensions;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using OpenCvSharp;
-using OpenCvSharp.Dnn;
-using OpenCvSharp.WpfExtensions;
 
 
 namespace MoveDronePicture
@@ -25,13 +14,13 @@ namespace MoveDronePicture
 	{
 		public delegate void Callback(string str_target_key_);
 		private Callback _callback;
-		private double _min_height = 0;
-		private double _max_height = 0;
-		private bool _is_mouse_down = false;
-		private System.Windows.Point _start_point;
-		private System.Windows.Point _crrnt_point;
+		private double _minHeight = 0;
+		private double _maxHeight = 0;
+		private bool _isMouseDown = false;
+		private System.Windows.Point _startPoint;
+		private System.Windows.Point _crrntPoint;
 
-		public cCtrlGcpItem _ObjCtrlGcpData;
+		public cCtrlGcpItem _ObjCtrlGcpItem;
 
 		public GcpEditor() {
 			InitializeComponent();
@@ -39,10 +28,10 @@ namespace MoveDronePicture
 
 		public GcpEditor(string file_path_, cBlock blk_target_, Callback callback_) {
 			InitializeComponent();
-			_ObjCtrlGcpData = new cCtrlGcpItem();
+			_ObjCtrlGcpItem = new cCtrlGcpItem();
 			_callback = callback_;
 			m_lstVw_GcpPoint.ItemsSource = blk_target_.LstGcpPoints;
-			m_lstVw_GcpList.DataContext = _ObjCtrlGcpData._GcpItem;
+			m_lstVw_GcpList.DataContext = _ObjCtrlGcpItem._GcpItem;
 
 			using (Mat png = new Mat(file_path_)) {
 				m_img_png.Source = WriteableBitmapConverter.ToWriteableBitmap(png);
@@ -53,8 +42,8 @@ namespace MoveDronePicture
 
 		private void Window_Loaded(object sender, RoutedEventArgs e) {
 			// 拡大上限、縮小下限の設定
-			_min_height = m_cnvs.Height * 0.7;
-			_max_height = m_cnvs.Height * 20.0;
+			_minHeight = m_cnvs.Height * 0.7;
+			_maxHeight = m_cnvs.Height * 20.0;
 
 			m_img_png.Height = m_img_png.ActualHeight * 0.77;
 			m_img_png.Width = m_img_png.ActualWidth * 0.77;
@@ -74,7 +63,7 @@ namespace MoveDronePicture
 			double height = m_img_png.ActualHeight * scale;
 
 			// 指定縮尺時のみ有効
-			if ((_min_height <= height) && (height <= _max_height)) {
+			if ((_minHeight <= height) && (height <= _maxHeight)) {
 				// 画像の拡大縮小
 				m_img_png.Height = m_img_png.ActualHeight * scale;
 				m_img_png.Width = m_img_png.ActualWidth * scale;
@@ -95,36 +84,36 @@ namespace MoveDronePicture
 		}
 
 		private void m_img_png_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
-			_is_mouse_down = true;  // 押下中
+			_isMouseDown = true;  // 押下中
 
 			// GetPositionメソッドで現在のマウス座標を取得し、マウス移動開始点を更新
 			// （マウス座標は、キャンバスからの相対的な位置とする）
-			_start_point = e.GetPosition(m_cnvs);
+			_startPoint = e.GetPosition(m_cnvs);
 
 			e.Handled = true;   // イベントを処理済みとする（当イベントがこの先伝搬されるのを止めるため）
 		}
 
 		private void m_img_png_MouseLeftButtonUp(object sender, MouseButtonEventArgs e) {
-			_is_mouse_down = false;  // 離す
+			_isMouseDown = false;  // 離す
 			e.Handled = true;
 
 		}
 
 		private void m_img_png_MouseLeave(object sender, MouseEventArgs e) {
-			_is_mouse_down = false;  // 離す
+			_isMouseDown = false;  // 離す
 			e.Handled = true;
 		}
 
 		private void m_img_png_MouseMove(object sender, MouseEventArgs e) {
 			// 非押下中は処理なし
-			if (!_is_mouse_down) { return; }
+			if (!_isMouseDown) { return; }
 
 			// マウスの現在位置座標を取得（OperationAreaからの相対位置）
-			_crrnt_point = e.GetPosition(m_cnvs);
+			_crrntPoint = e.GetPosition(m_cnvs);
 
 			//移動開始点と現在位置の差から、MouseMoveイベント1回分の移動量を算出
-			double offsetX = _crrnt_point.X - _start_point.X;
-			double offsetY = _crrnt_point.Y - _start_point.Y;
+			double offsetX = _crrntPoint.X - _startPoint.X;
+			double offsetY = _crrntPoint.Y - _startPoint.Y;
 
 			// 動かす対象の図形からMatrixオブジェクトを取得
 			// このMatrixオブジェクトを用いて図形を描画上移動させる
@@ -138,7 +127,7 @@ namespace MoveDronePicture
 
 			// 移動開始点を現在位置で更新する
 			// （今回の現在位置が次回のMouseMoveイベントハンドラで使われる移動開始点となる）
-			_start_point = _crrnt_point;
+			_startPoint = _crrntPoint;
 
 			e.Handled = true;
 		}
@@ -152,7 +141,7 @@ namespace MoveDronePicture
 
 			// 右クリック位置取得
 			var pos = e.GetPosition(m_img_png);
-			_ObjCtrlGcpData._GcpItem.Add(new cGcpItem(obj_point.Name, obj_point.Lat, obj_point.Lon, pos.X, pos.Y));
+			_ObjCtrlGcpItem._GcpItem.Add(new cGcpItem(obj_point.Name, obj_point.Lat, obj_point.Lon, pos.X, pos.Y));
 			//_ObjCtrlGcpData._GcpItem.Add(new cGcpItem());
 		}
 	}
