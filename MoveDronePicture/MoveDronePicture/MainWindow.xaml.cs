@@ -19,6 +19,7 @@ using System.Windows.Shapes;
 using System.Text.Json;
 using System.IO;
 using System.Collections.ObjectModel;
+using System.Net.NetworkInformation;
 
 namespace MoveDronePicture
 {
@@ -77,7 +78,7 @@ namespace MoveDronePicture
 					//  フォルダー
 					var tab_folders = new ObservableCollection<TabContentsData>();
 					var folders = block.LstFolders;
-					for(int fld_idx = 0; fld_idx < folders.Count; fld_idx++) {
+					for (int fld_idx = 0; fld_idx < folders.Count; fld_idx++) {
 						var folder = folders[fld_idx];
 						StringBuilder content = new StringBuilder();
 						content.Append(folder.Name);
@@ -106,7 +107,7 @@ namespace MoveDronePicture
 					var tab_gcp_points = new ObservableCollection<TabContentsData>();
 					var gcp_points = block.LstGcpPoints;
 					foreach (cGcp gcp in gcp_points) {
-						string content = gcp.Name + "：" +gcp.Lat.ToString() + "／" + gcp.Lon.ToString();
+						string content = gcp.Name + "：" + gcp.Lat.ToString() + "／" + gcp.Lon.ToString();
 						tab_gcp_points.Add(new TabContentsData() { TabContent = content });
 					}
 
@@ -261,7 +262,7 @@ namespace MoveDronePicture
 			for (int idx = 0; idx < _objCtrlImgItem._ImgItem.Count; idx++) {
 				var data = _objCtrlImgItem._ImgItem[idx];
 				string date = data.YYYYMMDD;
-				if (!dicCsv.ContainsKey(date)){
+				if (!dicCsv.ContainsKey(date)) {
 					dicCsv.Add(date, new StringBuilder());
 					dicCsv[date].Append(getCsv_Header());
 					dicCsv[date].Append(",");
@@ -311,7 +312,7 @@ namespace MoveDronePicture
 				str_output_center.AppendLine();
 
 				// 領域エリア点
-				for(int pnt_idx = 0; pnt_idx < block.LstPolyPoints.Count; pnt_idx++) {
+				for (int pnt_idx = 0; pnt_idx < block.LstPolyPoints.Count; pnt_idx++) {
 					var point = block.LstPolyPoints[pnt_idx];
 					str_output_poly_points.Append(str_title + "_" + pnt_idx.ToString());
 					str_output_poly_points.Append(",");
@@ -358,14 +359,7 @@ namespace MoveDronePicture
 			var btn = (Button)sender;
 
 			// 押下グループボックスの登録ブロック取得
-			cBlock blk_target = null;
-			for (int blk_idx = 0; blk_idx < _objJson.LstBlocks.Count; blk_idx++) {
-				cBlock blk_search = _objJson.LstBlocks[blk_idx];
-				if (btn.Content.ToString() == blk_search.HeaderName) {
-					blk_target = blk_search;
-					break;
-				}
-			}
+			cBlock blk_target = _objJson.LstBlocks.Find(x => x.HeaderName == btn.Content.ToString()); ;
 
 			// 表示なしの場合 -> 表示
 			if (!_dicGoogleMap.ContainsKey(blk_target.HeaderName)) {
@@ -375,7 +369,7 @@ namespace MoveDronePicture
 				_dicGoogleMap.Add(blk_target.HeaderName, page);
 			}
 		}
-		
+
 
 		private void DelegateGoogleMapClosing(string str_target_key_) {
 			if (_dicGoogleMap.ContainsKey(str_target_key_)) {
