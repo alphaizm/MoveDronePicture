@@ -1,21 +1,17 @@
 ﻿// INotifyPropertyChanged notifCies the View of property changes, so that Bindings are updated.
 
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Data;
 
 namespace MoveDronePicture
 {
-	public sealed class cCtrlGcpData
+	public sealed class cCtrlGcpItem
 	{
 		public ObservableCollection<cGcpItem> _GcpItem { get; }
 
-		public cCtrlGcpData() {
+		public cCtrlGcpItem() {
 			_GcpItem = new ObservableCollection<cGcpItem>();
 			// 複数スレッドからコレクション操作できるようにする
 			BindingOperations.EnableCollectionSynchronization(_GcpItem, new object());

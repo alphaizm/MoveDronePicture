@@ -31,7 +31,7 @@ namespace MoveDronePicture
 		private System.Windows.Point _start_point;
 		private System.Windows.Point _crrnt_point;
 
-		public cCtrlGcpData _ObjCtrlGcpData;
+		public cCtrlGcpItem _ObjCtrlGcpData;
 
 		public GcpEditor() {
 			InitializeComponent();
@@ -39,7 +39,7 @@ namespace MoveDronePicture
 
 		public GcpEditor(string file_path_, cBlock blk_target_, Callback callback_) {
 			InitializeComponent();
-			_ObjCtrlGcpData = new cCtrlGcpData();
+			_ObjCtrlGcpData = new cCtrlGcpItem();
 			_callback = callback_;
 			m_lstVw_GcpPoint.ItemsSource = blk_target_.LstGcpPoints;
 			m_lstVw_GcpList.DataContext = _ObjCtrlGcpData._GcpItem;
