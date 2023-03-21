@@ -46,7 +46,6 @@ namespace MoveDronePicture
 
 			using (Mat png = new Mat(file_path_)) {
 				m_img_png.Source = WriteableBitmapConverter.ToWriteableBitmap(png);
-				
 			}
 
 			this.Title = "GcpEditor：" + System.IO.Path.GetFileName(file_path_);
@@ -54,8 +53,11 @@ namespace MoveDronePicture
 
 		private void Window_Loaded(object sender, RoutedEventArgs e) {
 			// 拡大上限、縮小下限の設定
-			_min_height = m_cnvs.Height * 0.8;
+			_min_height = m_cnvs.Height * 0.7;
 			_max_height = m_cnvs.Height * 20.0;
+
+			m_img_png.Height = m_img_png.ActualHeight * 0.77;
+			m_img_png.Width = m_img_png.ActualWidth * 0.77;
 		}
 
 		private void m_scrlVw_PreviewMouseWheel(object sender, MouseWheelEventArgs e) {

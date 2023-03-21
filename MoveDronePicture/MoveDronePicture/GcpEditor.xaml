@@ -5,13 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MoveDronePicture"
         mc:Ignorable="d"
-        Title="GcpEditor" Height="450" Width="800"
+        Title="GcpEditor" Height="1000" Width="1600"
         Loaded="Window_Loaded"
         >
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
-            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="320"/>
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
