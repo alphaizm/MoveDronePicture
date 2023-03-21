@@ -121,7 +121,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="CtrlPicData.cs" />
+    <Compile Include="CtrlImgItem.cs" />
     <Compile Include="GcpEditor.xaml.cs">
       <DependentUpon>GcpEditor.xaml</DependentUpon>
     </Compile>

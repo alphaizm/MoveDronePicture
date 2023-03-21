@@ -29,15 +29,15 @@ namespace MoveDronePicture
 	{
 		const string JSON_FILE = "Setting.json";
 		cJsonBase _ObjJson;
-		cCtrlPicData _ObjCtrlPicData;
+		cCtrlImgItem _ObjCtrlPicData;
 		ObservableCollection<GuiItem> _ObjItems { get; set; }
 		Dictionary<string, GoogleMap> _DicGoogleMap = new Dictionary<string, GoogleMap>();
 
 		public MainWindow() {
 			InitializeComponent();
 
-			_ObjCtrlPicData = new cCtrlPicData();
-			m_lstVw_FilesSrc.DataContext = _ObjCtrlPicData._PicData;
+			_ObjCtrlPicData = new cCtrlImgItem();
+			m_lstVw_FilesSrc.DataContext = _ObjCtrlPicData._ImgItem;
 
 			_ObjItems = new ObservableCollection<GuiItem>();
 			m_itemCtrl.DataContext = _ObjItems;
@@ -258,8 +258,8 @@ namespace MoveDronePicture
 
 			Dictionary<string, StringBuilder> dicCsv = new Dictionary<string, StringBuilder>();
 
-			for (int idx = 0; idx < _ObjCtrlPicData._PicData.Count; idx++) {
-				var data = _ObjCtrlPicData._PicData[idx];
+			for (int idx = 0; idx < _ObjCtrlPicData._ImgItem.Count; idx++) {
+				var data = _ObjCtrlPicData._ImgItem[idx];
 				string date = data.YYYYMMDD;
 				if (!dicCsv.ContainsKey(date)){
 					dicCsv.Add(date, new StringBuilder());
@@ -385,7 +385,7 @@ namespace MoveDronePicture
 
 		private void ListViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
 			var lstvwiitem = sender as ListViewItem;
-			var pic_data = lstvwiitem.Content as cPicData;
+			var pic_data = lstvwiitem.Content as cImgItem;
 
 			//	ToDo：暫定でブロック３を指定、後でブロックを指定
 			var page = new GcpEditor(pic_data.ImgPath, _ObjJson.LstBlocks[3], null);

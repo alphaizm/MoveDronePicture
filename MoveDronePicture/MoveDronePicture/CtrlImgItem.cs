@@ -10,16 +10,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
 
 namespace MoveDronePicture
 {
 	/// <summary>
 	/// 写真ファイル通知用クラスの管理
 	/// </summary>
-	public sealed class cCtrlPicData
+	public sealed class cCtrlImgItem
 	{
-		public ObservableCollection<cPicData> _PicData { get; }
+		public ObservableCollection<cImgItem> _ImgItem { get; }
 
 		private ProgressBar _bar;
 		private Label _label;
@@ -30,10 +29,10 @@ namespace MoveDronePicture
 
 		private string _fileNameRep;
 
-		public cCtrlPicData() {
-			_PicData = new ObservableCollection<cPicData>();
+		public cCtrlImgItem() {
+			_ImgItem = new ObservableCollection<cImgItem>();
 			// 複数スレッドからコレクション操作できるようにする
-			BindingOperations.EnableCollectionSynchronization(_PicData, new object());
+			BindingOperations.EnableCollectionSynchronization(_ImgItem, new object());
 		}
 
 		public void SetProgressBar(ProgressBar bar_) {
@@ -60,7 +59,7 @@ namespace MoveDronePicture
 										Dictionary<string, GoogleMap> dic_maps
 									) {
 
-			_PicData.Clear();
+			_ImgItem.Clear();
 
 			// ボタン無効
 			UpdateBtnState(false);
@@ -76,15 +75,15 @@ namespace MoveDronePicture
 
 				//  非同期処理で読み取り
 				var path = ary_pathes_[img_idx];
-				await Task.Run(() => _PicData.Add(new cPicData(path, _fileNameRep)));
+				await Task.Run(() => _ImgItem.Add(new cImgItem(path, _fileNameRep)));
 
 				foreach (KeyValuePair<string, GoogleMap> map in dic_maps) {
-					bool chk = await map.Value.chkInsideArea(_PicData[img_idx].Lat, _PicData[img_idx].Lon);
+					bool chk = await map.Value.chkInsideArea(_ImgItem[img_idx].Lat, _ImgItem[img_idx].Lon);
 					if (chk) {
-						map.Value.addMarker(_PicData[img_idx].Lat, _PicData[img_idx].Lon, _PicData[img_idx].ImgName);
-						string str_height = map.Value.getHeightFolder(_PicData[img_idx].ChkHeight);
-						_PicData[img_idx].SetCopyServerPath(str_dst_copy_server_dir_, map.Value.getNasFolder(), str_height, map.Value.getTargetFileName());
-						_PicData[img_idx].SetMoveLocalPath(str_dst_move_local_dir_, map.Key, str_height, map.Value.getTargetFileName());
+						map.Value.addMarker(_ImgItem[img_idx].Lat, _ImgItem[img_idx].Lon, _ImgItem[img_idx].ImgName);
+						string str_height = map.Value.getHeightFolder(_ImgItem[img_idx].ChkHeight);
+						_ImgItem[img_idx].SetCopyServerPath(str_dst_copy_server_dir_, map.Value.getNasFolder(), str_height, map.Value.getTargetFileName());
+						_ImgItem[img_idx].SetMoveLocalPath(str_dst_move_local_dir_, map.Key, str_height, map.Value.getTargetFileName());
 					}
 				}
 			}
@@ -97,15 +96,15 @@ namespace MoveDronePicture
 			// ボタン無効
 			UpdateBtnState(false);
 
-			int digit = InitBar(_PicData.Count);
+			int digit = InitBar(_ImgItem.Count);
 
-			for (int img_idx = 0; img_idx < _PicData.Count; img_idx++) {
+			for (int img_idx = 0; img_idx < _ImgItem.Count; img_idx++) {
 				//  プログレスバー、ラベル更新
 				int cnt = img_idx + 1;
 				_bar.Value = cnt;
-				_label.Content = cnt.ToString("D" + digit) + " / " + _PicData.Count.ToString("D");
+				_label.Content = cnt.ToString("D" + digit) + " / " + _ImgItem.Count.ToString("D");
 
-				var pic_data = _PicData[img_idx];
+				var pic_data = _ImgItem[img_idx];
 				string path = pic_data.CopyServerPath;
 				if ("" != path) {
 					Directory.GetParent(path).Create();
@@ -122,15 +121,15 @@ namespace MoveDronePicture
 			// ボタン無効
 			UpdateBtnState(false);
 
-			int digit = InitBar(_PicData.Count);
+			int digit = InitBar(_ImgItem.Count);
 
-			for (int img_idx = 0; img_idx < _PicData.Count; img_idx++) {
+			for (int img_idx = 0; img_idx < _ImgItem.Count; img_idx++) {
 				//  プログレスバー、ラベル更新
 				int cnt = img_idx + 1;
 				_bar.Value = cnt;
-				_label.Content = cnt.ToString("D" + digit) + " / " + _PicData.Count.ToString("D");
+				_label.Content = cnt.ToString("D" + digit) + " / " + _ImgItem.Count.ToString("D");
 
-				var pic_data = _PicData[img_idx];
+				var pic_data = _ImgItem[img_idx];
 				if ("" != pic_data.MoveLocalPath) {
 					Directory.GetParent(pic_data.MoveLocalPath).Create();
 					await Task.Run(() => File.Copy(pic_data.ImgPath, pic_data.MoveLocalPath));
@@ -164,7 +163,7 @@ namespace MoveDronePicture
 	/// <summary>
 	/// 写真ファイル通知用クラス
 	/// </summary>
-	public sealed class cPicData : INotifyPropertyChanged
+	public sealed class cImgItem : INotifyPropertyChanged
 	{
 		private string _ImgPath;
 		private string _CopyServerPath;
@@ -184,7 +183,7 @@ namespace MoveDronePicture
 		const int ID_HEIGHT = 0x0006;
 		const int ID_DATE = 0x9004;
 
-		public cPicData(string str_path_, string str_file_name_rep_) {
+		public cImgItem(string str_path_, string str_file_name_rep_) {
 			_ImgPath = str_path_;
 			_Lat = 0;
 			_Lon = 0;
