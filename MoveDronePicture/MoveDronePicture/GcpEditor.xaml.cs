@@ -53,6 +53,7 @@ namespace MoveDronePicture
 		}
 
 		private void Window_Loaded(object sender, RoutedEventArgs e) {
+			// 拡大上限、縮小下限の設定
 			_min_height = m_cnvs.Height * 0.8;
 			_max_height = m_cnvs.Height * 20.0;
 		}
