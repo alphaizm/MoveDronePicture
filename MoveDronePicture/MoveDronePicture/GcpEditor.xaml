@@ -37,6 +37,7 @@
                        MouseLeftButtonUp="m_img_png_MouseLeftButtonUp"
                        MouseLeave="m_img_png_MouseLeave"
                        MouseMove="m_img_png_MouseMove"
+                       MouseRightButtonUp="m_img_png_MouseRightButtonUp"
                        />
             </Canvas>
         </ScrollViewer>
@@ -64,5 +65,19 @@
                Content="■GcpList出力" Margin="0"  HorizontalContentAlignment="Left" VerticalContentAlignment="Top"
                                                 HorizontalAlignment="Left" VerticalAlignment="Top"
                 />
+
+        <ListView x:Name="m_lstVw_GcpList"     Grid.Column="1" Grid.Row="4"
+                  ItemsSource="{Binding}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="GCP名" DisplayMemberBinding="{Binding Name}" />
+                    <GridViewColumn Header="GcpX" DisplayMemberBinding="{Binding GcpX}" />
+                    <GridViewColumn Header="GcpY" DisplayMemberBinding="{Binding GcpY}"/>
+                    <GridViewColumn Header="GcpH" DisplayMemberBinding="{Binding GcpH}"/>
+                    <GridViewColumn Header="ImgX" DisplayMemberBinding="{Binding ImgX}"/>
+                    <GridViewColumn Header="ImgY" DisplayMemberBinding="{Binding ImgY}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
     </Grid>
 </Window>

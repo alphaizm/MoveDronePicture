@@ -125,6 +125,7 @@
     <Compile Include="GcpEditor.xaml.cs">
       <DependentUpon>GcpEditor.xaml</DependentUpon>
     </Compile>
+    <Compile Include="GcpItem.cs" />
     <Compile Include="GoogleMap.xaml.cs">
       <DependentUpon>GoogleMap.xaml</DependentUpon>
     </Compile>

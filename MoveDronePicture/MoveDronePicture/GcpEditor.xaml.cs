@@ -30,14 +30,19 @@ namespace MoveDronePicture
 		private bool _is_mouse_down = false;
 		private System.Windows.Point _start_point;
 		private System.Windows.Point _crrnt_point;
+
+		public cCtrlGcpData _ObjCtrlGcpData;
+
 		public GcpEditor() {
 			InitializeComponent();
 		}
 
 		public GcpEditor(string file_path_, cBlock blk_target_, Callback callback_) {
 			InitializeComponent();
+			_ObjCtrlGcpData = new cCtrlGcpData();
 			_callback = callback_;
 			m_lstVw_GcpPoint.ItemsSource = blk_target_.LstGcpPoints;
+			m_lstVw_GcpList.DataContext = _ObjCtrlGcpData._GcpItem;
 
 			using (Mat png = new Mat(file_path_)) {
 				m_img_png.Source = WriteableBitmapConverter.ToWriteableBitmap(png);
@@ -133,6 +138,10 @@ namespace MoveDronePicture
 			_start_point = _crrnt_point;
 
 			e.Handled = true;
+		}
+
+		private void m_img_png_MouseRightButtonUp(object sender, MouseButtonEventArgs e) {
+			_ObjCtrlGcpData._GcpItem.Add(new cGcpItem());
 		}
 	}
 }
