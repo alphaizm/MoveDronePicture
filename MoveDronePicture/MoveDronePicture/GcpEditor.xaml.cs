@@ -14,6 +14,7 @@ namespace MoveDronePicture
 	{
 		public delegate void Callback(string str_target_key_);
 		private Callback _callback;
+		private string _target_key;
 		private double _minHeight = 0;
 		private double _maxHeight = 0;
 		private bool _isMouseDown = false;
@@ -30,6 +31,7 @@ namespace MoveDronePicture
 			InitializeComponent();
 			_ObjCtrlGcpItem = new cCtrlGcpItem();
 			_callback = callback_;
+			_target_key = System.IO.Path.GetFileName(file_path_);
 			m_lstVw_GcpPoint.ItemsSource = blk_target_.LstGcpPoints;
 			m_lstVw_GcpList.DataContext = _ObjCtrlGcpItem._GcpItem;
 
@@ -37,7 +39,7 @@ namespace MoveDronePicture
 				m_img_png.Source = WriteableBitmapConverter.ToWriteableBitmap(png);
 			}
 
-			this.Title = "GcpEditor：" + System.IO.Path.GetFileName(file_path_);
+			this.Title = "GcpEditor：" + _target_key;
 		}
 
 		private void Window_Loaded(object sender, RoutedEventArgs e) {
@@ -143,6 +145,10 @@ namespace MoveDronePicture
 			var pos = e.GetPosition(m_img_png);
 			_ObjCtrlGcpItem._GcpItem.Add(new cGcpItem(obj_point.Name, obj_point.Lat, obj_point.Lon, pos.X, pos.Y));
 			//_ObjCtrlGcpData._GcpItem.Add(new cGcpItem());
+		}
+
+		private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
+			_callback(_target_key);
 		}
 	}
 }

@@ -211,6 +211,12 @@ namespace MoveDronePicture
 			for (int idx = 0; idx < maps.Length; idx++) {
 				maps[idx].Close();
 			}
+
+			// GcpEditor消去
+			var editors = _dicGcpEditor.Values.ToArray();
+			for(int idx = 0; idx < editors.Length; idx++) {
+				editors[idx].Close();
+			}
 		}
 
 		private void m_btn_DirUpdate_Click(object sender, RoutedEventArgs e) {
@@ -384,8 +390,13 @@ namespace MoveDronePicture
 
 			//	指定圃場の登録ブロック取得
 			cBlock blk_target = _objJson.LstBlocks.Find(x => x.HeaderName == img_item.Field);
-			var page = new GcpEditor(img_item.ImgPath, blk_target, DelegateGcpEditorClosing);
-			page.Show();
+
+			if (!_dicGcpEditor.ContainsKey(img_item.ImgName)) {
+				var page = new GcpEditor(img_item.ImgPath, blk_target, DelegateGcpEditorClosing);
+				page.Show();
+
+				_dicGcpEditor.Add(img_item.ImgName, page);
+			}
 		}
 
 		private void DelegateGcpEditorClosing(string str_target_key_) {
