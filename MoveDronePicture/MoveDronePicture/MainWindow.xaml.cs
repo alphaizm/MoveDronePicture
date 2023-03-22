@@ -33,6 +33,7 @@ namespace MoveDronePicture
 		cCtrlImgItem _objCtrlImgItem;
 		ObservableCollection<GuiItem> _objItems { get; set; }
 		Dictionary<string, GoogleMap> _dicGoogleMap = new Dictionary<string, GoogleMap>();
+		Dictionary<string, GcpEditor> _dicGcpEditor = new Dictionary<string, GcpEditor>();
 
 		public MainWindow() {
 			InitializeComponent();
@@ -378,12 +379,19 @@ namespace MoveDronePicture
 		}
 
 		private void ListViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
-			var lstvwiitem = sender as ListViewItem;
-			var pic_data = lstvwiitem.Content as cImgItem;
+			var lstvw_item = sender as ListViewItem;
+			var img_item = (cImgItem)lstvw_item.Content;
 
-			//	ToDo：暫定でブロック３を指定、後でブロックを指定
-			var page = new GcpEditor(pic_data.ImgPath, _objJson.LstBlocks[3], null);
+			//	指定圃場の登録ブロック取得
+			cBlock blk_target = _objJson.LstBlocks.Find(x => x.HeaderName == img_item.Field);
+			var page = new GcpEditor(img_item.ImgPath, blk_target, DelegateGcpEditorClosing);
 			page.Show();
+		}
+
+		private void DelegateGcpEditorClosing(string str_target_key_) {
+			if (_dicGcpEditor.ContainsKey(str_target_key_)) {
+				_dicGcpEditor.Remove(str_target_key_);
+			}
 		}
 	}
 }
