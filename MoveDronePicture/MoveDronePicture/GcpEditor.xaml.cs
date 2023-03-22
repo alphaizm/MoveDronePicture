@@ -21,7 +21,7 @@ namespace MoveDronePicture
 		private System.Windows.Point _startPoint;
 		private System.Windows.Point _crrntPoint;
 
-		public cCtrlGcpItem _ObjCtrlGcpItem;
+		public cCtrlGcpItem _objCtrlGcpItem;
 
 		public GcpEditor() {
 			InitializeComponent();
@@ -29,11 +29,11 @@ namespace MoveDronePicture
 
 		public GcpEditor(string file_path_, cBlock blk_target_, Callback callback_) {
 			InitializeComponent();
-			_ObjCtrlGcpItem = new cCtrlGcpItem();
+			_objCtrlGcpItem = new cCtrlGcpItem();
 			_callback = callback_;
 			_target_key = System.IO.Path.GetFileName(file_path_);
 			m_lstVw_GcpPoint.ItemsSource = blk_target_.LstGcpPoints;
-			m_lstVw_GcpList.DataContext = _ObjCtrlGcpItem._GcpItem;
+			m_lstVw_GcpList.DataContext = _objCtrlGcpItem._GcpItem;
 
 			using (Mat png = new Mat(file_path_)) {
 				m_img_png.Source = WriteableBitmapConverter.ToWriteableBitmap(png);
@@ -143,7 +143,7 @@ namespace MoveDronePicture
 
 			// 右クリック位置取得
 			var pos = e.GetPosition(m_img_png);
-			_ObjCtrlGcpItem._GcpItem.Add(new cGcpItem(obj_point.Name, obj_point.Lat, obj_point.Lon, pos.X, pos.Y));
+			_objCtrlGcpItem._GcpItem.Add(new cGcpItem(obj_point.Name, obj_point.Lat, obj_point.Lon, pos.X, pos.Y));
 			//_ObjCtrlGcpData._GcpItem.Add(new cGcpItem());
 		}
 
