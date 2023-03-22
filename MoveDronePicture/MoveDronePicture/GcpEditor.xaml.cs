@@ -1,6 +1,9 @@
 ﻿using OpenCvSharp;
 using OpenCvSharp.WpfExtensions;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
+using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -21,6 +24,8 @@ namespace MoveDronePicture
 		private System.Windows.Point _startPoint;
 		private System.Windows.Point _crrntPoint;
 
+		private List<string> _lstEntry;
+
 		public cCtrlGcpItem _objCtrlGcpItem;
 
 		public GcpEditor() {
@@ -29,6 +34,7 @@ namespace MoveDronePicture
 
 		public GcpEditor(string file_path_, cBlock blk_target_, Callback callback_) {
 			InitializeComponent();
+			_lstEntry = new List<string>();
 			_objCtrlGcpItem = new cCtrlGcpItem();
 			_callback = callback_;
 			_target_key = System.IO.Path.GetFileName(file_path_);
@@ -143,8 +149,14 @@ namespace MoveDronePicture
 
 			// 右クリック位置取得
 			var pos = e.GetPosition(m_img_png);
-			_objCtrlGcpItem._GcpItem.Add(new cGcpItem(obj_point.Name, obj_point.Lat, obj_point.Lon, pos.X, pos.Y));
-			//_ObjCtrlGcpData._GcpItem.Add(new cGcpItem());
+
+			string str_name = obj_point.Name;
+
+			// 出力リストに登録登録されてない場合、登録へ
+			if (!_lstEntry.Contains(str_name)) {
+				_objCtrlGcpItem._GcpItem.Add(new cGcpItem(str_name, obj_point.Lat, obj_point.Lon, pos.X, pos.Y));
+				_lstEntry.Add(str_name);
+			}
 		}
 
 		private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
