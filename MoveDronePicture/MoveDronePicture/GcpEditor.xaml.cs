@@ -144,7 +144,7 @@ namespace MoveDronePicture
 			cGcp obj_point = (cGcp)m_lstVw_GcpPoint.SelectedItem;
 
 			//+++++++++++++++++++++++++++++++++++++++++++++
-			// ポイント選択なし
+			// リスト選択なし
 			if (null == obj_point) { return; }
 
 			// 右クリック位置取得
@@ -156,6 +156,20 @@ namespace MoveDronePicture
 			if (!_lstEntry.Contains(str_name)) {
 				_objCtrlGcpItem._GcpItem.Add(new cGcpItem(str_name, obj_point.Lat, obj_point.Lon, pos.X, pos.Y));
 				_lstEntry.Add(str_name);
+			}
+		}
+
+		private void m_lstVw_GcpList_MouseRightButtonUp(object sender, MouseButtonEventArgs e) {
+			cGcpItem obj_item = (cGcpItem)m_lstVw_GcpList.SelectedItem;
+
+			//+++++++++++++++++++++++++++++++++++++++++++++
+			// リスト選択なし
+			if (null == obj_item) { return; }
+
+			// 出力リストに登録されている場合、削除へ
+			if (_lstEntry.Contains(obj_item.Name)) {
+				_objCtrlGcpItem._GcpItem.Remove(obj_item);
+				_lstEntry.Remove(obj_item.Name);
 			}
 		}
 

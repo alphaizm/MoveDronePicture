@@ -67,7 +67,9 @@
                 />
 
         <ListView x:Name="m_lstVw_GcpList"     Grid.Column="1" Grid.Row="4"
-                  ItemsSource="{Binding}">
+                  ItemsSource="{Binding}"
+                  MouseRightButtonUp="m_lstVw_GcpList_MouseRightButtonUp"
+                  >
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="GCP名" DisplayMemberBinding="{Binding Name}" />
