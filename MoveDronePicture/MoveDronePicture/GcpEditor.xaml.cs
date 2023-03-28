@@ -2,6 +2,7 @@
 using OpenCvSharp.WpfExtensions;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -25,6 +26,7 @@ namespace MoveDronePicture
 		private System.Windows.Point _crrntPoint;
 
 		private List<string> _lstEntry;
+		private Mat _orginPng;
 
 		public cCtrlGcpItem _objCtrlGcpItem;
 
@@ -41,9 +43,14 @@ namespace MoveDronePicture
 			m_lstVw_GcpPoint.ItemsSource = blk_target_.LstGcpPoints;
 			m_lstVw_GcpList.DataContext = _objCtrlGcpItem._GcpItem;
 
-			using (Mat png = new Mat(file_path_)) {
-				m_img_png.Source = WriteableBitmapConverter.ToWriteableBitmap(png);
-			}
+			_orginPng = new Mat(file_path_);
+			var bmp_source = WriteableBitmapConverter.ToWriteableBitmap(_orginPng);
+			bmp_source.Freeze();
+			m_img_png.Source = bmp_source;
+			//using (Mat png = new Mat(file_path_)) {
+			//	//m_img_png.Source = WriteableBitmapConverter.ToWriteableBitmap(png);
+			//	m_img_png.Source = BitmapSourceConverter.ToBitmapSource(png);
+			//}
 
 			this.Title = "GcpEditor：" + _target_key;
 		}
@@ -154,6 +161,9 @@ namespace MoveDronePicture
 
 			// 出力リストに登録登録されてない場合、登録へ
 			if (!_lstEntry.Contains(str_name)) {
+
+				//Cv2.Circle(m_img_png.Source, 60, 150, 20, new Scalar(0));
+
 				_objCtrlGcpItem._GcpItem.Add(new cGcpItem(str_name, obj_point.Lat, obj_point.Lon, pos.X, pos.Y));
 				_lstEntry.Add(str_name);
 			}
@@ -174,6 +184,9 @@ namespace MoveDronePicture
 		}
 
 		private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
+			
+			if (null != _orginPng) { _orginPng.Dispose(); }
+
 			_callback(_target_key);
 		}
 	}
