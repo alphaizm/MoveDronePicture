@@ -1,6 +1,9 @@
 ﻿using OpenCvSharp;
+using OpenCvSharp.Features2D;
 using OpenCvSharp.WpfExtensions;
+using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Windows;
@@ -27,6 +30,7 @@ namespace MoveDronePicture
 
 		private List<string> _lstEntry;
 		private Mat _orginPng;
+		private Mat _prossPng;
 
 		public cCtrlGcpItem _objCtrlGcpItem;
 
@@ -43,14 +47,11 @@ namespace MoveDronePicture
 			m_lstVw_GcpPoint.ItemsSource = blk_target_.LstGcpPoints;
 			m_lstVw_GcpList.DataContext = _objCtrlGcpItem._GcpItem;
 
+			_prossPng = null;
 			_orginPng = new Mat(file_path_);
 			var bmp_source = WriteableBitmapConverter.ToWriteableBitmap(_orginPng);
 			bmp_source.Freeze();
 			m_img_png.Source = bmp_source;
-			//using (Mat png = new Mat(file_path_)) {
-			//	//m_img_png.Source = WriteableBitmapConverter.ToWriteableBitmap(png);
-			//	m_img_png.Source = BitmapSourceConverter.ToBitmapSource(png);
-			//}
 
 			this.Title = "GcpEditor：" + _target_key;
 		}
@@ -156,15 +157,32 @@ namespace MoveDronePicture
 
 			// 右クリック位置取得
 			var pos = e.GetPosition(m_img_png);
+			int img_x = (int)Math.Round(pos.X, 0);
+			int img_y = (int)Math.Round(pos.Y, 0);
 
 			string str_name = obj_point.Name;
+
+			if (null != _prossPng) { _prossPng.Dispose(); }
+			_prossPng = _orginPng.Clone();
+
 
 			// 出力リストに登録登録されてない場合、登録へ
 			if (!_lstEntry.Contains(str_name)) {
 
-				//Cv2.Circle(m_img_png.Source, 60, 150, 20, new Scalar(0));
+				Cv2.Circle(
+								_prossPng,
+								img_x, img_y,           // center – 円の中心座標
+								50,                      // radius – 円の半径
+								new Scalar(0, 0, 0),    // color – 円の色
+								-1,                     // thickness – 円の枠線の太さ．負の値の場合，円が塗りつぶされます
+								0                       // lineType – 円の枠線の種類
+							);
 
-				_objCtrlGcpItem._GcpItem.Add(new cGcpItem(str_name, obj_point.Lat, obj_point.Lon, pos.X, pos.Y));
+				var bmp_source = WriteableBitmapConverter.ToWriteableBitmap(_prossPng);
+				bmp_source.Freeze();
+				m_img_png.Source = bmp_source;
+
+				_objCtrlGcpItem._GcpItem.Add(new cGcpItem(str_name, obj_point.Lat, obj_point.Lon, img_x, img_y));
 				_lstEntry.Add(str_name);
 			}
 		}
@@ -186,6 +204,7 @@ namespace MoveDronePicture
 		private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
 			
 			if (null != _orginPng) { _orginPng.Dispose(); }
+			if (null != _prossPng) { _prossPng.Dispose(); }
 
 			_callback(_target_key);
 		}

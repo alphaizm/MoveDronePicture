@@ -24,8 +24,8 @@ namespace MoveDronePicture
 		private double _Lat;
 		private double _Lon;
 		private double _Height;
-		private short _ImgX;
-		private short _ImgY;
+		private int _ImgX;
+		private int _ImgY;
 
 		public cGcpItem() {
 			// 入力値はデバッグ値
@@ -37,13 +37,13 @@ namespace MoveDronePicture
 			_ImgY = 6;
 		}
 
-		public cGcpItem(string name_, double lat_, double lon_, double x_, double y_) {
+		public cGcpItem(string name_, double lat_, double lon_, int x_, int y_) {
 			_Name = name_;
 			_Lat = lat_;
 			_Lon = lon_;
 			_Height = 0;
-			_ImgX = (short)Math.Round(x_, 1);
-			_ImgY = (short)Math.Round(y_, 1);
+			_ImgX = x_;
+			_ImgY = y_;
 		}
 
 		public string Name { get { return _Name; } }
@@ -87,12 +87,12 @@ namespace MoveDronePicture
 		/// <summary>
 		/// 選択画像のX座標
 		/// </summary>
-		public double ImgX { get { return _ImgX; } }
+		public int ImgX { get { return _ImgX; } }
 
 		/// <summary>
 		/// 選択画像のY座標
 		/// </summary>
-		public double ImgY { get { return _ImgY; } }
+		public int ImgY { get { return _ImgY; } }
 
 		public event PropertyChangedEventHandler PropertyChanged;
 		private void NotifyPropertyChanged(string property_name_) {
