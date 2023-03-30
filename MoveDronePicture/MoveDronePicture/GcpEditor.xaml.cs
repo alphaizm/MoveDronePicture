@@ -22,8 +22,11 @@ namespace MoveDronePicture
 		public delegate void Callback(string str_target_key_);
 		private Callback _callback;
 		private string _target_key;
-		private double _minHeight = 0;
-		private double _maxHeight = 0;
+		private int _width = 0;
+		private int _height = 0;
+		private double _minScale = 0;
+		private double _maxScalet = 0;
+		private double _scale = 0;
 		private bool _isMouseDown = false;
 		private System.Windows.Point _startPoint;
 		private System.Windows.Point _crrntPoint;
@@ -53,45 +56,53 @@ namespace MoveDronePicture
 			bmp_source.Freeze();
 			m_img_png.Source = bmp_source;
 
+			_height = _orginPng.Height;
+			_width = _orginPng.Width;
+
 			this.Title = "GcpEditor：" + _target_key;
 		}
 
 		private void Window_Loaded(object sender, RoutedEventArgs e) {
 			// 拡大上限、縮小下限の設定
-			_minHeight = m_cnvs.Height * 0.7;
-			_maxHeight = m_cnvs.Height * 20.0;
+			_minScale = 0.2;
+			_maxScalet = 5.0;
+			_scale = _minScale;
 
-			m_img_png.Height = m_img_png.ActualHeight * 0.77;
-			m_img_png.Width = m_img_png.ActualWidth * 0.77;
+			m_img_png.Height = _height * _scale;
+			m_img_png.Width = _width * _scale;
 		}
 
 		private void m_scrlVw_PreviewMouseWheel(object sender, MouseWheelEventArgs e) {
 			e.Handled = true;              // 後続のイベントを実行しないための処理
 
-			double scale;
+			double scale = _scale;
 			if (0 < e.Delta) {
-				scale = 0.9;  // 10%の倍率で縮小
+				scale -= 0.05;  // 10%の倍率で縮小
+				if (scale < _minScale) {
+					scale = _minScale;
+				}
 			}
 			else {
-				scale = 1.1;  // 10%の倍率で拡大
+				scale += 0.05;  // 10%の倍率で拡大
+				if (_maxScalet < scale) {
+					scale = _maxScalet;
+				}
 			}
 
-			double height = m_img_png.ActualHeight * scale;
+			// 画像の拡大縮小
+			m_img_png.Height = _height * scale;
+			m_img_png.Width = _width * scale;
 
-			// 指定縮尺時のみ有効
-			if ((_minHeight <= height) && (height <= _maxHeight)) {
-				// 画像の拡大縮小
-				m_img_png.Height = m_img_png.ActualHeight * scale;
-				m_img_png.Width = m_img_png.ActualWidth * scale;
+			// マウス位置が中心になるようにスクロールバーの位置を調整
+			// TODO：一定以上のズームになると、スクロールが右下に向かってしまう問題あり
+			System.Windows.Point mouse_point = e.GetPosition(m_scrlVw);
+			double x_bar_offset = (m_scrlVw.HorizontalOffset + mouse_point.X) * scale - mouse_point.X;
+			m_scrlVw.ScrollToHorizontalOffset(x_bar_offset);
 
-				// マウス位置が中心になるようにスクロールバーの位置を調整
-				System.Windows.Point mouse_point = e.GetPosition(m_scrlVw);
-				double x_bar_offset = (m_scrlVw.HorizontalOffset + mouse_point.X) * scale - mouse_point.X;
-				m_scrlVw.ScrollToHorizontalOffset(x_bar_offset);
+			double y_bar_offset = (m_scrlVw.VerticalOffset + mouse_point.Y) * scale - mouse_point.Y;
+			m_scrlVw.ScrollToVerticalOffset(y_bar_offset);
 
-				double y_bar_offset = (m_scrlVw.VerticalOffset + mouse_point.Y) * scale - mouse_point.Y;
-				m_scrlVw.ScrollToVerticalOffset(y_bar_offset);
-			}
+			_scale = scale;
 		}
 
 		private void m_img_png_SizeChanged(object sender, SizeChangedEventArgs e) {
@@ -157,8 +168,8 @@ namespace MoveDronePicture
 
 			// 右クリック位置取得
 			var pos = e.GetPosition(m_img_png);
-			int img_x = (int)Math.Round(pos.X, 0);
-			int img_y = (int)Math.Round(pos.Y, 0);
+			int img_x = (int)Math.Round((pos.X / _scale), 0);
+			int img_y = (int)Math.Round((pos.Y / _scale), 0);
 
 			string str_name = obj_point.Name;
 
@@ -171,8 +182,8 @@ namespace MoveDronePicture
 
 				Cv2.Circle(
 								_prossPng,
-								img_x, img_y,           // center – 円の中心座標
-								50,                      // radius – 円の半径
+								img_x, img_y,			// center – 円の中心座標
+								50,                     // radius – 円の半径
 								new Scalar(0, 0, 0),    // color – 円の色
 								-1,                     // thickness – 円の枠線の太さ．負の値の場合，円が塗りつぶされます
 								0                       // lineType – 円の枠線の種類
@@ -202,7 +213,7 @@ namespace MoveDronePicture
 		}
 
 		private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
-			
+
 			if (null != _orginPng) { _orginPng.Dispose(); }
 			if (null != _prossPng) { _prossPng.Dispose(); }
 
