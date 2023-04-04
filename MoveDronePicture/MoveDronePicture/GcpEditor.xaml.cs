@@ -173,28 +173,13 @@ namespace MoveDronePicture
 
 			string str_name = obj_point.Name;
 
-			if (null != _prossPng) { _prossPng.Dispose(); }
-			_prossPng = _orginPng.Clone();
-
-
 			// 出力リストに登録登録されてない場合、登録へ
 			if (!_lstEntry.Contains(str_name)) {
-
-				Cv2.Circle(
-								_prossPng,
-								img_x, img_y,			// center – 円の中心座標
-								50,                     // radius – 円の半径
-								new Scalar(0, 0, 0),    // color – 円の色
-								-1,                     // thickness – 円の枠線の太さ．負の値の場合，円が塗りつぶされます
-								0                       // lineType – 円の枠線の種類
-							);
-
-				var bmp_source = WriteableBitmapConverter.ToWriteableBitmap(_prossPng);
-				bmp_source.Freeze();
-				m_img_png.Source = bmp_source;
-
 				_objCtrlGcpItem._GcpItem.Add(new cGcpItem(str_name, obj_point.Lat, obj_point.Lon, img_x, img_y));
 				_lstEntry.Add(str_name);
+
+				// 選択場所にポイント登録
+				UpdatePngEntry();
 			}
 		}
 
@@ -209,6 +194,9 @@ namespace MoveDronePicture
 			if (_lstEntry.Contains(obj_item.Name)) {
 				_objCtrlGcpItem._GcpItem.Remove(obj_item);
 				_lstEntry.Remove(obj_item.Name);
+
+				// 残りのポイント登録
+				UpdatePngEntry();
 			}
 		}
 
@@ -218,6 +206,41 @@ namespace MoveDronePicture
 			if (null != _prossPng) { _prossPng.Dispose(); }
 
 			_callback(_target_key);
+		}
+
+		private void UpdatePngEntry() {
+			if (null != _prossPng) { _prossPng.Dispose(); }
+			_prossPng = _orginPng.Clone();
+
+			for (int idx = 0; idx < _objCtrlGcpItem._GcpItem.Count; idx++) {
+				var item = _objCtrlGcpItem._GcpItem[idx];
+
+				Cv2.Circle(
+							_prossPng,
+							item.ImgX, item.ImgY,			// center – 円の中心座標
+							40,								// radius – 円の半径
+							new Scalar(0, 0, 0),			// color – 円の色
+							30,								// thickness – 円の枠線の太さ．負の値の場合，円が塗りつぶされます
+							0								// lineType – 円の枠線の種類
+						);
+
+				Cv2.PutText(
+							_prossPng,
+							item.Name,							// text – 描かれる文字列
+							new OpenCvSharp.Point((item.ImgX + 50), (item.ImgY + 30)),        // org – 文字列の左下角の，画像中の座標
+							HersheyFonts.HersheySimplex,          // fontFace – フォントの種類
+							5,                                  // fontScale – フォントのスケールファクタ
+							new Scalar(0, 0, 0),                // color – 文字列の色
+							10,                                  // thickness – フォントの描画に利用される線の太さ
+							LineTypes.AntiAlias,                // lineType – 線の種類
+							false                               // bottomLeftOrigin – true の場合は画像データの原点が左下，そうでない場合は左上
+						);
+			}
+
+
+			var bmp_source = WriteableBitmapConverter.ToWriteableBitmap(_prossPng);
+			bmp_source.Freeze();
+			m_img_png.Source = bmp_source;
 		}
 	}
 }
