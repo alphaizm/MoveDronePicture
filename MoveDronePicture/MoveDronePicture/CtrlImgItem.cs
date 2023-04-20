@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -196,7 +197,7 @@ namespace MoveDronePicture
 
 			_fileNameRep = str_file_name_rep_;
 
-			_ImgName = Path.GetFileName(str_path_);
+			_ImgName = GetImgName(str_path_);
 			using (Bitmap bmp = new Bitmap(str_path_)) {
 				foreach (var prop in bmp.PropertyItems) {
 					switch (prop.Id) {
@@ -307,6 +308,42 @@ namespace MoveDronePicture
 
 		public string MoveLocalPath {
 			get { return _MoveLocalPath; }
+		}
+
+		/// <summary>
+		/// 画像のファイル名を取得
+		///		DJI製ドローンの場合は以下のようになるため、
+		///		X000の部分を変更するための処理
+		///	※9999以降は対応できていない
+		/// 例）DCIM
+		///		├ 100MEDIA
+		///		｜	├ DJI_0001.JPG
+		///		｜	・・・
+		///		｜	└ DJI_0999.JPG
+		///		├ 101MEDIA
+		///		｜	├ DJI_0001.JPG
+		///		｜	・・・
+		///		｜	└ DJI_0999.JPG
+		///		・・・
+		/// </summary>
+		/// <param name="str_path_"></param>
+		/// <returns></returns>
+		private string GetImgName(string str_path_) {
+			string str_img_name = Path.GetFileName(str_path_);
+
+			string str_x000 = "0";
+			var folder_num = Regex.Match(str_path_, @"\dMEDIA");
+			if (folder_num.Success) {
+				str_x000 = folder_num.Value.Substring(0, 1);
+			}
+
+			string str_0xxx = "000";
+			var file_num = Regex.Match(str_img_name, @"\d{4}");
+			if (file_num.Success) {
+				str_0xxx = file_num.Value.Substring(1, 3);
+			}
+
+			return ("DJI_" + str_x000 + str_0xxx + ".JPG");
 		}
 
 		private double GetDecLatLon(byte[] ary_value_) {
