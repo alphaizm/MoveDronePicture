@@ -329,21 +329,23 @@ namespace MoveDronePicture
 		/// <param name="str_path_"></param>
 		/// <returns></returns>
 		private string GetImgName(string str_path_) {
-			string str_img_name = Path.GetFileName(str_path_);
+			string str_ret = Path.GetFileName(str_path_);
 
 			string str_x000 = "0";
 			var folder_num = Regex.Match(str_path_, @"\dMEDIA");
 			if (folder_num.Success) {
 				str_x000 = folder_num.Value.Substring(0, 1);
+
+				string str_0xxx = "000";
+				var file_num = Regex.Match(str_ret, @"\d{4}");
+				if (file_num.Success) {
+					str_0xxx = file_num.Value.Substring(1, 3);
+				}
+
+				str_ret = "DJI_" + str_x000 + str_0xxx + ".JPG";
 			}
 
-			string str_0xxx = "000";
-			var file_num = Regex.Match(str_img_name, @"\d{4}");
-			if (file_num.Success) {
-				str_0xxx = file_num.Value.Substring(1, 3);
-			}
-
-			return ("DJI_" + str_x000 + str_0xxx + ".JPG");
+			return str_ret;
 		}
 
 		private double GetDecLatLon(byte[] ary_value_) {
