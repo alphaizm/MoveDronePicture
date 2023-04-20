@@ -84,7 +84,7 @@ namespace MoveDronePicture
 						string str_height = map.Value.getHeightFolder(_ImgItem[img_idx].ChkHeight);
 						_ImgItem[img_idx].SetCopyServerPath(str_dst_copy_server_dir_, map.Value.getNasFolder(), str_height, map.Value.getTargetFileName());
 						_ImgItem[img_idx].SetMoveLocalPath(str_dst_move_local_dir_, map.Key, str_height, map.Value.getTargetFileName());
-						_ImgItem[img_idx].SetField(map.Key);
+						_ImgItem[img_idx].Field = map.Key;
 					}
 				}
 			}
@@ -264,10 +264,6 @@ namespace MoveDronePicture
 			_MoveLocalPath = Path.Combine(lst_str.ToArray());
 		}
 
-		public void SetField(string str_field_) {
-			_Field = str_field_;
-		}
-
 		public string ImgPath {
 			get { return _ImgPath; }
 		}
@@ -298,6 +294,7 @@ namespace MoveDronePicture
 
 		public string Field {
 			get { return _Field; }
+			set { _Field = value; }
 		}
 
 		public double ChkHeight {
