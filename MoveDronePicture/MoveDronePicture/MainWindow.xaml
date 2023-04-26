@@ -67,6 +67,11 @@
             <Label      Grid.Row="3"                Grid.Column="0"     Grid.ColumnSpan="2" Content="xxxxx / xxxxx"
                                         x:Name="m_lbl_ProgressBar"      HorizontalAlignment="Right"
                     />
+            <Button     Grid.Row="3"                Grid.Column="3"                         Content="一括表示" 
+                                        x:Name="m_btn_BatchOpenWindow"  IsEnabled="False"
+                                        Click="m_btn_BatchOpenWindow_Click"
+                    />
+            
             <Button     Grid.Row="3"                Grid.Column="4"                         Content="CSV出力" 
                                         x:Name="m_btn_OutputCsv"        IsEnabled="False"
                                         Click="m_btn_OutputCsv_Click"

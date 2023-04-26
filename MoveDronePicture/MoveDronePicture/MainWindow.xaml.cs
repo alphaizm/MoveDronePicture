@@ -125,6 +125,8 @@ namespace MoveDronePicture
 
 					_objItems.Add(gbi);
 				}
+
+				m_btn_BatchOpenWindow.IsEnabled = true;
 			}
 			catch {
 				//  nop
@@ -252,6 +254,12 @@ namespace MoveDronePicture
 			_objCtrlImgItem.CopyPicData2Local();
 		}
 
+		private void m_btn_BatchOpenWindow_Click(object sender, RoutedEventArgs e) {
+			for (int idx = 0; idx < _objJson.LstBlocks.Count; idx++) {
+				FuncShowGoogleMap(_objJson.LstBlocks[idx]);
+			}
+		}
+
 		private void m_btn_OutputCsv_Click(object sender, RoutedEventArgs e) {
 			// ドローン撮影画像の緯度経度データ出力
 			outoutCsv_DroneData();
@@ -362,18 +370,22 @@ namespace MoveDronePicture
 			return str_output.ToString();
 		}
 
-		private void GrpBxHdBtn_Click(object sender, RoutedEventArgs e) {
+		public void GrpBxHdBtn_Click(object sender, RoutedEventArgs e) {
 			var btn = (Button)sender;
 
 			// 押下グループボックスの登録ブロック取得
-			cBlock blk_target = _objJson.LstBlocks.Find(x => x.HeaderName == btn.Content.ToString()); ;
+			cBlock blk_target = _objJson.LstBlocks.Find(x => x.HeaderName == btn.Content.ToString());
 
+			FuncShowGoogleMap(blk_target);
+		}
+
+		private void FuncShowGoogleMap(cBlock block_) {
 			// 表示なしの場合 -> 表示
-			if (!_dicGoogleMap.ContainsKey(blk_target.HeaderName)) {
-				var page = new GoogleMap(blk_target, DelegateGoogleMapClosing);
+			if (!_dicGoogleMap.ContainsKey(block_.HeaderName)) {
+				var page = new GoogleMap(block_, DelegateGoogleMapClosing);
 				page.Show();
 
-				_dicGoogleMap.Add(blk_target.HeaderName, page);
+				_dicGoogleMap.Add(block_.HeaderName, page);
 			}
 		}
 
