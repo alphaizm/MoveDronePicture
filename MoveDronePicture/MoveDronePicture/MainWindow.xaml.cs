@@ -1,5 +1,4 @@
 ﻿#if DEBUG
-//#define OUBPUT_JSON
 #endif
 
 using System;
@@ -20,6 +19,8 @@ using System.Text.Json;
 using System.IO;
 using System.Collections.ObjectModel;
 using System.Net.NetworkInformation;
+using System.Web.UI;
+using System.Windows.Media.Animation;
 
 namespace MoveDronePicture
 {
@@ -135,90 +136,39 @@ namespace MoveDronePicture
 
 		private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
 
-#if OUBPUT_JSON
-            var _ObjJson = new cJsonBase(
-                                            @"E:\DCIM",
-                                            @"C:\_nakada\agri\2022\drone",
-                                            new List<cBlock>() {
-                                                new cBlock(
-                                                    "麦口(林)",
-                                                    new Dictionary<string, double>() {
-                                                        {"雑草診断_10m",10.00 },
-                                                        {"オルソ_20m",20.00 }
-                                                    },
-                                                    new List<cPoint> {
-                                                        new cPoint(36.374585508, 136.546502806),
-                                                        new cPoint(36.374818851, 136.546537629),
-                                                    },
-													new cPoint(36.37466547010662, 136.54670838845954),
-                                                ),
-                                                new cBlock(
-                                                    "麦口(中村)",
-                                                    new Dictionary<string, double>() {
-                                                        {"雑草診断_10m",10.00 },
-                                                        {"オルソ_20m",20.00 }
-                                                    },
-                                                    new List<cPoint> {
-                                                        new cPoint(36.374585508, 136.546502806),
-                                                        new cPoint(36.374818851, 136.546537629),
-                                                    },
-													new cPoint(36.37466547010662, 136.54670838845954),
-                                                ),
-                                                new cBlock(
-                                                    "麦口(中田)",
-                                                    new Dictionary<string, double>() {
-                                                        {"雑草診断_10m",10.00 },
-                                                        {"オルソ_20m",20.00 }
-                                                    },
-                                                    new List<cPoint> {
-                                                        new cPoint(36.374585508, 136.546502806),
-                                                        new cPoint(36.374818851, 136.546537629),
-                                                    },
-													new cPoint(36.37466547010662, 136.54670838845954),
-                                                ),
-                                                new cBlock(
-                                                    "原",
-                                                    new Dictionary<string, double>() {
-                                                        {"雑草診断_10m",10.00 },
-                                                        {"オルソ_20m",20.00 }
-                                                    },
-                                                    new List<cPoint> {
-                                                        new cPoint(36.374585508, 136.546502806),
-                                                        new cPoint(36.374818851, 136.546537629),
-                                                    },
-													new cPoint(36.37466547010662, 136.54670838845954),
-                                                )
-                                            }
-                                        );
-#else
 			if (null == _objJson) {
 				_objJson = new cJsonBase();
 			}
-			_objJson.DirSrc = m_txtBox_DirSrc.Text;
-			_objJson.DirDstServer = m_txtBox_DirDstServer.Text;
-			_objJson.DirDstLocal = m_txtBox_DirDstLocal.Text;
-#endif
-			if (null != _objJson) {
-				var opt = new JsonSerializerOptions {
-					Encoder = System.Text.Encodings.Web.JavaScriptEncoder.Create(System.Text.Unicode.UnicodeRanges.All),
-					WriteIndented = true
-				};
 
-				string str_json = JsonSerializer.Serialize<cJsonBase>(_objJson, opt);
-				File.WriteAllText(JSON_FILE, str_json);
+			// GcpEditor消去
+			var editors = _dicGcpEditor.Values.ToArray();
+			for (int idx = 0; idx < editors.Length; idx++) {
+				editors[idx].Close();
 			}
 
 			// GoogleMap消去
 			var maps = _dicGoogleMap.Values.ToArray();
 			for (int idx = 0; idx < maps.Length; idx++) {
-				maps[idx].Close();
+				var map = maps[idx];
+
+				var block = _objJson.LstBlocks.Find(x => x.HeaderName == map.Title);
+				block.Window.W = map.Width;
+				block.Window.H = map.Height;
+
+				map.Close();
 			}
 
-			// GcpEditor消去
-			var editors = _dicGcpEditor.Values.ToArray();
-			for(int idx = 0; idx < editors.Length; idx++) {
-				editors[idx].Close();
-			}
+			_objJson.DirSrc = m_txtBox_DirSrc.Text;
+			_objJson.DirDstServer = m_txtBox_DirDstServer.Text;
+			_objJson.DirDstLocal = m_txtBox_DirDstLocal.Text;
+
+			var opt = new JsonSerializerOptions {
+				Encoder = System.Text.Encodings.Web.JavaScriptEncoder.Create(System.Text.Unicode.UnicodeRanges.All),
+				WriteIndented = true
+			};
+
+			string str_json = JsonSerializer.Serialize<cJsonBase>(_objJson, opt);
+			File.WriteAllText(JSON_FILE, str_json);
 		}
 
 		private void m_btn_DirUpdate_Click(object sender, RoutedEventArgs e) {
@@ -383,6 +333,8 @@ namespace MoveDronePicture
 			// 表示なしの場合 -> 表示
 			if (!_dicGoogleMap.ContainsKey(block_.HeaderName)) {
 				var page = new GoogleMap(block_, DelegateGoogleMapClosing);
+				page.Width = block_.Window.W;
+				page.Height = block_.Window.H;
 				page.Show();
 
 				_dicGoogleMap.Add(block_.HeaderName, page);
