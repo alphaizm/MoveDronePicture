@@ -72,6 +72,14 @@ namespace MoveDronePicture
 			m_img_png.Width = _width * _scale;
 		}
 
+		private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
+
+			if (null != _orginPng) { _orginPng.Dispose(); }
+			if (null != _prossPng) { _prossPng.Dispose(); }
+
+			_callback(_target_key);
+		}
+
 		private void m_scrlVw_PreviewMouseWheel(object sender, MouseWheelEventArgs e) {
 			e.Handled = true;              // 後続のイベントを実行しないための処理
 
@@ -200,12 +208,8 @@ namespace MoveDronePicture
 			}
 		}
 
-		private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
+		private void m_btn_output_Click(object sender, RoutedEventArgs e) {
 
-			if (null != _orginPng) { _orginPng.Dispose(); }
-			if (null != _prossPng) { _prossPng.Dispose(); }
-
-			_callback(_target_key);
 		}
 
 		private void UpdatePngEntry() {
@@ -242,5 +246,7 @@ namespace MoveDronePicture
 			bmp_source.Freeze();
 			m_img_png.Source = bmp_source;
 		}
+
+		
 	}
 }

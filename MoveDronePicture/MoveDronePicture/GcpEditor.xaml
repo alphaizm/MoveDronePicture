@@ -44,6 +44,7 @@
 
         <Button x:Name="m_btn_output"           Grid.Column="1" Grid.Row="0"
                 Content="出力：'GcpList'"
+                Click="m_btn_output_Click"
                 />
         
         <Label                                  Grid.Column="1" Grid.Row="1"
