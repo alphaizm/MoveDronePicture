@@ -106,10 +106,13 @@ namespace MoveDronePicture
 		public double Lat { get; set; }
 		public double Lon { get; set; }
 
+		public double Hgt { get; set; }
+
 		public cGcp() {
 			Name = "";
 			Lat = 0;
 			Lon = 0;
+			Hgt = 0;
 		}
 	}
 
