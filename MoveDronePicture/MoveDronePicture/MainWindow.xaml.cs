@@ -352,6 +352,13 @@ namespace MoveDronePicture
 			var lstvw_item = sender as ListViewItem;
 			var img_item = (cImgItem)lstvw_item.Content;
 
+			//+++++++++++++++++++++++++++++++++++++++++++++
+			// 圃場チェックなし
+			if("" == img_item.Field) {
+				MessageBox.Show("圃場指定されていません\r\n圃場チェック後にGcpEditorを表示させてください。", "圃場チェックミス", MessageBoxButton.OK, MessageBoxImage.Error); ;
+				return;
+			}
+
 			//	指定圃場の登録ブロック取得
 			cBlock blk_target = _objJson.LstBlocks.Find(x => x.HeaderName == img_item.Field);
 
