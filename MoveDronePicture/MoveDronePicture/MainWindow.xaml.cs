@@ -356,7 +356,7 @@ namespace MoveDronePicture
 			cBlock blk_target = _objJson.LstBlocks.Find(x => x.HeaderName == img_item.Field);
 
 			if (!_dicGcpEditor.ContainsKey(img_item.ImgName)) {
-				var page = new GcpEditor(img_item.ImgPath, blk_target, DelegateGcpEditorClosing);
+				var page = new GcpEditor(img_item, blk_target, DelegateGcpEditorClosing);
 				page.Show();
 
 				_dicGcpEditor.Add(img_item.ImgName, page);

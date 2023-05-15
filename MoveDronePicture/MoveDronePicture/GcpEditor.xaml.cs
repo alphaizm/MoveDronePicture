@@ -41,17 +41,17 @@ namespace MoveDronePicture
 			InitializeComponent();
 		}
 
-		public GcpEditor(string file_path_, cBlock blk_target_, Callback callback_) {
+		public GcpEditor(cImgItem img_item_, cBlock blk_target_, Callback callback_) {
 			InitializeComponent();
 			_lstEntry = new List<string>();
 			_objCtrlGcpItem = new cCtrlGcpItem();
 			_callback = callback_;
-			_target_key = System.IO.Path.GetFileName(file_path_);
+			_target_key = System.IO.Path.GetFileName(img_item_.ImgPath);
 			m_lstVw_GcpPoint.ItemsSource = blk_target_.LstGcpPoints;
 			m_lstVw_GcpList.DataContext = _objCtrlGcpItem._GcpItem;
 
 			_prossPng = null;
-			_orginPng = new Mat(file_path_);
+			_orginPng = new Mat(img_item_.ImgPath);
 			var bmp_source = WriteableBitmapConverter.ToWriteableBitmap(_orginPng);
 			bmp_source.Freeze();
 			m_img_png.Source = bmp_source;
