@@ -1,16 +1,11 @@
 ﻿using OpenCvSharp;
-using OpenCvSharp.Features2D;
 using OpenCvSharp.WpfExtensions;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Net.NetworkInformation;
+using System.IO;
 using System.Windows;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-
 
 namespace MoveDronePicture
 {
@@ -35,6 +30,9 @@ namespace MoveDronePicture
 		private Mat _orginPng;
 		private Mat _prossPng;
 
+		private string _pathGcpList;
+		private string _fileLocalImg;
+
 		public cCtrlGcpItem _objCtrlGcpItem;
 
 		public GcpEditor() {
@@ -58,6 +56,12 @@ namespace MoveDronePicture
 
 			_height = _orginPng.Height;
 			_width = _orginPng.Width;
+
+			_pathGcpList = Path.Combine(
+											Path.GetDirectoryName(img_item_.MoveLocalPath),
+											"_" + img_item_.YYYYMMDD + "_" + blk_target_.TargetFileName + "_GcpList.txt"
+										);
+			_fileLocalImg = Path.GetFileName(img_item_.MoveLocalPath);
 
 			this.Title = "GcpEditor：" + _target_key;
 		}
