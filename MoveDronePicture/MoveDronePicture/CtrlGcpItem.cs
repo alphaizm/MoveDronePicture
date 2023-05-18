@@ -16,6 +16,16 @@ namespace MoveDronePicture
 			// 複数スレッドからコレクション操作できるようにする
 			BindingOperations.EnableCollectionSynchronization(_GcpItem, new object());
 		}
+
+		public bool ContainName(string name_) {
+			foreach(var item in _GcpItem) {
+				if (item.Name == name_) {
+					return true;
+				}
+			}
+
+			return false;
+		}
 	}
 
 	public sealed class cGcpItem : INotifyPropertyChanged

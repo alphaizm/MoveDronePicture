@@ -3,6 +3,7 @@ using OpenCvSharp.WpfExtensions;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -26,7 +27,6 @@ namespace MoveDronePicture
 		private System.Windows.Point _startPoint;
 		private System.Windows.Point _crrntPoint;
 
-		private List<string> _lstEntry;
 		private Mat _orginPng;
 		private Mat _prossPng;
 
@@ -41,7 +41,6 @@ namespace MoveDronePicture
 
 		public GcpEditor(cImgItem img_item_, cBlock blk_target_, Callback callback_) {
 			InitializeComponent();
-			_lstEntry = new List<string>();
 			_objCtrlGcpItem = new cCtrlGcpItem();
 			_callback = callback_;
 			_target_key = System.IO.Path.GetFileName(img_item_.ImgPath);
@@ -186,9 +185,8 @@ namespace MoveDronePicture
 			string str_name = obj_point.Name;
 
 			// 出力リストに登録登録されてない場合、登録へ
-			if (!_lstEntry.Contains(str_name)) {
+			if (!_objCtrlGcpItem.ContainName(str_name)) {
 				_objCtrlGcpItem._GcpItem.Add(new cGcpItem(str_name, obj_point.Lat, obj_point.Lon, img_x, img_y));
-				_lstEntry.Add(str_name);
 
 				// 選択場所にポイント登録
 				UpdatePngEntry();
@@ -203,9 +201,8 @@ namespace MoveDronePicture
 			if (null == obj_item) { return; }
 
 			// 出力リストに登録されている場合、削除へ
-			if (_lstEntry.Contains(obj_item.Name)) {
+			if (_objCtrlGcpItem.ContainName(obj_item.Name)) {
 				_objCtrlGcpItem._GcpItem.Remove(obj_item);
-				_lstEntry.Remove(obj_item.Name);
 
 				// 残りのポイント登録
 				UpdatePngEntry();
