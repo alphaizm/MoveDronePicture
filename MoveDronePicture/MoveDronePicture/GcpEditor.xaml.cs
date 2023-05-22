@@ -31,9 +31,10 @@ namespace MoveDronePicture
 		private Mat _prossPng;
 
 		private string _pathGcpList;
-		private string _fileLocalImg;
+		private string _localImgName;
 
 		public cCtrlGcpItem _objCtrlGcpItem;
+		private Dictionary<string, List<cGcpRegistered>> _dicGcpRegistered;
 
 		public GcpEditor() {
 			InitializeComponent();
@@ -42,6 +43,7 @@ namespace MoveDronePicture
 		public GcpEditor(cImgItem img_item_, cBlock blk_target_, Callback callback_) {
 			InitializeComponent();
 			_objCtrlGcpItem = new cCtrlGcpItem();
+			_dicGcpRegistered = new Dictionary<string, List<cGcpRegistered>>();
 			_callback = callback_;
 			_target_key = System.IO.Path.GetFileName(img_item_.ImgPath);
 			m_lstVw_GcpPoint.ItemsSource = blk_target_.LstGcpPoints;
@@ -60,7 +62,7 @@ namespace MoveDronePicture
 											Path.GetDirectoryName(img_item_.MoveLocalPath),
 											"_" + img_item_.YYYYMMDD + "_" + blk_target_.TargetFileName + "_GcpList.txt"
 										);
-			_fileLocalImg = Path.GetFileName(img_item_.MoveLocalPath);
+			_localImgName = Path.GetFileName(img_item_.MoveLocalPath);
 
 			this.Title = "GcpEditor：" + _target_key;
 		}
@@ -188,6 +190,23 @@ namespace MoveDronePicture
 			if (!_objCtrlGcpItem.ContainName(str_name)) {
 				_objCtrlGcpItem._GcpItem.Add(new cGcpItem(str_name, obj_point.Lat, obj_point.Lon, img_x, img_y));
 
+				cGcpRegistered gcp_regist = new cGcpRegistered(
+														_localImgName,
+														obj_point.Lat,
+														obj_point.Lon,
+														obj_point.Hgt,
+														img_x,
+														img_y
+													);
+
+				// 出力データに登録
+				if (!_dicGcpRegistered.ContainsKey(str_name)) {
+					_dicGcpRegistered.Add(str_name, new List<cGcpRegistered>() { gcp_regist });
+				}
+				else {
+					_dicGcpRegistered[str_name].Add(gcp_regist);
+				}
+
 				// 選択場所にポイント登録
 				UpdatePngEntry();
 			}
@@ -200,9 +219,15 @@ namespace MoveDronePicture
 			// リスト選択なし
 			if (null == obj_item) { return; }
 
+			string str_name = obj_item.Name;
+
 			// 出力リストに登録されている場合、削除へ
-			if (_objCtrlGcpItem.ContainName(obj_item.Name)) {
+			if (_objCtrlGcpItem.ContainName(str_name)) {
 				_objCtrlGcpItem._GcpItem.Remove(obj_item);
+
+				// 出力データから削除
+				var obj = _dicGcpRegistered[str_name].FindAll(x => x.ImgName == _localImgName)[0];
+				_dicGcpRegistered[str_name].Remove(obj);
 
 				// 残りのポイント登録
 				UpdatePngEntry();
@@ -210,6 +235,10 @@ namespace MoveDronePicture
 		}
 
 		private void m_btn_output_Click(object sender, RoutedEventArgs e) {
+			StringBuilder str_output = new StringBuilder();
+
+			str_output.AppendLine("EPSG:32654");
+			str_output.AppendLine("#X Y pixcelX pixcelY file");
 
 		}
 
