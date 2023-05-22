@@ -74,9 +74,9 @@
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="GCP名" DisplayMemberBinding="{Binding Name}" />
-                    <GridViewColumn Header="GcpX" DisplayMemberBinding="{Binding GcpX}" />
-                    <GridViewColumn Header="GcpY" DisplayMemberBinding="{Binding GcpY}"/>
-                    <GridViewColumn Header="GcpH" DisplayMemberBinding="{Binding GcpH}"/>
+                    <GridViewColumn Header="Lat" DisplayMemberBinding="{Binding Lat}" />
+                    <GridViewColumn Header="Lon" DisplayMemberBinding="{Binding Lon}"/>
+                    <GridViewColumn Header="Hgt" DisplayMemberBinding="{Binding Height}"/>
                     <GridViewColumn Header="ImgX" DisplayMemberBinding="{Binding ImgX}"/>
                     <GridViewColumn Header="ImgY" DisplayMemberBinding="{Binding ImgY}"/>
                 </GridView>
