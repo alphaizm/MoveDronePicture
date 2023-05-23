@@ -156,7 +156,7 @@ namespace MoveDronePicture
 		/// UTM座標：H
 		/// 例）12.800
 		/// </summary>
-		public double GcpH { get { return _Height; } }
+		public double GcpZ { get { return _Height; } }
 
 		/// <summary>
 		/// 選択画像のX座標
