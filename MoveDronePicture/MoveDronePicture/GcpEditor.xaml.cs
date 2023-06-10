@@ -123,6 +123,12 @@ namespace MoveDronePicture
 			m_cnvs.Width = e.NewSize.Width;
 		}
 
+		/// <summary>
+		/// 【イベント】【キャンバス】左クリック押下
+		/// -> 画像移動開始
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void m_img_png_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
 			_isMouseDown = true;  // 押下中
 
@@ -133,17 +139,35 @@ namespace MoveDronePicture
 			e.Handled = true;   // イベントを処理済みとする（当イベントがこの先伝搬されるのを止めるため）
 		}
 
+		/// <summary>
+		/// 【イベント】【キャンバス】左クリック離す
+		/// -> 画像移動終了
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void m_img_png_MouseLeftButtonUp(object sender, MouseButtonEventArgs e) {
 			_isMouseDown = false;  // 離す
 			e.Handled = true;
 
 		}
 
+		/// <summary>
+		/// 【イベント】【キャンバス】キャンバス外にマウス移動
+		/// -> 画像移動終了
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void m_img_png_MouseLeave(object sender, MouseEventArgs e) {
 			_isMouseDown = false;  // 離す
 			e.Handled = true;
 		}
 
+		/// <summary>
+		/// 【イベント】【キャンバス】マウス移動
+		/// -> 左クリック中は画像移動
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void m_img_png_MouseMove(object sender, MouseEventArgs e) {
 			// 非押下中は処理なし
 			if (!_isMouseDown) { return; }
@@ -172,6 +196,12 @@ namespace MoveDronePicture
 			e.Handled = true;
 		}
 
+		/// <summary>
+		/// 【イベント】【キャンバス】右クリック離す
+		/// -> リスト選択中は、GCPリストに登録
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void m_img_png_MouseRightButtonUp(object sender, MouseButtonEventArgs e) {
 			cGcp obj_point = (cGcp)m_lstVw_GcpPoint.SelectedItem;
 
@@ -212,6 +242,12 @@ namespace MoveDronePicture
 			}
 		}
 
+		/// <summary>
+		/// 【イベント】【GCPリスト】右クリック離す
+		/// -> 登録されているGCPポイントをGCPリストから削除
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void m_lstVw_GcpList_MouseRightButtonUp(object sender, MouseButtonEventArgs e) {
 			cGcpItem obj_item = (cGcpItem)m_lstVw_GcpList.SelectedItem;
 
