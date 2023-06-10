@@ -3,6 +3,7 @@
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Threading;
 using System.Windows.Data;
 
 namespace MoveDronePicture
@@ -98,6 +99,9 @@ namespace MoveDronePicture
 		private double _Lat;
 		private double _Lon;
 		private double _Height;
+		private double _X;
+		private double _Y;
+		private double _Z;
 		private int _ImgX;
 		private int _ImgY;
 
@@ -116,8 +120,14 @@ namespace MoveDronePicture
 			_Lat = lat_;
 			_Lon = lon_;
 			_Height = hgt_;
+			_Z = hgt_;
 			_ImgX = x_;
 			_ImgY = y_;
+
+			double zone;
+			double gam;
+
+			ComMethod.DesToUTM(lat_, lon_, out zone, out _X, out _Y, out gam);
 		}
 
 		public string ImgName { get { return _ImgName; } }
@@ -144,19 +154,19 @@ namespace MoveDronePicture
 		/// UTM座標：X
 		/// 例）487660.487
 		/// </summary>
-		public double GcpX { get { return _Lon; } }
+		public double GcpX { get { return _X; } }
 
 		/// <summary>
 		/// UTM座標：Y
 		/// 例）4227087.754
 		/// </summary>
-		public double GcpY { get { return _Lat; } }
+		public double GcpY { get { return _Y; } }
 
 		/// <summary>
 		/// UTM座標：H
 		/// 例）12.800
 		/// </summary>
-		public double GcpZ { get { return _Height; } }
+		public double GcpZ { get { return _Z; } }
 
 		/// <summary>
 		/// 選択画像のX座標
