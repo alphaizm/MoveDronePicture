@@ -237,9 +237,32 @@ namespace MoveDronePicture
 		private void m_btn_output_Click(object sender, RoutedEventArgs e) {
 			StringBuilder str_output = new StringBuilder();
 
-			str_output.AppendLine("EPSG:32654");
-			str_output.AppendLine("#X Y pixcelX pixcelY file");
+			str_output.AppendLine("EPSG:32653");
+			str_output.AppendLine("#X Y Z pixcelX pixcelY file");
+			foreach (KeyValuePair<string, List<cGcpRegistered>> regist_data in _dicGcpRegistered) {
+				str_output.AppendLine("#" + regist_data.Key.ToString());
 
+				List<cGcpRegistered> lst_gcp_info = regist_data.Value;
+				for (int idx = 0; idx < lst_gcp_info.Count; idx++) {
+					cGcpRegistered gcp_info = lst_gcp_info[idx];
+					StringBuilder str_row = new StringBuilder();
+					str_row.Append(gcp_info.GcpX.ToString());
+					str_row.Append(" ");
+					str_row.Append(gcp_info.GcpY.ToString());
+					str_row.Append(" ");
+					str_row.Append(gcp_info.GcpZ.ToString());
+					str_row.Append(" ");
+					str_row.Append(gcp_info.ImgX.ToString());
+					str_row.Append(" ");
+					str_row.Append(gcp_info.ImgY.ToString());
+					str_row.Append(" ");
+					str_row.Append(gcp_info.ImgName);
+
+					str_output.AppendLine(str_row.ToString());
+				}
+			}
+
+			File.WriteAllText(_pathGcpList, str_output.ToString());
 		}
 
 		private void UpdatePngEntry() {
