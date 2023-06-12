@@ -75,6 +75,9 @@ namespace MoveDronePicture
 
 			m_img_png.Height = _height * _scale;
 			m_img_png.Width = _width * _scale;
+
+			// PreviewKeyDown発生用にフォーカス
+			m_scrlVw.Focus();
 		}
 
 		private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
@@ -83,6 +86,14 @@ namespace MoveDronePicture
 			if (null != _prossPng) { _prossPng.Dispose(); }
 
 			_callback(_target_key);
+		}
+
+		private void m_scrlVw_GotFocus(object sender, RoutedEventArgs e) {
+			m_brd_img.BorderThickness = new Thickness(10);
+		}
+
+		private void m_scrlVw_LostFocus(object sender, RoutedEventArgs e) {
+			m_brd_img.BorderThickness = new Thickness(0);
 		}
 
 		private void m_scrlVw_PreviewMouseWheel(object sender, MouseWheelEventArgs e) {
@@ -118,6 +129,18 @@ namespace MoveDronePicture
 			_scale = scale;
 		}
 
+		private void m_scrlVw_PreviewKeyDown(object sender, KeyEventArgs e) {
+			
+			
+			switch (e.Key) {
+				case Key.Enter:
+					MessageBox.Show("test");
+					break;
+				default:
+					break;
+			}
+		}
+
 		private void m_img_png_SizeChanged(object sender, SizeChangedEventArgs e) {
 			m_cnvs.Height = e.NewSize.Height;
 			m_cnvs.Width = e.NewSize.Width;
@@ -131,6 +154,9 @@ namespace MoveDronePicture
 		/// <param name="e"></param>
 		private void m_img_png_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
 			_isMouseDown = true;  // 押下中
+
+			// PreviewKeyDown発生用にフォーカス
+			m_scrlVw.Focus();
 
 			// GetPositionメソッドで現在のマウス座標を取得し、マウス移動開始点を更新
 			// （マウス座標は、キャンバスからの相対的な位置とする）
@@ -335,7 +361,5 @@ namespace MoveDronePicture
 			bmp_source.Freeze();
 			m_img_png.Source = bmp_source;
 		}
-
-		
 	}
 }
