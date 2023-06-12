@@ -99,42 +99,28 @@ namespace MoveDronePicture
 		private void m_scrlVw_PreviewMouseWheel(object sender, MouseWheelEventArgs e) {
 			e.Handled = true;              // 後続のイベントを実行しないための処理
 
-			double scale = _scale;
-			if (0 < e.Delta) {
-				scale -= 0.05;  // 10%の倍率で縮小
-				if (scale < _minScale) {
-					scale = _minScale;
-				}
-			}
-			else {
-				scale += 0.05;  // 10%の倍率で拡大
-				if (_maxScalet < scale) {
-					scale = _maxScalet;
-				}
-			}
-
-			// 画像の拡大縮小
-			m_img_png.Height = _height * scale;
-			m_img_png.Width = _width * scale;
+			_scale = UpdateScale(e.Delta);
 
 			// マウス位置が中心になるようにスクロールバーの位置を調整
 			// TODO：一定以上のズームになると、スクロールが右下に向かってしまう問題あり
 			System.Windows.Point mouse_point = e.GetPosition(m_scrlVw);
-			double x_bar_offset = (m_scrlVw.HorizontalOffset + mouse_point.X) * scale - mouse_point.X;
+			double x_bar_offset = (m_scrlVw.HorizontalOffset + mouse_point.X) * _scale - mouse_point.X;
 			m_scrlVw.ScrollToHorizontalOffset(x_bar_offset);
 
-			double y_bar_offset = (m_scrlVw.VerticalOffset + mouse_point.Y) * scale - mouse_point.Y;
+			double y_bar_offset = (m_scrlVw.VerticalOffset + mouse_point.Y) * _scale - mouse_point.Y;
 			m_scrlVw.ScrollToVerticalOffset(y_bar_offset);
-
-			_scale = scale;
 		}
 
 		private void m_scrlVw_PreviewKeyDown(object sender, KeyEventArgs e) {
-			
-			
 			switch (e.Key) {
 				case Key.Enter:
 					MessageBox.Show("test");
+					break;
+				case Key.PageUp:
+					_scale = UpdateScale(0);	// 拡大
+					break;
+				case Key.PageDown:
+					_scale = UpdateScale(1);	// 縮小
 					break;
 				default:
 					break;
@@ -325,6 +311,28 @@ namespace MoveDronePicture
 			}
 
 			File.WriteAllText(_pathGcpList, str_output.ToString());
+		}
+
+		private double UpdateScale(int chg_) {
+			double scale = _scale;
+			if (0 < chg_) {
+				scale -= 0.05;  // 10%の倍率で縮小
+				if (scale < _minScale) {
+					scale = _minScale;
+				}
+			}
+			else {
+				scale += 0.05;  // 10%の倍率で拡大
+				if (_maxScalet < scale) {
+					scale = _maxScalet;
+				}
+			}
+
+			// 画像の拡大縮小
+			m_img_png.Height = _height * scale;
+			m_img_png.Width = _width * scale;
+
+			return scale;
 		}
 
 		private void UpdatePngEntry() {
