@@ -25,7 +25,6 @@ namespace MoveDronePicture
 		private double _scale = 0;
 		private bool _isMouseDown = false;
 		private System.Windows.Point _startPoint;
-		private System.Windows.Point _crrntPoint;
 
 		private Mat _orginPng;
 		private Mat _prossPng;
@@ -73,8 +72,7 @@ namespace MoveDronePicture
 			_maxScalet = 5.0;
 			_scale = _minScale;
 
-			m_img_png.Height = _height * _scale;
-			m_img_png.Width = _width * _scale;
+			SetPngSiz(_scale);
 
 			// PreviewKeyDown発生用にフォーカス
 			m_scrlVw.Focus();
@@ -117,10 +115,22 @@ namespace MoveDronePicture
 					MessageBox.Show("test");
 					break;
 				case Key.PageUp:
-					_scale = UpdateScale(0);	// 拡大
+					_scale = UpdateScale(0);    // 拡大
 					break;
 				case Key.PageDown:
-					_scale = UpdateScale(1);	// 縮小
+					_scale = UpdateScale(1);    // 縮小
+					break;
+				case Key.Space:
+					// Ctrl + Space		-> 表示位置、表示サイズ初期化
+					if (Keyboard.Modifiers == ModifierKeys.Control) {
+						_scale = _minScale;
+						SetPngSiz(_scale);
+
+						System.Windows.Point pos_zero = new System.Windows.Point(0, 0);
+						var offset = m_cnvs.TranslatePoint(pos_zero, m_img_png);
+						SetPngPos(offset);
+						_startPoint = pos_zero;
+					}
 					break;
 				default:
 					break;
@@ -184,26 +194,8 @@ namespace MoveDronePicture
 			// 非押下中は処理なし
 			if (!_isMouseDown) { return; }
 
-			// マウスの現在位置座標を取得（OperationAreaからの相対位置）
-			_crrntPoint = e.GetPosition(m_cnvs);
-
-			//移動開始点と現在位置の差から、MouseMoveイベント1回分の移動量を算出
-			double offsetX = _crrntPoint.X - _startPoint.X;
-			double offsetY = _crrntPoint.Y - _startPoint.Y;
-
-			// 動かす対象の図形からMatrixオブジェクトを取得
-			// このMatrixオブジェクトを用いて図形を描画上移動させる
-			Matrix matrix = ((MatrixTransform)m_img_png.RenderTransform).Matrix;
-
-			// TranslateメソッドにX方向とY方向の移動量を渡し、移動後の状態を計算
-			matrix.Translate(offsetX, offsetY);
-
-			// 移動後の状態を計算したMatrixオブジェクトを描画に反映する
-			m_img_png.RenderTransform = new MatrixTransform(matrix);
-
-			// 移動開始点を現在位置で更新する
-			// （今回の現在位置が次回のMouseMoveイベントハンドラで使われる移動開始点となる）
-			_startPoint = _crrntPoint;
+			// マウスの現在位置座標を取得（OperationAreaからの相対位置）し、移動量に応じて画像移動
+			MovePng(e.GetPosition(m_cnvs));
 
 			e.Handled = true;
 		}
@@ -316,23 +308,51 @@ namespace MoveDronePicture
 		private double UpdateScale(int chg_) {
 			double scale = _scale;
 			if (0 < chg_) {
-				scale -= 0.05;  // 10%の倍率で縮小
+				scale -= 0.05;  // 5%の倍率で縮小
 				if (scale < _minScale) {
 					scale = _minScale;
 				}
 			}
 			else {
-				scale += 0.05;  // 10%の倍率で拡大
+				scale += 0.05;  // 5%の倍率で拡大
 				if (_maxScalet < scale) {
 					scale = _maxScalet;
 				}
 			}
 
 			// 画像の拡大縮小
-			m_img_png.Height = _height * scale;
-			m_img_png.Width = _width * scale;
+			SetPngSiz(scale);
 
 			return scale;
+		}
+
+		private void SetPngSiz(double scale_) {
+			m_img_png.Height = _height * scale_;
+			m_img_png.Width = _width * scale_;
+		}
+
+		private void MovePng(System.Windows.Point crrntPoint_) {
+			//移動開始点と現在位置の差から、MouseMoveイベント1回分の移動量を算出
+			double offsetX = crrntPoint_.X - _startPoint.X;
+			double offsetY = crrntPoint_.Y - _startPoint.Y;
+
+			SetPngPos(new System.Windows.Point(offsetX, offsetY));
+
+			// 移動開始点を現在位置で更新する
+			// （今回の現在位置が次回のMouseMoveイベントハンドラで使われる移動開始点となる）
+			_startPoint = crrntPoint_;
+		}
+
+		private void SetPngPos(System.Windows.Point offset_) {
+			// 動かす対象の図形からMatrixオブジェクトを取得
+			// このMatrixオブジェクトを用いて図形を描画上移動させる
+			Matrix matrix = ((MatrixTransform)m_img_png.RenderTransform).Matrix;
+
+			// TranslateメソッドにX方向とY方向の移動量を渡し、移動後の状態を計算
+			matrix.Translate(offset_.X, offset_.Y);
+
+			// 移動後の状態を計算したMatrixオブジェクトを描画に反映する
+			m_img_png.RenderTransform = new MatrixTransform(matrix);
 		}
 
 		private void UpdatePngEntry() {
