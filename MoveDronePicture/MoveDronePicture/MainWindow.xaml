@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MoveDronePicture"
         mc:Ignorable="d"
-        Title="MainWindow" Height="650" Width="850" ResizeMode="NoResize"
+        Title="MainWindow" Height="780" Width="850" ResizeMode="NoResize"
         Loaded="Window_Loaded"
         Closing="Window_Closing">
     <StackPanel Orientation="Vertical">
@@ -151,7 +151,7 @@
                         Content="{Binding Content}"/>
                 </DataTemplate>
             </Canvas.Resources>
-            <ListView x:Name="m_lstVw_FilesSrc" Width="550" Height="490" ItemsSource="{Binding}" >
+            <ListView x:Name="m_lstVw_FilesSrc" Width="550" Height="610" ItemsSource="{Binding}" >
                 <ListView.Resources>
                     <Style TargetType="ListViewItem">
                         <EventSetter Event="MouseDoubleClick" Handler="ListViewItem_MouseDoubleClick"/>
