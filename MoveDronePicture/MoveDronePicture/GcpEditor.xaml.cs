@@ -80,8 +80,9 @@ namespace MoveDronePicture
 
 		private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
 
-			if (null != _orginPng) { _orginPng.Dispose(); }
-			if (null != _prossPng) { _prossPng.Dispose(); }
+			if (null != _orginPng) { _orginPng.Dispose(); _orginPng = null; }
+			if (null != _prossPng) { _prossPng.Dispose(); _prossPng = null; }
+			GC.Collect();
 
 			_callback(_target_key);
 		}
@@ -357,6 +358,8 @@ namespace MoveDronePicture
 
 		private void UpdatePngEntry() {
 			if (null != _prossPng) { _prossPng.Dispose(); }
+			_prossPng = null;
+			GC.Collect();
 			_prossPng = _orginPng.Clone();
 
 			for (int idx = 0; idx < _objCtrlGcpItem._GcpItem.Count; idx++) {
