@@ -86,6 +86,8 @@ namespace MoveDronePicture
 						_ImgItem[img_idx].SetCopyServerPath(str_dst_copy_server_dir_, map.Value.getNasFolder(), str_height, map.Value.getTargetFileName());
 						_ImgItem[img_idx].SetMoveLocalPath(str_dst_move_local_dir_, map.Key, str_height, map.Value.getTargetFileName());
 						_ImgItem[img_idx].Field = map.Key;
+
+						break;
 					}
 				}
 			}
