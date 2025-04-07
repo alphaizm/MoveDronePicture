@@ -155,6 +155,13 @@
                 <ListView.Resources>
                     <Style TargetType="ListViewItem">
                         <EventSetter Event="MouseDoubleClick" Handler="ListViewItem_MouseDoubleClick"/>
+                        <Setter Property="ToolTip">
+                            <Setter.Value>
+                                <ToolTip>
+                                    <Image Source="{Binding ImgSmallPath}" Width="270" Height="180"/>
+                                </ToolTip>
+                            </Setter.Value>
+                        </Setter>
                     </Style>
                 </ListView.Resources>
                 <ListView.View>

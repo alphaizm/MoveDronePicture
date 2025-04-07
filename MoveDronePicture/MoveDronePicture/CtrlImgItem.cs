@@ -75,8 +75,8 @@ namespace MoveDronePicture
 				_label.Content = cnt.ToString("D" + digit) + " / " + ary_pathes_.Length.ToString("D");
 
 				//  非同期処理で読み取り
-				var path = ary_pathes_[img_idx];
-				await Task.Run(() => _ImgItem.Add(new cImgItem(path, _fileNameRep)));
+				var img_path = ary_pathes_[img_idx];
+				await Task.Run(() => _ImgItem.Add(new cImgItem(img_path, _fileNameRep)));
 
 				foreach (KeyValuePair<string, GoogleMap> map in dic_maps) {
 					bool chk = await map.Value.chkInsideArea(_ImgItem[img_idx].Lat, _ImgItem[img_idx].Lon);
@@ -170,6 +170,7 @@ namespace MoveDronePicture
 	public sealed class cImgItem : INotifyPropertyChanged
 	{
 		private string _ImgPath;
+		private string _ImgSmallPath;
 		private string _CopyServerPath;
 		private string _MoveLocalPath;
 		private string _ImgName;
@@ -200,7 +201,22 @@ namespace MoveDronePicture
 			_fileNameRep = str_file_name_rep_;
 
 			_ImgName = GetImgName(str_path_);
+
 			using (Bitmap bmp = new Bitmap(str_path_)) {
+				// 1/20にサイズを縮小
+				int small_width = bmp.Width / 20;
+				int small_height = bmp.Height / 20;
+
+				// 画像名＋small.jpgで保存
+				string str_img_dir = Path.GetDirectoryName(str_path_);
+				string str_img_name = Path.GetFileNameWithoutExtension(str_path_);
+				_ImgSmallPath = Path.Combine(str_img_dir, str_img_name + "_small.jpg");
+				
+				using (Bitmap small_bmp = new Bitmap(bmp, small_width, small_height)) {
+					small_bmp.Save(_ImgSmallPath, System.Drawing.Imaging.ImageFormat.Jpeg);
+				}
+
+				// 画像のプロパティを取得
 				foreach (var prop in bmp.PropertyItems) {
 					switch (prop.Id) {
 						case ID_DATE:
@@ -269,6 +285,10 @@ namespace MoveDronePicture
 
 		public string ImgPath {
 			get { return _ImgPath; }
+		}
+
+		public string ImgSmallPath {
+			get { return _ImgSmallPath; }
 		}
 
 		public string ImgName {

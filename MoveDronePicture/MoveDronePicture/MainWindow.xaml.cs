@@ -182,7 +182,10 @@ namespace MoveDronePicture
 		}
 
 		private void m_btn_ReadSrc_Click(object sender, RoutedEventArgs e) {
-			var ary_file = Directory.GetFiles(m_txtBox_DirSrc.Text, "*.JPG", SearchOption.AllDirectories);
+			// var ary_file = Directory.GetFiles(m_txtBox_DirSrc.Text, "*.JPG", SearchOption.AllDirectories);
+			var ary_file = Directory.GetFiles(m_txtBox_DirSrc.Text, "*.JPG", SearchOption.AllDirectories)
+										.Where(file => !file.EndsWith("_small.jpg", StringComparison.OrdinalIgnoreCase))
+										.ToArray();
 
 			_objCtrlImgItem.SetProgressBar(m_progressBar_FilesSrc);
 			_objCtrlImgItem.SetLabel(m_lbl_ProgressBar);
