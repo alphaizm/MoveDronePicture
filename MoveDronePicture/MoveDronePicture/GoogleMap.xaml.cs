@@ -26,12 +26,14 @@ namespace MoveDronePicture
 	public partial class GoogleMap : Window
 	{
 		const string API_KEY = ".\\Assets\\api_key";
-		const string WEB_TEMPLATE = ".\\Assets\\template.html";
+		const string MAP_ID = ".\\Assets\\map_id";
+        const string WEB_TEMPLATE = ".\\Assets\\template.html";
 		const string TAG_TITLE = "_TITLE_";
 		const string TAG_LAT_ = "_LAT_";
 		const string TAG_LON_ = "_LON_";
 		const string TAG_API_KEY_ = "_API_KEY_";
-		private readonly DockPanel _dockpanel = new DockPanel();
+		const string TAG_MAP_ID_ = "_MAP_ID_";
+        private readonly DockPanel _dockpanel = new DockPanel();
 		private readonly WebView2Controller _webController = new WebView2Controller();
 
 		public delegate void Callback(string str_target_key_);
@@ -53,16 +55,23 @@ namespace MoveDronePicture
 			this._dockpanel.Children.Add(this._webController.GetWebView2());
 			this.AddChild(this._dockpanel);
 
-			using (StreamReader api_key = new StreamReader(API_KEY)) {
-				string str_key = api_key.ReadToEnd();
-				using (StreamReader web_template = new StreamReader(WEB_TEMPLATE)) {
-					string str_html = web_template.ReadToEnd();
-					str_html = str_html.Replace(TAG_API_KEY_, str_key);
-					str_html = str_html.Replace(TAG_TITLE, blk_target_.HeaderName);
-					str_html = str_html.Replace(TAG_LAT_, blk_target_.Center.Lat.ToString());
-					str_html = str_html.Replace(TAG_LON_, blk_target_.Center.Lon.ToString());
+			using (StreamReader map_id = new StreamReader(MAP_ID))
+			{
+				string str_map_id = map_id.ReadToEnd();
+				using (StreamReader api_key = new StreamReader(API_KEY))
+				{
+					string str_key = api_key.ReadToEnd();
+					using (StreamReader web_template = new StreamReader(WEB_TEMPLATE))
+					{
+						string str_html = web_template.ReadToEnd();
+						str_html = str_html.Replace(TAG_MAP_ID_, str_map_id);
+						str_html = str_html.Replace(TAG_API_KEY_, str_key);
+                        str_html = str_html.Replace(TAG_TITLE, blk_target_.HeaderName);
+						str_html = str_html.Replace(TAG_LAT_, blk_target_.Center.Lat.ToString());
+						str_html = str_html.Replace(TAG_LON_, blk_target_.Center.Lon.ToString());
 
-					_webController.NavigateToString(str_html, blk_target_);
+						_webController.NavigateToString(str_html, blk_target_);
+					}
 				}
 			}
 

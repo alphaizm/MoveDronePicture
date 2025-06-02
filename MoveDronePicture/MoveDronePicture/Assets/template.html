@@ -35,7 +35,9 @@
             var opts = {
                 zoom: 20,               // 地図の縮尺地
                 center: cenLatLon,      // 地図の中心座標
-                mapTypeId: 'satellite'  // 地図の種類
+                mapTypeId: 'hybrid',  // 地図の種類
+                tilt: 45,
+                mapId: "_MAP_ID_"
             };
             _Map = new google.maps.Map(document.getElementById("map"), opts);
             _InfoWindow = new google.maps.InfoWindow();
@@ -61,7 +63,7 @@
                 //flat:false,
                 title: title_img,
                 label: title_img,
-                optimized: false 
+                optimized: false
             };
 
             var marker = new google.maps.Marker(opts);
@@ -139,7 +141,7 @@
         }
     </script>
 
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=_API_KEY_&language=ja&callback=initMap">
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=_API_KEY_&callback=initMap&v=weekly&libraries=marker">
     </script>
 </body>
 
